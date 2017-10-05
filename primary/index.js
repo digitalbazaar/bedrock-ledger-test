@@ -29,21 +29,17 @@ bedrock.events.on('bedrock.configure', callback => {
   if(bedrock.program.aws) {
     const metaBase = 'http://169.254.169.254/latest/meta-data';
     const lhn = `${metaBase}/local-hostname/`;
-    // const lip = `${metaBase}/local-ipv4/`;
-    // const pip = `${metaBase}/public-ipv4/`;
     return async.auto({
       lhn: callback => request.get(lhn, (err, res) => callback(err, res.body)),
-      // lip: callback => request.get(lip, (err, res) => callback(err, res.body)),
-      // pip: callback => request.get(pip, (err, res) => callback(err, res.body)),
     }, (err, results) => {
       if(err) {
         return callback(err);
       }
       config.server.domain = results.lhn;
-      // config.server.bindAddr = [results.lip, results.pip];
       callback();
     });
   }
+  callback();
 });
 
 bedrock.events.on('bedrock-ledger-test.ready', node => {
