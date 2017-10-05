@@ -54,13 +54,24 @@ bedrock.events.on('bedrock.configure', callback => {
   });
 });
 
-bedrock.events.on('bedrock.started', () => request({
-  body: {baseUri: config.server.baseUri, publicIp},
-  method: 'POST',
-  url: 'https://ip-172-31-71-247.ec2.internal:18443/ledger-test/nodes',
-  json: true,
-  strictSSL: false
-}));
+bedrock.events.on('bedrock.started', () => {
+  if(bedrock.program.aws) {
+    return request({
+      body: {baseUri: config.server.baseUri, publicIp},
+      method: 'POST',
+      url: 'https://ip-172-31-71-247.ec2.internal:18443/ledger-test/nodes',
+      json: true,
+      strictSSL: false
+    });
+  }
+  request({
+    body: {baseUri: config.server.baseUri, publicIp},
+    method: 'POST',
+    url: 'https://bedrock.local:18443/ledger-test/nodes',
+    json: true,
+    strictSSL: false
+  });
+});
 
 bedrock.events.on('bedrock-ledger-test.ready', node => {
 
