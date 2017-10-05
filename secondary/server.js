@@ -11,6 +11,8 @@ const fs = require('fs');
 const ledger = require('./ledger');
 const mongoExpress = require('mongo-express/lib/middleware');
 const mongoExpressConfig = require('./mongo-express-config');
+const os = require('os');
+const path = require('path');
 
 bedrock.events.on('bedrock-express.configure.routes', app => {
   const routes = config['ledger-test'].routes;
@@ -18,7 +20,8 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   app.use(routes.mongoExpress, mongoExpress(mongoExpressConfig));
 
   app.get(routes.logFile, (req, res, next) => fs.readFile(
-    '/var/log/bedrock-ledger-test/app.log', {encoding: 'utf8'}, (err, data) => {
+    path.join(os.tmpdir(), 'bedrock-ledger-test', 'app.log'),
+    {encoding: 'utf8'}, (err, data) => {
       if(err) {
         return next(err);
       }

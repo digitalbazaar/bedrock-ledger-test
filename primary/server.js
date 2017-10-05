@@ -12,6 +12,8 @@ const database = require('bedrock-mongodb');
 const fs = require('fs');
 const mongoExpress = require('mongo-express/lib/middleware');
 const mongoExpressConfig = require('./mongo-express-config');
+const os = require('os');
+const path = require('path');
 
 bedrock.events.on('bedrock-mongodb.ready', callback => {
   database.openCollections(['peer-public-addresses'], callback);
@@ -23,7 +25,8 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   app.use(routes.mongoExpress, mongoExpress(mongoExpressConfig));
 
   app.get(routes.logFile, (req, res, next) => fs.readFile(
-    '/var/log/bedrock-ledger-test/app.log', {encoding: 'utf8'}, (err, data) => {
+    path.join(os.tmpdir(), 'bedrock-ledger-test', 'app.log'),
+    {encoding: 'utf8'}, (err, data) => {
       if(err) {
         return next(err);
       }

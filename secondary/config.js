@@ -5,6 +5,7 @@
 
 const bedrock = require('bedrock');
 const config = bedrock.config;
+const os = require('os');
 const path = require('path');
 
 config['ledger-test'] = {};
@@ -18,7 +19,7 @@ config['ledger-test'].routes = {
 // interval to add new events (ms)
 config['ledger-test'].eventInterval = 5000;
 
-config.paths.log = path.join('/var', 'log', 'bedrock-ledger-test');
+config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
 // core configuration
 config.core.workers = 0;

@@ -8,6 +8,7 @@ const cc = bedrock.util.config.main.computer();
 const config = bedrock.config;
 const constants = config.constants;
 const path = require('path');
+const os = require('os');
 
 config['ledger-test'] = {};
 
@@ -35,7 +36,7 @@ cc('ledger-test.config', () => ({
   }
 }));
 
-config.paths.log = path.join('/var', 'log', 'bedrock-ledger-test');
+config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
 // core configuration
 config.core.workers = 1;
