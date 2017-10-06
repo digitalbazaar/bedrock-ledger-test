@@ -39,11 +39,19 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       (err, result) => callback(err, result.genesisBlock.block))
   }));
 
+  // peers
+  app.get(routes.peers, brRest.when.prefers.ld, brRest.linkedDataHandler({
+    get: (req, res, callback) => database.collections['peer-public-addresses']
+      .find().toArray(callback)
+  }));
+
   app.post(routes.newNode, brRest.when.prefers.ld, (req, res, next) => {
     async.auto({
       store: callback => database.collections['peer-public-addresses'].insert({
         peer: `https://${req.body.publicIp}:18443/mongo`,
         log: `https://${req.body.publicIp}:18443/log/app`,
+        privateHostname: req.body.privateHostname,
+        publicHostname: req.body.publicHostname
       }, database.writeOptions, callback)
     }, err => {
       if(err) {

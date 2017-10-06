@@ -65,7 +65,11 @@ bedrock.events.on('bedrock.started', callback =>
       logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
         sendStatus: callback => request({
-          body: {baseUri: config.server.baseUri, publicIp, publicHostname},
+          body: {
+            baseUri: config.server.baseUri,
+            privateHostname: config.server.domain,
+            publicIp,
+            publicHostname},
           method: 'POST',
           url: `${cfg.primaryBaseUrl}/nodes`,
           json: true,

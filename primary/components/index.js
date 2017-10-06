@@ -1,0 +1,26 @@
+/*!
+ * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
+ */
+import angular from 'angular';
+import * as bedrock from 'bedrock-angular';
+import HomeComponent from './home-component.js';
+import PeerService from './peer-service.js';
+
+const module = angular.module('bedrock.ledger-test', []);
+
+bedrock.setRootModule(module);
+
+module.component('exHome', HomeComponent);
+module.service('brPeerService', PeerService);
+
+/* @ngInject */
+module.config($routeProvider => {
+  $routeProvider
+    .when('/', {
+      title: 'Angular Basic Home',
+      template: '<ex-home br-peers="$resolve.peers"></ex-home>',
+      resolve: {
+        peers: (brPeerService) => brPeerService.getAll()
+      }
+    });
+});

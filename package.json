@@ -29,6 +29,7 @@
     "async": "^2.5.0",
     "aws-sdk": "^2.126.0",
     "bedrock": "digitalbazaar/bedrock#jsonld-1.1",
+    "bedrock-angular": "^4.0.0",
     "bedrock-did-client": "digitalbazaar/bedrock-did-client#jsonld-1.1",
     "bedrock-docs": "^2.1.1",
     "bedrock-express": "^2.0.6",
@@ -51,5 +52,10 @@
     "random-port": "^0.1.0",
     "request": "^2.83.0",
     "uuid": "^3.1.0"
+  },
+  "bedrock": {
+    "browserDependencies": [
+      "bedrock-angular"
+    ]
   }
 }

@@ -17,6 +17,7 @@ config['ledger-test'].routes = {
   mongoExpress: '/mongo',
   genesis: '/ledger-test/genesis',
   newNode: '/ledger-test/nodes',
+  peers: '/ledger-test/peers'
 };
 
 config['ledger-test'].did =
@@ -48,3 +49,10 @@ config.mongodb.name = 'ledger_test_primary';
 
 // enable consensus workers
 config.ledger.jobs.scheduleConsensusWork.enabled = true;
+
+// add pseudo packages
+const rootPath = path.join(__dirname, '..');
+config.views.system.packages.push({
+  path: path.join(rootPath, 'primary', 'components'),
+  manifest: path.join(rootPath, 'package.json')
+});

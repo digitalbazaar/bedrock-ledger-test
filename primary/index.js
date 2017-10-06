@@ -14,6 +14,7 @@ require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
 require('bedrock-mongodb');
 require('bedrock-express');
+require('bedrock-views');
 require('./server');
 
 require('./config');
