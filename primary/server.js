@@ -25,7 +25,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   app.use(routes.mongoExpress, mongoExpress(mongoExpressConfig));
 
   app.get(routes.logFile, (req, res, next) => fs.readFile(
-    path.join(os.tmpdir(), 'bedrock-ledger-test', 'app.log'),
+    path.join(os.tmpdir(), 'bedrock-ledger-test', `${req.params.logFile}.log`),
     {encoding: 'utf8'}, (err, data) => {
       if(err) {
         return next(err);
@@ -36,10 +36,17 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 
   app.post(routes.newNode, brRest.when.prefers.ld, (req, res, next) => {
     async.auto({
-      client: callback => client.addLedger(req.body.baseUri, callback),
-      store: callback => database.collections['peer-public-addresses'].insert({
-        peer: `https://${req.body.publicIp}:18443/mongo`
-      }, database.writeOptions, callback)
+      client: callback => client.addLedger(req.body.baseUri, (err, result) => {
+        if(err) {
+          return callback(null, {error: err.toString()});
+        }
+        callback(null, result);
+      }),
+      store: ['client', (results, callback) =>
+        database.collections['peer-public-addresses'].insert({
+          peer: `https://${req.body.publicIp}:18443/mongo`,
+          clientResult: results.client
+        }, database.writeOptions, callback)]
     }, err => {
       if(err) {
         return next(err);
