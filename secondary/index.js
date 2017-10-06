@@ -61,6 +61,7 @@ bedrock.events.on('bedrock.configure', callback => {
 bedrock.events.on('bedrock.started', callback =>
   bedrock.runOnce('bedrock-ledger-test.phoneHome', callback => {
     if(bedrock.program.aws) {
+      logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
         sendStatus: callback => request({
           body: {baseUri: config.server.baseUri, publicIp, publicHostname},
@@ -85,7 +86,16 @@ bedrock.events.on('bedrock.started', callback =>
           }
           ledger.create(results.genesis.body, callback);
         }]
-      }, callback);
+      }, err => {
+        if(err) {
+          logger.debug('Error communicating with primary.', {
+            error: err.toString()
+          });
+          return callback(err);
+        }
+        logger.debug('Communication with primary successul.');
+        callback();
+      });
     }
     // TODO: implement getting genesis
     request({
