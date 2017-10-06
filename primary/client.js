@@ -20,7 +20,10 @@ api.addLedger = (baseUri, callback) => {
       request.post({
         url,
         json: results.genesis.genesisBlock.block
-      }, (err, res) => callback(err, res));
+      }, (err, res) => callback(err, {
+        statusCode: res.statusCode,
+        body: res.body
+      }));
     }]
   }, (err, results) => callback(err, results.post));
 };
