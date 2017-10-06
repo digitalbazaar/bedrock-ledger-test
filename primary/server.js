@@ -6,7 +6,6 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const brRest = require('bedrock-rest');
-const client = require('./client');
 const config = bedrock.config;
 const database = require('bedrock-mongodb');
 const fs = require('fs');
