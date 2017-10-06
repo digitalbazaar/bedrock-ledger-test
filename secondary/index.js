@@ -6,6 +6,8 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const config = bedrock.config;
+const cfg = config['ledger-test'];
+const ledger = require('./ledger');
 const logger = bedrock.loggers.get('app').child('ledger-test');
 const randomPort = require('random-port');
 const request = require('request');
@@ -59,14 +61,33 @@ bedrock.events.on('bedrock.configure', callback => {
 bedrock.events.on('bedrock.started', callback =>
   bedrock.runOnce('bedrock-ledger-test.phoneHome', callback => {
     if(bedrock.program.aws) {
-      return request({
-        body: {baseUri: config.server.baseUri, publicIp, publicHostname},
-        method: 'POST',
-        url: 'https://ip-172-31-79-233.ec2.internal:18443/ledger-test/nodes',
-        json: true,
-        strictSSL: false
+      return async.auto({
+        sendStatus: callback => request({
+          body: {baseUri: config.server.baseUri, publicIp, publicHostname},
+          method: 'POST',
+          url: `${cfg.primaryBaseUrl}/nodes`,
+          json: true,
+          strictSSL: false
+        }, callback),
+        genesis: callback => request({
+          method: 'GET',
+          url: `${cfg.primaryBaseUrl}/genesis`,
+          json: true,
+          strictSSL: false
+        }, (err, res) => callback(err, res)),
+        create: ['genesis', (results, callback) => {
+          if(results.genesis.statusCode !== 200) {
+            logger.debug('Error retrieving genesis block.', {
+              statusCode: results.genesis.statusCode,
+              error: results.genesis.body
+            });
+            return callback(new Error('Error retrieving genesis block.'));
+          }
+          ledger.create(results.genesis.body, callback);
+        }]
       }, callback);
     }
+    // TODO: implement getting genesis
     request({
       body: {baseUri: config.server.baseUri, publicIp},
       method: 'POST',

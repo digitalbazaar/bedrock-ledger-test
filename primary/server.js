@@ -10,6 +10,7 @@ const client = require('./client');
 const config = bedrock.config;
 const database = require('bedrock-mongodb');
 const fs = require('fs');
+const ledger = require('./ledger');
 const mongoExpress = require('mongo-express/lib/middleware');
 const mongoExpressConfig = require('./mongo-express-config');
 const os = require('os');
@@ -34,26 +35,22 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       res.send(data);
     }));
 
+  app.get(routes.genesis, brRest.when.prefers.ld, brRest.linkedDataHandler({
+    get: (req, res, callback) => ledger.agent.node.blocks.getGenesis(
+      (err, result) => callback(err, result.genesisBlock.block))
+  }));
+
   app.post(routes.newNode, brRest.when.prefers.ld, (req, res, next) => {
     async.auto({
-      client: callback => client.addLedger(req.body.baseUri, (err, result) => {
-        if(err) {
-          return callback(null, {error: err.toString()});
-        }
-        callback(null, result);
-      }),
-      store: ['client', (results, callback) =>
-        database.collections['peer-public-addresses'].insert({
-          peer: `https://${req.body.publicHostname}:18443/mongo`,
-          log: `https://${req.body.publicHostname}:18443/log/app`,
-          clientResult: results.client
-        }, database.writeOptions, callback)]
+      store: callback => database.collections['peer-public-addresses'].insert({
+        peer: `https://${req.body.publicHostname}:18443/mongo`,
+        log: `https://${req.body.publicHostname}:18443/log/app`,
+      }, database.writeOptions, callback)
     }, err => {
       if(err) {
         return next(err);
       }
       res.status(200).end();
     });
-
   });
 });
