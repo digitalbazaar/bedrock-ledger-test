@@ -13,7 +13,7 @@ const os = require('os');
 config['ledger-test'] = {};
 
 config['ledger-test'].routes = {
-  logFile: '/log:logFile',
+  logFile: '/log/:logFile',
   mongoExpress: '/mongo',
   newNode: '/ledger-test/nodes',
 };
