@@ -12,4 +12,6 @@ export default {
 /* @ngInject */
 function Ctrl() {
   const self = this;
+
+  self.selected = [];
 }

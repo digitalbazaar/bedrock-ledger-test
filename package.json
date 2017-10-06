@@ -30,6 +30,8 @@
     "aws-sdk": "^2.126.0",
     "bedrock": "digitalbazaar/bedrock#jsonld-1.1",
     "bedrock-angular": "^4.0.0",
+    "bedrock-angular-material": "^1.0.2",
+    "angular-material-data-table": "^0.10.10",
     "bedrock-did-client": "digitalbazaar/bedrock-did-client#jsonld-1.1",
     "bedrock-docs": "^2.1.1",
     "bedrock-express": "^2.0.6",
@@ -56,7 +58,17 @@
   },
   "bedrock": {
     "browserDependencies": [
-      "bedrock-angular"
-    ]
+      "angular-material-data-table",
+      "bedrock-angular",
+      "bedrock-angular-material"
+    ],
+    "manifest": {
+      "angular-material-data-table": {
+        "dependencies": {
+          "angular": "~1.6.5"
+        },
+        "css": "dist/md-data-table.css"
+      }
+    }
   }
 }
