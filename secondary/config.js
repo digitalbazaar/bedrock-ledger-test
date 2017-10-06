@@ -11,7 +11,7 @@ const path = require('path');
 config['ledger-test'] = {};
 
 config['ledger-test'].routes = {
-  logFile: '/log',
+  logFile: '/log/:logFile',
   mongoExpress: '/mongo',
   newLedger: '/ledger-test/ledgers',
 };

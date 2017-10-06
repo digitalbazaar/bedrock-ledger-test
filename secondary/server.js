@@ -20,7 +20,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   app.use(routes.mongoExpress, mongoExpress(mongoExpressConfig));
 
   app.get(routes.logFile, (req, res, next) => fs.readFile(
-    path.join(os.tmpdir(), 'bedrock-ledger-test', 'app.log'),
+    path.join(os.tmpdir(), 'bedrock-ledger-test', `${req.params.logFile}.log`),
     {encoding: 'utf8'}, (err, data) => {
       if(err) {
         return next(err);
