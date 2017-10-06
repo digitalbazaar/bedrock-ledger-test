@@ -32,6 +32,7 @@ bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
 
 bedrock.events.on('bedrock.configure', callback => {
   if(bedrock.program.aws) {
+    require('./config-aws');
     const metaBase = 'http://169.254.169.254/latest/meta-data';
     const lhn = `${metaBase}/local-hostname/`;
     const phn = `${metaBase}/public-hostname/`;
