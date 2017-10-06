@@ -21,6 +21,7 @@ require('./server');
 require('./config');
 
 let publicIp;
+let publicHostname;
 
 bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
   '--aws',
@@ -31,15 +32,18 @@ bedrock.events.on('bedrock.configure', callback => {
   if(bedrock.program.aws) {
     const metaBase = 'http://169.254.169.254/latest/meta-data';
     const lhn = `${metaBase}/local-hostname/`;
+    const phn = `${metaBase}/public-hostname/`;
     const pip = `${metaBase}/public-ipv4/`;
     return async.auto({
       lhn: callback => request.get(lhn, (err, res) => callback(err, res.body)),
+      phn: callback => request.get(phn, (err, res) => callback(err, res.body)),
       pip: callback => request.get(pip, (err, res) => callback(err, res.body)),
     }, (err, results) => {
       if(err) {
         return callback(err);
       }
       config.server.domain = results.lhn;
+      publicHostname = results.phn;
       publicIp = results.pip;
       callback();
     });
@@ -56,7 +60,7 @@ bedrock.events.on('bedrock.started', callback =>
   bedrock.runOnce('bedrock-ledger-test.phoneHome', callback => {
     if(bedrock.program.aws) {
       return request({
-        body: {baseUri: config.server.baseUri, publicIp},
+        body: {baseUri: config.server.baseUri, publicIp, publicHostname},
         method: 'POST',
         url: 'https://ip-172-31-79-233.ec2.internal:18443/ledger-test/nodes',
         json: true,

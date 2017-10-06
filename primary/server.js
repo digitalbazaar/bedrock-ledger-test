@@ -44,7 +44,8 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       }),
       store: ['client', (results, callback) =>
         database.collections['peer-public-addresses'].insert({
-          peer: `https://${req.body.publicIp}:18443/mongo`,
+          peer: `https://${req.body.publicHostname}:18443/mongo`,
+          log: `https://${req.body.publicHostname}:18443/log/app`,
           clientResult: results.client
         }, database.writeOptions, callback)]
     }, err => {
