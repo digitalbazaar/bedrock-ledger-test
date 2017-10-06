@@ -15,7 +15,6 @@ runcmd:
  - curl -O https://gist.githubusercontent.com/mattcollier/55e976a4a196756682feb99daf41b5a0/raw/mongo-config.js
  - sleep 5
  - mongo mongo-config.js
- - cd ~
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test
  - npm install
