@@ -18,7 +18,7 @@ runcmd:
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test
  - npm install
- - npm run secondary-aws
+ - npm run secondary-aws >/dev/null 2>&1
  `;
 
 // Create EC2 service object
