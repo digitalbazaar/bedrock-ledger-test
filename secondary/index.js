@@ -58,7 +58,7 @@ bedrock.events.on('bedrock.started', callback =>
       return request({
         body: {baseUri: config.server.baseUri, publicIp},
         method: 'POST',
-        url: 'https://ip-172-31-71-247.ec2.internal:18443/ledger-test/nodes',
+        url: 'https://ip-172-31-79-233.ec2.internal:18443/ledger-test/nodes',
         json: true,
         strictSSL: false
       }, callback);
