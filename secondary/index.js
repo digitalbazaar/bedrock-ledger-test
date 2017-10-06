@@ -6,7 +6,6 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const config = bedrock.config;
-const cfg = config['ledger-test'];
 const ledger = require('./ledger');
 const logger = bedrock.loggers.get('app').child('ledger-test');
 const randomPort = require('random-port');
@@ -21,6 +20,7 @@ require('bedrock-express');
 require('./server');
 
 require('./config');
+const cfg = config['ledger-test'];
 
 let publicIp;
 let publicHostname;
