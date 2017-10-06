@@ -4,8 +4,8 @@
   "description": "Bedrock mongodb module",
   "main": "./index",
   "scripts": {
-    "primary-aws": "node ./primary/index.js --aws",
-    "secondary-aws": "node ./secondary/index.js --aws",
+    "primary-aws": "node ./primary/index.js --aws --log-level verbose",
+    "secondary-aws": "node ./secondary/index.js --aws --log-level verbose",
     "secondary-local": "node ./secondary/index.js",
     "start": "node ./primary/index.js"
   },
