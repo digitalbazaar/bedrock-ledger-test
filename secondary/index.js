@@ -72,9 +72,10 @@ bedrock.events.on('bedrock.started', callback =>
     }, callback);
   }, callback));
 
-bedrock.events.on('bedrock-ledger-test.ready', node => {
-
-  setInterval(_addEvent, config['ledger-test'].eventInterval);
+bedrock.events.on('bedrock-ledger-test.ready', (node, callback) => {
+  bedrock.runOnce('ledger-test.addEventInterval', () => {
+    setInterval(_addEvent, config['ledger-test'].eventInterval);
+  }, callback);
 
   function _addEvent() {
     const event = {

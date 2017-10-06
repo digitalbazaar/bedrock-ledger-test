@@ -7,7 +7,7 @@ const async = require('async');
 const bedrock = require('bedrock');
 const config = bedrock.config;
 const brLedgerAgent = require('bedrock-ledger-agent');
-const logger = bedrock.loggers.get('app').child('ledger-test');
+const logger = require('./logger');
 
 // module API
 const api = {};
@@ -15,7 +15,7 @@ module.exports = api;
 
 bedrock.events.on('bedrock.started', setupLedger);
 
-function setupLedger() {
+function setupLedger(callback) {
   const options = {
     owner: config['ledger-test'].did
   };
@@ -40,14 +40,22 @@ function setupLedger() {
       }
       // if no ledger agents are found, create the ledger node and agent
       if(!found) {
-        return _createLedger();
+        return bedrock.runOnce(
+          'ledger-test.createLedger', _createLedger, err => {
+            if(err) {
+              return callback(err);
+            }
+            // run setupLedger again to pick up new ledgerAgent
+            setupLedger(callback);
+          });
       }
       bedrock.events.emit('bedrock-ledger-test.ready', api.agent.node);
+      callback();
     });
   });
 }
 
-function _createLedger() {
+function _createLedger(callback) {
   async.auto({
     create: callback => {
       const options = {
@@ -58,11 +66,11 @@ function _createLedger() {
       };
       brLedgerAgent.add(null, null, options, callback);
     }
-  }, (err, results) => {
+  }, err => {
     if(err) {
       logger.error('Error while initializing ledger', {error: err});
+      return callback(err);
     }
-    api.agent = results.create;
-    bedrock.events.emit('bedrock-ledger-test.ready', api.agent.node);
+    callback();
   });
 }

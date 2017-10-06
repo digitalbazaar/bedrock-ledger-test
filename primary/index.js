@@ -6,7 +6,7 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const config = bedrock.config;
-const logger = bedrock.loggers.get('app').child('ledger-test');
+const logger = require('./logger');
 const request = require('request');
 const uuid = require('uuid/v4');
 require('bedrock-ledger-consensus-continuity');
@@ -40,18 +40,10 @@ bedrock.events.on('bedrock.configure', callback => {
   callback();
 });
 
-bedrock.events.on('bedrock-ledger-test.ready', node => {
-  async.auto({
-    genesis: callback => node.blocks.getGenesis(callback),
-    secondary: ['genesis', (results, callback) => {
-      // TODO: launch secondary nodes
-      callback();
-    }],
-    events: callback => {
-      setInterval(_addEvent, config['ledger-test'].eventInterval);
-      callback();
-    }
-  });
+bedrock.events.on('bedrock-ledger-test.ready', (node, callback) => {
+  bedrock.runOnce('ledger-test.addEventInterval', () => {
+    setInterval(_addEvent, config['ledger-test'].eventInterval);
+  }, callback);
 
   function _addEvent() {
     const event = {
@@ -62,14 +54,14 @@ bedrock.events.on('bedrock-ledger-test.ready', node => {
         '@context': config.constants.TEST_CONTEXT_V1_URL,
         id: 'https://example.com/events/' + uuid(),
         type: 'Concert',
-        name: 'Big Band Concert in New York City',
+        name: 'Primary Event',
         startDate: '2017-07-14T21:30',
         location: 'https://example.org/the-venue-new-york',
         offers: {
           type: 'Offer',
           price: '13.00',
           priceCurrency: 'USD',
-          url: 'https://www.ticketfly.com/purchase/' + uuid()
+          url: `${config.server.baseUri}/purchase/${uuid()}`
         }
       }]
     };
