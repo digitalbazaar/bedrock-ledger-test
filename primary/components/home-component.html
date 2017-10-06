@@ -2,15 +2,15 @@
 <table ng-repeat="peer in $ctrl.peers">
   <tr>
     <td>
-      {{peer.localHostname}}
+      {{peer.publicHostname}}
     </td>
     <td>
       {{peer.privateHostname}}
     </td>
-    <td><a ng-href="peer.peer">Mongo</a>
+    <td><a ng-href="{{peer.peer}}">Mongo</a>
     </td>
     <td>
-      <a ng-href="peer.log">log</a>
+      <a ng-href="{{peer.log}}">log</a>
     </td>
   </tr>
 </table>
