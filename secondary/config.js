@@ -28,6 +28,9 @@ config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 config.core.workers = 1;
 config.core.worker.restart = true;
 
+// logger config
+config.loggers.app.tailable = true;
+
 // mongodb config
 config.mongodb.name = 'ledger_test_secondary';
 
