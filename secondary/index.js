@@ -97,14 +97,43 @@ bedrock.events.on('bedrock.started', callback =>
         callback();
       });
     }
-    // TODO: implement getting genesis
-    request({
-      body: {baseUri: config.server.baseUri, publicIp},
-      method: 'POST',
-      url: 'https://bedrock.local:18443/ledger-test/nodes',
-      json: true,
-      strictSSL: false
-    }, callback);
+    logger.debug('Contacting Primary', {
+      url: 'https://bedrock.local:18443/ledger-test'
+    });
+    return async.auto({
+      sendStatus: callback => request({
+        body: {baseUri: config.server.baseUri},
+        method: 'POST',
+        url: `https://bedrock.local:18443/ledger-test/nodes`,
+        json: true,
+        strictSSL: false
+      }, callback),
+      genesis: callback => request({
+        method: 'GET',
+        url: `https://bedrock.local:18443/ledger-test/genesis`,
+        json: true,
+        strictSSL: false
+      }, (err, res) => callback(err, res)),
+      create: ['genesis', (results, callback) => {
+        if(results.genesis.statusCode !== 200) {
+          logger.debug('Error retrieving genesis block.', {
+            statusCode: results.genesis.statusCode,
+            error: results.genesis.body
+          });
+          return callback(new Error('Error retrieving genesis block.'));
+        }
+        ledger.create(results.genesis.body, callback);
+      }]
+    }, err => {
+      if(err) {
+        logger.debug('Error communicating with primary.', {
+          error: err.toString()
+        });
+        return callback(err);
+      }
+      logger.debug('Communication with primary successul.');
+      callback();
+    });
   }, callback));
 
 bedrock.events.on('bedrock-ledger-test.ready', (node, callback) => {
