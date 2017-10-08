@@ -35,7 +35,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
     async.auto({
       ledgerNode: callback =>
         brLedgerNode.get(null, req.params.ledgerNodeId, callback),
-      latest: ['node', (results, callback) =>
+      latest: ['ledgerNode', (results, callback) =>
         results.ledgerNode.blocks.getLatest(callback)]
     }, (err, results) => {
       if(err) {
