@@ -11,7 +11,7 @@ const path = require('path');
 config['ledger-test'] = {};
 
 config['ledger-test'].primaryBaseUrl =
-  'https://ip-172-31-79-233.ec2.internal:18443/ledger-test';
+  'https://ip-172-31-66-167.ec2.internal:18443/ledger-test';
 
 config['ledger-test'].routes = {
   logFile: '/log/:logFile',
