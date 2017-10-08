@@ -17,7 +17,7 @@ config['ledger-test'].routes = {
   logFile: '/log/:logFile',
   mongoExpress: '/mongo',
   ledgers: '/ledger-test/ledgers',
-  blocks: '/ledger-test/blocks'
+  blocks: '/ledger-test/nodes/:ledgerNodeId/blocks'
 };
 
 // interval to add new events (ms)

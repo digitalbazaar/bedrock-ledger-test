@@ -3,12 +3,24 @@
  */
 
 /* @ngInject */
-export default function factory($http) {
+export default function factory($http, $q, brBlockService) {
   const service = {};
   const baseUrl = '/ledger-test/peers';
 
   service.getAll = () => {
-    return $http.get(baseUrl).then(response => response.data);
+    const promises = [];
+    let nodes;
+    return $http.get(baseUrl)
+      .then(response => {
+        nodes = response.data;
+        nodes.forEach(node => promises.push(
+          brBlockService.getLatest(node.ledgerNodeId)));
+        return $q.all(promises);
+      })
+      .then(blocks => {
+        console.log('BBBBBBB', blocks);
+        return nodes;
+      });
   };
 
   return service;

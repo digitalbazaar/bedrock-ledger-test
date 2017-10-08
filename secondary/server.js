@@ -5,6 +5,7 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
+const brLedgerNode = require('bedrock-ledger-node');
 const brRest = require('bedrock-rest');
 const config = bedrock.config;
 const fs = require('fs');
@@ -31,12 +32,15 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 
   app.get(routes.blocks, brRest.when.prefers.ld, (req, res, next) =>
     async.auto({
-      current: callback => ledger.create(req.body, callback)
-    }, err => {
+      ledgerNode: callback =>
+        brLedgerNode.get(null, req.params.ledgerNodeId, callback),
+      latest: ['node', (results, callback) =>
+        results.ledgerNode.blocks.getLatest(callback)]
+    }, (err, results) => {
       if(err) {
         return next(err);
       }
-      res.status(200).end();
+      res.json(results.latest);
     }));
 
   app.post(routes.ledgers, brRest.when.prefers.ld, (req, res, next) =>

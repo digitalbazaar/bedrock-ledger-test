@@ -3,6 +3,7 @@
  */
 import angular from 'angular';
 import * as bedrock from 'bedrock-angular';
+import BlockService from './block-service.js';
 import HomeComponent from './home-component.js';
 import PeerService from './peer-service.js';
 
@@ -13,6 +14,7 @@ const module = angular.module('bedrock.ledger-test', [
 bedrock.setRootModule(module);
 
 module.component('exHome', HomeComponent);
+module.service('brBlockService', BlockService);
 module.service('brPeerService', PeerService);
 
 /* @ngInject */
