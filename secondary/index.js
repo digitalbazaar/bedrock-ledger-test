@@ -64,17 +64,6 @@ bedrock.events.on('bedrock.started', callback =>
     if(bedrock.program.aws) {
       logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
-        sendStatus: callback => request({
-          body: {
-            baseUri: config.server.baseUri,
-            privateHostname: config.server.domain,
-            publicIp,
-            publicHostname},
-          method: 'POST',
-          url: `${cfg.primaryBaseUrl}/nodes`,
-          json: true,
-          strictSSL: false
-        }, callback),
         genesis: callback => request({
           method: 'GET',
           url: `${cfg.primaryBaseUrl}/genesis`,
@@ -90,7 +79,19 @@ bedrock.events.on('bedrock.started', callback =>
             return callback(new Error('Error retrieving genesis block.'));
           }
           ledger.create(results.genesis.body, callback);
-        }]
+        }],
+        sendStatus: ['create', (results, callback) => request({
+          body: {
+            baseUri: config.server.baseUri,
+            ledgerNodeId: results.create.id,
+            privateHostname: config.server.domain,
+            publicIp,
+            publicHostname},
+          method: 'POST',
+          url: `${cfg.primaryBaseUrl}/nodes`,
+          json: true,
+          strictSSL: false
+        }, callback)],
       }, err => {
         if(err) {
           logger.debug('Error communicating with primary.', {

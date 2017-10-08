@@ -16,7 +16,8 @@ config['ledger-test'].primaryBaseUrl =
 config['ledger-test'].routes = {
   logFile: '/log/:logFile',
   mongoExpress: '/mongo',
-  newLedger: '/ledger-test/ledgers',
+  ledgers: '/ledger-test/ledgers',
+  blocks: '/ledger-test/blocks'
 };
 
 // interval to add new events (ms)

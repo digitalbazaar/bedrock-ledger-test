@@ -29,7 +29,17 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       res.send(data);
     }));
 
-  app.post(routes.newLedger, brRest.when.prefers.ld, (req, res, next) =>
+  app.get(routes.blocks, brRest.when.prefers.ld, (req, res, next) =>
+    async.auto({
+      current: callback => ledger.create(req.body, callback)
+    }, err => {
+      if(err) {
+        return next(err);
+      }
+      res.status(200).end();
+    }));
+
+  app.post(routes.ledgers, brRest.when.prefers.ld, (req, res, next) =>
     async.auto({
       create: callback => ledger.create(req.body, callback)
     }, err => {
