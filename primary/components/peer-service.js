@@ -18,7 +18,9 @@ export default function factory($http, $q, brBlockService) {
         return $q.all(promises);
       })
       .then(blocks => {
-        console.log('BBBBBBB', blocks);
+        nodes.forEach(
+          (node, i) => node.latestBlock = blocks[i].eventBlock.block);
+        console.log('BBBBBBB', nodes);
         return nodes;
       });
   };
