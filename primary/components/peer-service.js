@@ -20,7 +20,6 @@ export default function factory($http, $q, brBlockService) {
       .then(blocks => {
         nodes.forEach(
           (node, i) => node.latestBlock = blocks[i].eventBlock.block);
-        console.log('BBBBBBB', nodes);
         return nodes;
       });
   };

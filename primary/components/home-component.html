@@ -19,6 +19,9 @@
               privateHostname
             </th>
             <th md-column>
+              latestBlockHeight
+            </th>
+            <th md-column>
               Mongo
             </th>
             <th md-column>
@@ -32,6 +35,9 @@
           </td>
           <td md-cell>
             {{peer.privateHostname}}
+          </td>
+          <td md-cell>
+            {{peer.latestBlock.blockHeight}}
           </td>
           <td md-cell>
             <a ng-href="{{peer.peer}}">Mongo</a>
