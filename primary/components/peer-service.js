@@ -14,7 +14,7 @@ export default function factory($http, $q, brBlockService) {
       .then(response => {
         nodes = response.data;
         nodes.forEach(node => promises.push(
-          brBlockService.getLatest(node.ledgerNodeId)));
+          brBlockService.getLatest(node.publicHostname, node.ledgerNodeId)));
         return $q.all(promises);
       })
       .then(blocks => {
