@@ -44,7 +44,7 @@ bedrock.events.on('bedrock-cli.ready', callback => {
       config.server.httpPort = 80;
       config.server.port = 443;
       config.server.domain = results.phn;
-      config.letsencrypt.domains [config.server.domain];
+      config.letsencrypt.domains = [config.server.domain];
       config.letsencrypt.email = `admin@${config.server.domain}`;
       config.letsencrypt.mode = 'production';
       callback();
