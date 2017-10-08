@@ -26,7 +26,9 @@ bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
   'Configure for AWS.'
 ));
 
-bedrock.events.on('bedrock.configure', callback => {
+// Using cli.ready because it need to be before `configure` to be ahead
+// of bedrock-letsencrypt
+bedrock.events.on('bedrock-cli.ready', callback => {
   if(bedrock.program.aws) {
     require('./config-aws');
     const metaBase = 'http://169.254.169.254/latest/meta-data';
