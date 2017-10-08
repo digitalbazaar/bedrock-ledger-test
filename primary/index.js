@@ -44,6 +44,7 @@ bedrock.events.on('bedrock.configure', callback => {
       config.server.domain = results.phn;
       config.letsencrypt.domains [config.server.domain];
       config.letsencrypt.email = `admin@${config.server.domain}`;
+      config.letsencrypt.mode = 'production';
       callback();
     });
   }
