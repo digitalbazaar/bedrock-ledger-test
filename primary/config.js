@@ -24,7 +24,7 @@ config['ledger-test'].did =
   'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
 
 // interval to add new events (ms)
-config['ledger-test'].eventInterval = 5000;
+config['ledger-test'].eventInterval = 1000;
 
 cc('ledger-test.config', () => ({
   '@context': constants.WEB_LEDGER_CONTEXT_V1_URL,
