@@ -12,11 +12,12 @@ const randomPort = require('random-port');
 const request = require('request');
 const uuid = require('uuid/v4');
 require('./ledger');
+require('bedrock-express');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
+require('bedrock-letsencypt');
 require('bedrock-mongodb');
-require('bedrock-express');
 require('./server');
 
 require('./config');
@@ -45,7 +46,10 @@ bedrock.events.on('bedrock.configure', callback => {
       if(err) {
         return callback(err);
       }
-      config.server.domain = results.lhn;
+      config.server.httpPort = 80;
+      config.server.port = 443;
+      config.server.domain = results.phn;
+      config.letsencrypt.domains [config.server.domain];
       publicHostname = results.phn;
       publicIp = results.pip;
       callback();

@@ -9,11 +9,12 @@ const config = bedrock.config;
 const logger = require('./logger');
 const request = require('request');
 const uuid = require('uuid/v4');
+require('bedrock-express');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
+require('bedrock-letsencypt');
 require('bedrock-mongodb');
-require('bedrock-express');
 require('bedrock-views');
 require('bedrock-webpack');
 require('./server');
@@ -30,13 +31,18 @@ bedrock.events.on('bedrock.configure', callback => {
     require('./config-aws');
     const metaBase = 'http://169.254.169.254/latest/meta-data';
     const lhn = `${metaBase}/local-hostname/`;
+    const phn = `${metaBase}/public-hostname/`;
     return async.auto({
       lhn: callback => request.get(lhn, (err, res) => callback(err, res.body)),
+      phn: callback => request.get(phn, (err, res) => callback(err, res.body)),
     }, (err, results) => {
       if(err) {
         return callback(err);
       }
-      config.server.domain = results.lhn;
+      config.server.httpPort = 80;
+      config.server.port = 443;
+      config.server.domain = results.phn;
+      config.letsencrypt.domains [config.server.domain];
       callback();
     });
   }
