@@ -50,6 +50,7 @@ bedrock.events.on('bedrock.configure', callback => {
       config.server.port = 443;
       config.server.domain = results.phn;
       config.letsencrypt.domains [config.server.domain];
+      config.letsencrypt.email = `admin@${config.server.domain}`;
       publicHostname = results.phn;
       publicIp = results.pip;
       callback();
