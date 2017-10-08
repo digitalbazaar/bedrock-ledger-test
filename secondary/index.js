@@ -16,7 +16,7 @@ require('bedrock-express');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
-require('bedrock-letsencypt');
+require('bedrock-letsencrypt');
 require('bedrock-mongodb');
 require('./server');
 
