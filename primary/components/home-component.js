@@ -3,8 +3,7 @@
  */
 export default {
   bindings: {
-    peers: '<brPeers',
-    latestBlock: '<brLatestBlock'
+    peers: '<brPeers'
   },
   controller: Ctrl,
   templateUrl: 'bedrock-ledger-test/home-component.html'
@@ -13,8 +12,6 @@ export default {
 /* @ngInject */
 function Ctrl($route) {
   const self = this;
-
-  self.selected = [];
 
   self.refresh = () => {
     $route.reload();

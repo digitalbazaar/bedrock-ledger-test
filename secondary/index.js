@@ -6,8 +6,9 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const config = bedrock.config;
+const client = require('./client');
 const ledger = require('./ledger');
-const logger = bedrock.loggers.get('app').child('ledger-test');
+const logger = require('./logger');
 const randomPort = require('random-port');
 const request = require('request');
 const uuid = require('uuid/v4');
@@ -64,12 +65,7 @@ bedrock.events.on('bedrock.started', callback =>
     if(bedrock.program.aws) {
       logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
-        genesis: callback => request({
-          method: 'GET',
-          url: `${cfg.primaryBaseUrl}/genesis`,
-          json: true,
-          strictSSL: false
-        }, (err, res) => callback(err, res)),
+        genesis: callback => client.getGenesis(callback),
         create: ['genesis', (results, callback) => {
           if(results.genesis.statusCode !== 200) {
             logger.debug('Error retrieving genesis block.', {
@@ -80,18 +76,9 @@ bedrock.events.on('bedrock.started', callback =>
           }
           ledger.create(results.genesis.body, callback);
         }],
-        sendStatus: ['create', (results, callback) => request({
-          body: {
-            baseUri: config.server.baseUri,
-            ledgerNodeId: results.create.id,
-            privateHostname: config.server.domain,
-            publicIp,
-            publicHostname},
-          method: 'POST',
-          url: `${cfg.primaryBaseUrl}/nodes`,
-          json: true,
-          strictSSL: false
-        }, callback)],
+        sendStatus: ['create', (results, callback) => client.sendStatus({
+          ledgerNodeId: results.create.id, publicIp, publicHostname
+        }, callback)]
       }, err => {
         if(err) {
           logger.debug('Error communicating with primary.', {

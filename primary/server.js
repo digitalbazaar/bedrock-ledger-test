@@ -5,6 +5,7 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
+const brLedgerNode = require('bedrock-ledger-node');
 const brRest = require('bedrock-rest');
 const config = bedrock.config;
 const database = require('bedrock-mongodb');
@@ -42,10 +43,18 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       (err, result) => callback(err, result.genesisBlock.block))
   }));
 
-  // local latest block
-  app.get(routes.latestBlock, brRest.when.prefers.ld, brRest.linkedDataHandler({
-    get: (req, res, callback) => ledger.agent.node.blocks.getLatest(
-      (err, result) => callback(err, result.eventBlock.block))
+  app.get(routes.blocks, brRest.when.prefers.ld, brRest.linkedDataHandler({
+    get: (req, res, callback) => async.auto({
+      ledgerNode: callback =>
+        brLedgerNode.get(null, req.params.ledgerNodeId, callback),
+      latest: ['ledgerNode', (results, callback) =>
+        results.ledgerNode.blocks.getLatest(callback)]
+    }, (err, results) => {
+      if(err) {
+        return callback(err);
+      }
+      callback(null, results.latest);
+    })
   }));
 
   // peers
@@ -78,6 +87,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
     async.auto({
       store: callback => database.collections['peer-public-addresses'].insert({
         peer: `https://${req.body.publicIp}:18443/mongo`,
+        lable: req.body.label,
         ledgerNodeId: req.body.ledgerNodeId,
         log: `https://${req.body.publicIp}:18443/log/app`,
         privateHostname: req.body.privateHostname,

@@ -16,7 +16,7 @@ config['ledger-test'].routes = {
   logFile: '/log/:logFile',
   mongoExpress: '/mongo',
   genesis: '/ledger-test/genesis',
-  latestBlock: '/ledger-test/blocks/latest',
+  blocks: '/ledger-test/nodes/:ledgerNodeId/blocks',
   newNode: '/ledger-test/nodes',
   peers: '/ledger-test/peers'
 };
@@ -26,6 +26,8 @@ config['ledger-test'].did =
 
 // interval to add new events (ms)
 config['ledger-test'].eventInterval = 1500;
+
+config['ledger-test'].primaryBaseUrl = null;
 
 cc('ledger-test.config', () => ({
   '@context': constants.WEB_LEDGER_CONTEXT_V1_URL,

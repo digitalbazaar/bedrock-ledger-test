@@ -1,11 +1,3 @@
-<div>
-  <h1>Genesis</h1>
-  <ul>
-    <li><a ng-href="/mongo">Mongo</a></li>
-    <li><a ng-href="/log/app">Log</a></li>
-    <li>Latest Block: <strong>{{$ctrl.latestBlock.blockHeight}}</strong></li>
-  </ul>
-</div>
 <h1>Peers <md-button ng-click="$ctrl.refresh()">Refresh</md-button></h1>
 <div>
   <md-table-container>
@@ -21,6 +13,12 @@
             </th>
             <th md-column>
               latestBlockHeight
+            </th>
+            <th md-column>
+              previousBlockHash
+            </th>
+            <th md-column>
+              blockHash
             </th>
             <th md-column>
               Mongo
@@ -39,6 +37,9 @@
           </td>
           <td md-cell>
             {{peer.latestBlock.blockHeight}}
+          </td>
+          <td md-cell>
+            {{peer.latestBlock.previousBlockHash}}
           </td>
           <td md-cell>
             <a ng-href="{{peer.peer}}">Mongo</a>

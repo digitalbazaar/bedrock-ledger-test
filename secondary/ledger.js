@@ -6,7 +6,7 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const brLedgerNode = require('bedrock-ledger-node');
-const logger = bedrock.loggers.get('app').child('ledger-test');
+const logger = require('./logger');
 
 // module API
 const api = {};

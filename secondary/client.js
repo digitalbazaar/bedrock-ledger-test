@@ -7,31 +7,18 @@ const async = require('async');
 const bedrock = require('bedrock');
 const config = bedrock.config;
 const cfg = config['ledger-test'];
-const ledger = require('./ledger');
 const logger = require('./logger');
-let request = require('request');
-request = request.defaults({json: true, strictSSL: false});
+const request = require('request');
 
-// module API
 const api = {};
 module.exports = api;
 
-// TODO: not currently used, but can be used to add ledgers to secondaries.
-api.addLedger = (baseUri, callback) => {
-  const url = `${baseUri}/ledger-test/ledgers`;
-  async.auto({
-    genesis: callback => ledger.agent.node.blocks.getGenesis(callback),
-    post: ['genesis', (results, callback) => {
-      request.post({
-        url,
-        json: results.genesis.genesisBlock.block
-      }, (err, res) => callback(err, {
-        statusCode: res.statusCode,
-        body: res.body
-      }));
-    }]
-  }, (err, results) => callback(err, results.post));
-};
+api.getGenesis = callback => request({
+  method: 'GET',
+  url: `${cfg.primaryBaseUrl}/genesis`,
+  json: true,
+  strictSSL: false
+}, (err, res) => callback(err, res));
 
 api.sendStatus = (options, callback) => {
   logger.debug('Sending status.', {url: cfg.primaryBaseUrl});
@@ -39,7 +26,7 @@ api.sendStatus = (options, callback) => {
     sendStatus: callback => request({
       body: {
         baseUri: config.server.baseUri,
-        label: 'Primary - Genesis',
+        label: 'Secondary',
         ledgerNodeId: options.ledgerNodeId,
         privateHostname: config.server.domain,
         publicIp: options.publicIp,
