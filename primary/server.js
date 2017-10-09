@@ -36,9 +36,16 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       res.send(data);
     }));
 
+  // genesis block
   app.get(routes.genesis, brRest.when.prefers.ld, brRest.linkedDataHandler({
     get: (req, res, callback) => ledger.agent.node.blocks.getGenesis(
       (err, result) => callback(err, result.genesisBlock.block))
+  }));
+
+  // local latest block
+  app.get(routes.latestBlock, brRest.when.prefers.ld, brRest.linkedDataHandler({
+    get: (req, res, callback) => ledger.agent.node.blocks.getLatest(
+      (err, result) => callback(err, result.eventBlock.block))
   }));
 
   // peers

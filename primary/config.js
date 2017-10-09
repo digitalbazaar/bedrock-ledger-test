@@ -16,6 +16,7 @@ config['ledger-test'].routes = {
   logFile: '/log/:logFile',
   mongoExpress: '/mongo',
   genesis: '/ledger-test/genesis',
+  latestBlock: '/ledger-test/blocks/latest',
   newNode: '/ledger-test/nodes',
   peers: '/ledger-test/peers'
 };
