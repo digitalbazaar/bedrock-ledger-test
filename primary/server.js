@@ -18,9 +18,15 @@ const path = require('path');
 let request = require('request');
 request = request.defaults({json: true, strictSSL: false});
 
-bedrock.events.on('bedrock-mongodb.ready', callback => {
-  database.openCollections(['peer-public-addresses'], callback);
-});
+bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
+  open: callback => database.openCollections(
+    ['peer-public-addresses'], callback),
+  index: ['open', (results, callback) => database.createIndexes([{
+    collection: 'peer-public-addresses',
+    fileds: {publicHostName: 1},
+    options: {unique: true, background: false}
+  }], callback)]
+}, callback));
 
 bedrock.events.on('bedrock-express.configure.routes', app => {
   const routes = config['ledger-test'].routes;
@@ -94,7 +100,8 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
         publicHostname: req.body.publicHostname
       }, database.writeOptions, callback)
     }, err => {
-      if(err) {
+      // pass success if duplicate
+      if(err && !database.isDuplicateError(err)) {
         return next(err);
       }
       res.status(200).end();
