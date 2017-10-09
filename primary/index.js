@@ -20,7 +20,6 @@ require('bedrock-webpack');
 require('./server');
 
 require('./config');
-const cfg = config['ledger-test'];
 
 let publicIp;
 let publicHostname;
@@ -60,7 +59,8 @@ bedrock.events.on('bedrock-cli.ready', callback => {
 bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
   bedrock.runOnce('ledger-test.addEventInterval', callback => {
     setInterval(_addEvent, config['ledger-test'].eventInterval);
-    logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
+    logger.debug(
+      'Contacting Primary', {url: config['ledger-test'].primaryBaseUrl});
     client.sendStatus({
       ledgerNodeId: ledgerNode.id, publicIp, publicHostname
     }, err => {
