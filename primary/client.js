@@ -44,7 +44,7 @@ api.sendStatus = (options, callback) => {
       publicHostname: options.publicHostname
     },
     method: 'POST',
-    url: `${cfg.primaryBaseUrl}/nodes`,
+    url: `${config['ledger-test'].primaryBaseUrl}/nodes`,
     json: true,
     strictSSL: false
   }, err => callback(err));
