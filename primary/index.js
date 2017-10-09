@@ -13,7 +13,6 @@ require('bedrock-express');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
-require('bedrock-letsencrypt');
 require('bedrock-mongodb');
 require('bedrock-views');
 require('bedrock-webpack');
@@ -41,12 +40,7 @@ bedrock.events.on('bedrock-cli.ready', callback => {
       if(err) {
         return callback(err);
       }
-      config.server.httpPort = 80;
-      config.server.port = 443;
-      config.server.domain = results.phn;
-      config.letsencrypt.domains = [config.server.domain];
-      config.letsencrypt.email = `mcollier@digitalbazaar.com`;
-      config.letsencrypt.mode = 'production';
+      config.server.domain = results.lhn;
       callback();
     });
   }

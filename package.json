@@ -44,7 +44,6 @@
     "bedrock-ledger-context": "digitalbazaar/bedrock-ledger-context",
     "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#lambdaNormalize",
     "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#cm4",
-    "bedrock-letsencrypt": "^0.2.7",
     "bedrock-mongodb": "digitalbazaar/bedrock-mongodb#updateDriver",
     "bedrock-passport": "^3.4.1",
     "bedrock-permission": "^2.4.3",

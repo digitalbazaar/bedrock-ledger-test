@@ -14,6 +14,8 @@ const mongoExpress = require('mongo-express/lib/middleware');
 const mongoExpressConfig = require('./mongo-express-config');
 const os = require('os');
 const path = require('path');
+let request = require('request');
+request = request.defaults({json: true, strictSSL: false});
 
 bedrock.events.on('bedrock-mongodb.ready', callback => {
   database.openCollections(['peer-public-addresses'], callback);
@@ -41,8 +43,27 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 
   // peers
   app.get(routes.peers, brRest.when.prefers.ld, brRest.linkedDataHandler({
-    get: (req, res, callback) => database.collections['peer-public-addresses']
-      .find().toArray(callback)
+    get: (req, res, callback) => async.auto({
+      peers: callback => database.collections['peer-public-addresses']
+        .find().toArray(callback),
+      block: ['peer', (results, callback) => async.map(
+        results.peers, (peer, callback) => {
+          const baseUrl = '/ledger-test/nodes';
+          const url = `https://${peer.privateHostname}:18443${baseUrl}/` +
+            `${peer.ledgerNodeId}/blocks`;
+          request.get(url, (err, result) => {
+            if(err) {
+              return callback(err);
+            }
+            callback(null, peer.latestBlock = result.eventBlock.block);
+          });
+        }, callback)]
+    }, (err, results) => {
+      if(err) {
+        return callback(err);
+      }
+      callback(null, results.block);
+    })
   }));
 
   app.post(routes.newNode, brRest.when.prefers.ld, (req, res, next) => {

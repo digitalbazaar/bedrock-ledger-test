@@ -16,7 +16,6 @@ require('bedrock-express');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
-require('bedrock-letsencrypt');
 require('bedrock-mongodb');
 require('./server');
 
@@ -31,8 +30,6 @@ bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
   'Configure for AWS.'
 ));
 
-// Using cli.ready because it need to be before `configure` to be ahead
-// of bedrock-letsencrypt
 bedrock.events.on('bedrock-cli.ready', callback => {
   if(bedrock.program.aws) {
     require('./config-aws');
@@ -48,12 +45,7 @@ bedrock.events.on('bedrock-cli.ready', callback => {
       if(err) {
         return callback(err);
       }
-      config.server.httpPort = 80;
-      config.server.port = 443;
-      config.server.domain = results.phn;
-      config.letsencrypt.domains = [config.server.domain];
-      config.letsencrypt.email = `mcollier@digitalbazaar.com`;
-      config.letsencrypt.mode = 'production';
+      config.server.domain = results.lhn;
       publicHostname = results.phn;
       publicIp = results.pip;
       callback();
