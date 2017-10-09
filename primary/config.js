@@ -10,6 +10,9 @@ const constants = config.constants;
 const path = require('path');
 const os = require('os');
 
+config.mongodb.connectOptions.j = false;
+config.mongodb.writeOptions.j = false;
+
 config['ledger-test'] = {};
 
 config['ledger-test'].routes = {
@@ -25,9 +28,9 @@ config['ledger-test'].did =
   'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
 
 // interval to add new events (ms)
-config['ledger-test'].eventInterval = 500;
+config['ledger-test'].eventInterval = 100;
 // number of events to add at each interval
-config['ledger-test'].eventNumber = 10;
+config['ledger-test'].eventNumber = 5;
 
 config['ledger-test'].primaryBaseUrl = null;
 

@@ -27,6 +27,9 @@
               consensusEvents
             </th>
             <th md-column>
+              outstandingEvents
+            </th>
+            <th md-column>
               events/sec
             </th>
             <th md-column>
@@ -58,6 +61,9 @@
           </td>
           <td md-cell>
             {{peer.events.consensus}}
+          </td>
+          <td md-cell>
+            {{peer.events.total - peer.events.consensus}}
           </td>
           <td md-cell>
             {{$ctrl.eventsPerSecond(peer.events.consensus, peer.startTime)}}
