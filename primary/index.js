@@ -7,7 +7,6 @@ const async = require('async');
 const bedrock = require('bedrock');
 const client = require('./client');
 const config = bedrock.config;
-const cfg = config['ledger-test'];
 const logger = require('./logger');
 const request = require('request');
 const uuid = require('uuid/v4');
@@ -21,6 +20,7 @@ require('bedrock-webpack');
 require('./server');
 
 require('./config');
+const cfg = config['ledger-test'];
 
 let publicIp;
 let publicHostname;
