@@ -54,6 +54,8 @@ bedrock.events.on('bedrock-cli.ready', callback => {
       callback();
     });
   }
+  config['ledger-test'].primaryBaseUrl =
+    `${config.server.baseUri}/ledger-test`;
   callback();
 });
 
