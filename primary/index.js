@@ -47,7 +47,8 @@ bedrock.events.on('bedrock-cli.ready', callback => {
         return callback(err);
       }
       config.server.domain = results.lhn;
-      config['ledger-test'].primaryBaseUrl = `${results.lhn}/ledger-test`;
+      config['ledger-test'].primaryBaseUrl =
+        `${config.server.baseUri}/ledger-test`;
       publicHostname = results.phn;
       publicIp = results.pip;
       callback();
