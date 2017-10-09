@@ -58,23 +58,21 @@ bedrock.events.on('bedrock-cli.ready', callback => {
 });
 
 bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
-  bedrock.runOnce('ledger-test.addEventInterval', () => {
+  bedrock.runOnce('ledger-test.addEventInterval', callback => {
     setInterval(_addEvent, config['ledger-test'].eventInterval);
-    // logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
-    // return async.auto({
-    //   sendStatus: callback => client.sendStatus({
-    //     ledgerNodeId: ledgerNode.id, publicIp, publicHostname
-    //   }, callback)
-    // }, err => {
-    //   if(err) {
-    //     logger.debug('Error communicating with primary.', {
-    //       error: err.toString()
-    //     });
-    //     return callback(err);
-    //   }
-    //   logger.debug('Communication with primary successul.');
-    //   callback();
-    // });
+    logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
+    client.sendStatus({
+      ledgerNodeId: ledgerNode.id, publicIp, publicHostname
+    }, err => {
+      if(err) {
+        logger.debug('Error communicating with primary.', {
+          error: err.toString()
+        });
+        return callback(err);
+      }
+      logger.debug('Communication with primary successul.');
+      callback();
+    });
   }, callback);
 
   function _addEvent() {

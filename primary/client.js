@@ -35,20 +35,18 @@ api.addLedger = (baseUri, callback) => {
 
 api.sendStatus = (options, callback) => {
   logger.debug('Sending status.', {url: cfg.primaryBaseUrl});
-  return async.auto({
-    sendStatus: callback => request({
-      body: {
-        baseUri: config.server.baseUri,
-        label: 'Primary - Genesis',
-        ledgerNodeId: options.ledgerNodeId,
-        privateHostname: config.server.domain,
-        publicIp: options.publicIp,
-        publicHostname: options.publicHostname
-      },
-      method: 'POST',
-      url: `${cfg.primaryBaseUrl}/nodes`,
-      json: true,
-      strictSSL: false
-    }, callback),
+  request({
+    body: {
+      baseUri: config.server.baseUri,
+      label: 'Primary - Genesis',
+      ledgerNodeId: options.ledgerNodeId,
+      privateHostname: config.server.domain,
+      publicIp: options.publicIp,
+      publicHostname: options.publicHostname
+    },
+    method: 'POST',
+    url: `${cfg.primaryBaseUrl}/nodes`,
+    json: true,
+    strictSSL: false
   }, err => callback(err));
 };
