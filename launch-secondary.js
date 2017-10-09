@@ -1,3 +1,5 @@
+const async = require('async');
+
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
 // Load credentials and set region from JSON file
@@ -28,20 +30,15 @@ let params = {
   UserData: Buffer.from(userData).toString('base64')
 };
 
-// Create the instance
-ec2.runInstances(params, function(err, data) {
-  if(err) {
-    console.log("Could not create instance", err);
-    return;
-  }
-  const instanceId = data.Instances[0].InstanceId;
-  console.log("Created instance", instanceId);
-  // Add tags to the instance
-  params = {Resources: [instanceId], Tags: [{
-    Key: 'Name',
-    Value: 'Secondary'
-  }]};
-  ec2.createTags(params, function(err) {
-    console.log("Tagging instance", err ? "failure" : "success");
-  });
+// Create the instances
+async.auto({
+  run: callback => ec2.runInstances(params, callback),
+  tag: ['run', (results, callback) => {
+    const Resources = results.run.Instances.map(i => i.InstanceId);
+    params = {Resources, Tags: [{
+      Key: 'Name',
+      Value: 'ledger-test-secondary'
+    }]};
+    ec2.createTags(params, callback);
+  }]
 });
