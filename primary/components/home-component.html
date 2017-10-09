@@ -21,6 +21,12 @@
               previousBlockHash
             </th>
             <th md-column>
+              totalEvents
+            </th>
+            <th md-column>
+              consensusEvents
+            </th>
+            <th md-column>
               Mongo
             </th>
             <th md-column>
@@ -43,6 +49,12 @@
           </td>
           <td md-cell>
             {{peer.latestBlock.previousBlockHash}}
+          </td>
+          <td md-cell>
+            {{peer.events.total}}
+          </td>
+          <td md-cell>
+            {{peer.events.consensus}}
           </td>
           <td md-cell>
             <a ng-href="{{peer.peer}}">Mongo</a>

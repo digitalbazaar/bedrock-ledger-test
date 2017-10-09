@@ -8,7 +8,6 @@ const bedrock = require('bedrock');
 const brLedgerNode = require('bedrock-ledger-node');
 const brRest = require('bedrock-rest');
 const config = bedrock.config;
-const cors = require('cors');
 const fs = require('fs');
 const ledger = require('./ledger');
 const mongoExpress = require('mongo-express/lib/middleware');
@@ -31,18 +30,30 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       res.send(data);
     }));
 
-  app.get(routes.blocks, cors(), brRest.when.prefers.ld, (req, res, next) =>
-    async.auto({
+  // latest block
+  app.get(routes.blocks, brRest.when.prefers.ld, brRest.linkedDataHandler({
+    get: (req, res, callback) => async.auto({
       ledgerNode: callback =>
         brLedgerNode.get(null, req.params.ledgerNodeId, callback),
       latest: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.blocks.getLatest(callback)]
+        results.ledgerNode.blocks.getLatest(callback)],
+      eventsTotal: ['ledgerNode', (results, callback) =>
+        results.ledgerNode.events.getHashes(callback)],
+      eventsConsensus: ['ledgerNode', (results, callback) =>
+        results.ledgerNode.events.getHashes({consensus: true}, callback)],
     }, (err, results) => {
       if(err) {
-        return next(err);
+        return callback(err);
       }
-      res.json(results.latest);
-    }));
+      callback(null, {
+        latestBlock: results.latest,
+        events: {
+          total: results.eventsTotal.length,
+          consensus: results.eventsConsensus.length
+        }
+      });
+    })
+  }));
 
   app.post(routes.ledgers, brRest.when.prefers.ld, (req, res, next) =>
     async.auto({

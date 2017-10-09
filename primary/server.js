@@ -49,17 +49,28 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       (err, result) => callback(err, result.genesisBlock.block))
   }));
 
+  // latest block
   app.get(routes.blocks, brRest.when.prefers.ld, brRest.linkedDataHandler({
     get: (req, res, callback) => async.auto({
       ledgerNode: callback =>
         brLedgerNode.get(null, req.params.ledgerNodeId, callback),
       latest: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.blocks.getLatest(callback)]
+        results.ledgerNode.blocks.getLatest(callback)],
+      eventsTotal: ['ledgerNode', (results, callback) =>
+        results.ledgerNode.events.getHashes(callback)],
+      eventsConsensus: ['ledgerNode', (results, callback) =>
+        results.ledgerNode.events.getHashes({consensus: true}, callback)],
     }, (err, results) => {
       if(err) {
         return callback(err);
       }
-      callback(null, results.latest);
+      callback(null, {
+        latestBlock: results.latest,
+        events: {
+          total: results.eventsTotal.length,
+          consensus: results.eventsConsensus.length
+        }
+      });
     })
   }));
 
@@ -77,7 +88,8 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
             if(err) {
               return callback(err);
             }
-            peer.latestBlock = result.body.eventBlock.block;
+            peer.latestBlock = result.body.latestBlock.eventBlock.block;
+            peer.events = result.body.events;
             callback(null, peer);
           });
         }, callback)]
