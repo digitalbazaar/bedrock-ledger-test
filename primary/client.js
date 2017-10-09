@@ -6,7 +6,6 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const config = bedrock.config;
-const cfg = config['ledger-test'];
 const ledger = require('./ledger');
 const logger = require('./logger');
 let request = require('request');
@@ -34,7 +33,7 @@ api.addLedger = (baseUri, callback) => {
 };
 
 api.sendStatus = (options, callback) => {
-  logger.debug('Sending status.', {url: cfg.primaryBaseUrl});
+  logger.debug('Sending status.', {url: config['ledger-test'].primaryBaseUrl});
   request({
     body: {
       baseUri: config.server.baseUri,
