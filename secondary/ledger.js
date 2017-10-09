@@ -20,6 +20,7 @@ api.create = (genesisBlock, callback) => {
       logger.error('Error while initializing ledger', {error: err});
       return callback(err);
     }
+    bedrock.events.emit('bedrock-ledger-test.ready', results.create);
     callback(null, results.create);
   });
 };
