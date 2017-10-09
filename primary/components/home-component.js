@@ -11,8 +11,12 @@ export default {
 };
 
 /* @ngInject */
-function Ctrl() {
+function Ctrl($route) {
   const self = this;
 
   self.selected = [];
+
+  self.refresh = () => {
+    $route.reload();
+  };
 }
