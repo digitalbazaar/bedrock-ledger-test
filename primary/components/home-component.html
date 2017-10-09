@@ -6,6 +6,9 @@
         <thead md-head>
           <tr md-row>
             <th md-column>
+              label
+            </th>
+            <th md-column>
               publicHostname
             </th>
             <th md-column>
@@ -26,6 +29,9 @@
           </tr>
         </thead>
         <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="peer in $ctrl.peers">
+          <td md-cell>
+            {{peer.label}}
+          </td>
           <td md-cell>
             {{peer.publicHostname}}
           </td>
