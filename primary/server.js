@@ -55,8 +55,8 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
             if(err) {
               return callback(err);
             }
-            console.log('RRRRRRRRRR', JSON.stringify(result, null, 2));
-            callback(null, peer.latestBlock = result.eventBlock.block);
+            console.log('RRRRRRRRRR', JSON.stringify(result.body, null, 2));
+            callback(null, peer.latestBlock = result.body.eventBlock.block);
           });
         }, callback)]
     }, (err, results) => {
