@@ -46,7 +46,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
     get: (req, res, callback) => async.auto({
       peers: callback => database.collections['peer-public-addresses']
         .find().toArray(callback),
-      block: ['peer', (results, callback) => async.map(
+      block: ['peers', (results, callback) => async.map(
         results.peers, (peer, callback) => {
           const baseUrl = '/ledger-test/nodes';
           const url = `https://${peer.privateHostname}:18443${baseUrl}/` +
