@@ -38,9 +38,10 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       latest: ['ledgerNode', (results, callback) =>
         results.ledgerNode.blocks.getLatest(callback)],
       eventsTotal: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.events.getHashes(callback)],
+        results.ledgerNode.storage.events.getHashes(callback)],
       eventsConsensus: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.events.getHashes({consensus: true}, callback)],
+        results.ledgerNode.storage.events.getHashes(
+          {consensus: true}, callback)],
     }, (err, results) => {
       if(err) {
         return callback(err);
