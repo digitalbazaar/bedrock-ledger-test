@@ -3,11 +3,18 @@
  */
 
 /* @ngInject */
-export default function factory($http) {
+export default function factory($http, $interval) {
   const service = {};
   const baseUrl = '/ledger-test/peers';
 
-  service.getAll = () => $http.get(baseUrl).then(response => response.data);
+  service.collection = {
+    peers: []
+  };
+
+  $interval(() => service.getAll(), 1000);
+
+  service.getAll = () => $http.get(baseUrl).then(response =>
+    service.collection.peers = response.data);
 
   return service;
 }

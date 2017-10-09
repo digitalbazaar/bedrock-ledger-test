@@ -37,7 +37,7 @@
             </th>
           </tr>
         </thead>
-        <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="peer in $ctrl.peers">
+        <tr md-row ng-repeat="peer in $ctrl.collection.peers">
           <td md-cell>
             {{peer.label}}
           </td>

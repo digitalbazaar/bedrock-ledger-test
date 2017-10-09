@@ -25,7 +25,9 @@ config['ledger-test'].did =
   'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
 
 // interval to add new events (ms)
-config['ledger-test'].eventInterval = 1500;
+config['ledger-test'].eventInterval = 500;
+// number of events to add at each interval
+config['ledger-test'].eventNumber = 10;
 
 config['ledger-test'].primaryBaseUrl = null;
 
@@ -44,7 +46,7 @@ cc('ledger-test.config', () => ({
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
 // core configuration
-config.core.workers = 1;
+config.core.workers = 2;
 config.core.worker.restart = true;
 
 // logger config

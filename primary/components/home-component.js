@@ -3,7 +3,7 @@
  */
 export default {
   bindings: {
-    peers: '<brPeers'
+    collection: '<brCollection'
   },
   controller: Ctrl,
   templateUrl: 'bedrock-ledger-test/home-component.html'

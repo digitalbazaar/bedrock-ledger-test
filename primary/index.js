@@ -79,29 +79,27 @@ bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
   }, callback);
 
   function _addEvent() {
-    const event = {
-      '@context': config.constants.WEB_LEDGER_CONTEXT_V1_URL,
-      type: 'WebLedgerEvent',
-      operation: 'Create',
-      input: [{
-        '@context': config.constants.TEST_CONTEXT_V1_URL,
-        id: 'https://example.com/events/' + uuid(),
-        type: 'Concert',
-        name: 'Primary Event',
-        startDate: '2017-07-14T21:30',
-        location: 'https://example.org/the-venue-new-york',
-        offers: {
-          type: 'Offer',
-          price: '13.00',
-          priceCurrency: 'USD',
-          url: `${config.server.baseUri}/purchase/${uuid()}`
-        }
-      }]
-    };
-    ledgerNode.events.add(event, err => {
-      if(err) {
-        logger.error(err);
-      }
+    async.times(config['ledger-test'].eventNumber, (i, callback) => {
+      const event = {
+        '@context': config.constants.WEB_LEDGER_CONTEXT_V1_URL,
+        type: 'WebLedgerEvent',
+        operation: 'Create',
+        input: [{
+          '@context': config.constants.TEST_CONTEXT_V1_URL,
+          id: `https://example.com/events/${uuid()}`,
+          type: 'Concert',
+          name: 'Primary Event',
+          startDate: '2017-07-14T21:30',
+          location: 'https://example.org/the-venue-new-york',
+          offers: {
+            type: 'Offer',
+            price: '13.00',
+            priceCurrency: 'USD',
+            url: `${config.server.baseUri}/purchase/${uuid()}`
+          }
+        }]
+      };
+      ledgerNode.events.add(event, callback);
     });
   }
 });

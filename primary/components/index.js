@@ -22,9 +22,9 @@ module.config($routeProvider => {
   $routeProvider
     .when('/', {
       title: 'Angular Basic Home',
-      template: '<ex-home br-peers="$resolve.peers"></ex-home>',
+      template: '<ex-home br-collection="$resolve.collection"></ex-home>',
       resolve: {
-        peers: (brPeerService) => brPeerService.getAll()
+        collection: (brPeerService) => brPeerService.collection
       }
     });
 });
