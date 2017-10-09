@@ -57,7 +57,7 @@
 </div>
 <h1>Latest Block from Genesis</h1>
 <ul>
-  <li>Events: $ctrl.peers[0].latestBlock.event.length</li>
-  <li>Votes: $ctrl.peers[0].latestBlock.electionResult.length</li>
+  <li>Events: {{$ctrl.peers[0].latestBlock.event.length}}</li>
+  <li>Votes: {{$ctrl.peers[0].latestBlock.electionResult.length}}</li>
 </ul>
 <pre>{{$ctrl.peers[0].latestBlock | json}}</pre>
