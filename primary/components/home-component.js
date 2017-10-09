@@ -15,7 +15,7 @@ function Ctrl($route) {
 
   self.eventsPerSecond = (events, startTime) => {
     const seconds = (Date.now() - startTime) / 1000;
-    return Math.round(events / seconds);
+    return (events / seconds).toFixed(2);
   };
 
   self.refresh = () => {
