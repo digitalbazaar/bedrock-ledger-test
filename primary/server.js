@@ -23,7 +23,7 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
     ['peer-public-addresses'], callback),
   index: ['open', (results, callback) => database.createIndexes([{
     collection: 'peer-public-addresses',
-    fileds: {publicHostName: 1},
+    fields: {publicHostName: 1},
     options: {unique: true, background: false}
   }], callback)]
 }, callback));
