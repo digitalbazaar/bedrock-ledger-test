@@ -13,6 +13,11 @@ export default {
 function Ctrl($route) {
   const self = this;
 
+  self.eventsPerSecond = (events, startTime) => {
+    const seconds = (Date.now() - startTime) / 1000;
+    return Math.round(events / seconds);
+  };
+
   self.refresh = () => {
     $route.reload();
   };

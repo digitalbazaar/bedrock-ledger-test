@@ -15,6 +15,7 @@ const mongoExpress = require('mongo-express/lib/middleware');
 const mongoExpressConfig = require('./mongo-express-config');
 const os = require('os');
 const path = require('path');
+const randomWords = require('random-words');
 let request = require('request');
 request = request.defaults({json: true, strictSSL: false});
 
@@ -106,11 +107,12 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
     async.auto({
       store: callback => database.collections['peer-public-addresses'].insert({
         peer: `https://${req.body.publicIp}:18443/mongo`,
-        label: req.body.label,
+        label: `${req.body.label}-${randomWords()}`,
         ledgerNodeId: req.body.ledgerNodeId,
         log: `https://${req.body.publicIp}:18443/log/app`,
         privateHostname: req.body.privateHostname,
-        publicHostname: req.body.publicHostname
+        publicHostname: req.body.publicHostname,
+        startTime: Date.now()
       }, database.writeOptions, callback)
     }, err => {
       // pass success if duplicate

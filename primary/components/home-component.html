@@ -57,6 +57,9 @@
             {{peer.events.consensus}}
           </td>
           <td md-cell>
+            {{$ctrl.eventsPerSecond(peer.events.consensus, peer.startTime)}}
+          </td>
+          <td md-cell>
             <a ng-href="{{peer.peer}}">Mongo</a>
           </td>
           <td md-cell>
