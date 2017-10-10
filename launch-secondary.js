@@ -23,8 +23,8 @@ let params = {
   ImageId: 'ami-69cb0913', // node, mongo base
   InstanceType: 't2.medium',
   KeyName: 'aws-personal',
-  MinCount: 10,
-  MaxCount: 10,
+  MinCount: 9,
+  MaxCount: 9,
   SecurityGroupIds: ['sg-9e6359ed'],
   SubnetId: 'subnet-60c3b105',
   UserData: Buffer.from(userData).toString('base64')
