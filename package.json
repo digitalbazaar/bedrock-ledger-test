@@ -29,7 +29,7 @@
     "angular-material-data-table": "^0.10.10",
     "async": "^2.5.0",
     "aws-sdk": "^2.126.0",
-    "bedrock": "digitalbazaar/bedrock#jsonld-1.1",
+    "bedrock": "digitalbazaar/bedrock#canonize-perf-test",
     "bedrock-angular": "^4.0.0",
     "bedrock-angular-material": "^1.0.2",
     "bedrock-aws": "digitalbazaar/bedrock-aws#implementation",
