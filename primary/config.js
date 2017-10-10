@@ -10,9 +10,6 @@ const constants = config.constants;
 const path = require('path');
 const os = require('os');
 
-config.mongodb.connectOptions.j = false;
-config.mongodb.writeOptions.j = false;
-
 config['ledger-test'] = {};
 
 config['ledger-test'].routes = {
