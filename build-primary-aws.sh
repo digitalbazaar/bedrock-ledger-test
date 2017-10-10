@@ -1,3 +1,3 @@
 #!/bin/bash
 node ./primary/index.js optimize
-./flush.sh
+./flush-aws.sh
