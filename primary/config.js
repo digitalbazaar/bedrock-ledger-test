@@ -46,7 +46,7 @@ cc('ledger-test.config', () => ({
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
 // core configuration
-config.core.workers = 2;
+config.core.workers = 0;
 config.core.worker.restart = true;
 
 // logger config

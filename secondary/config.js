@@ -26,7 +26,7 @@ config['ledger-test'].eventInterval = 500;
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
 // core configuration
-config.core.workers = 1;
+config.core.workers = 0;
 config.core.worker.restart = true;
 
 // logger config
