@@ -36,7 +36,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       ledgerNode: callback =>
         brLedgerNode.get(null, req.params.ledgerNodeId, callback),
       latest: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.blocks.getLatest(callback)],
+        results.ledgerNode.blocks.getLatest({expandEvents: false}, callback)],
       eventsTotal: ['ledgerNode', (results, callback) =>
         results.ledgerNode.storage.events.getHashes(callback)],
       eventsConsensus: ['ledgerNode', (results, callback) =>
