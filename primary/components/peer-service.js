@@ -11,7 +11,7 @@ export default function factory($http, $interval) {
     peers: []
   };
 
-  $interval(() => service.getAll(), 1000);
+  $interval(() => service.getAll(), 1500);
 
   service.getAll = () => $http.get(baseUrl).then(response =>
     service.collection.peers = response.data);

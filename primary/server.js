@@ -58,10 +58,10 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       latest: ['ledgerNode', (results, callback) =>
         results.ledgerNode.storage.blocks.getLatestSummary(callback)],
       eventsTotal: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.storage.events.getHashes(callback)],
-      eventsConsensus: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.storage.events.getHashes(
-          {consensus: true}, callback)],
+        results.ledgerNode.storage.events.getCount(callback)],
+      eventsOutstanding: ['ledgerNode', (results, callback) =>
+        results.ledgerNode.storage.events.getCount(
+          {consensus: false}, callback)],
     }, (err, results) => {
       if(err) {
         return callback(err);
@@ -69,8 +69,8 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       callback(null, {
         latestBlock: results.latest,
         events: {
-          total: results.eventsTotal.length,
-          consensus: results.eventsConsensus.length
+          total: results.eventsTotal,
+          outstanding: results.eventsOutstanding
         }
       });
     })

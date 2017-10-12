@@ -60,13 +60,13 @@
             {{peer.events.total}}
           </td>
           <td md-cell>
-            {{peer.events.consensus}}
+            {{peer.events.total - peer.events.outstanding}}
           </td>
           <td md-cell>
-            {{peer.events.total - peer.events.consensus}}
+            {{peer.events.outstanding}}
           </td>
           <td md-cell>
-            {{$ctrl.eventsPerSecond(peer.events.consensus, peer.startTime)}}
+            {{$ctrl.eventsPerSecond(peer.events.total - peer.events.outstanding, peer.startTime)}}
           </td>
           <td md-cell>
             <a ng-href="{{peer.peer}}">Mongo</a>
