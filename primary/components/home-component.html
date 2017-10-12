@@ -17,6 +17,9 @@
             <th md-column>
               latestBlockHeight
             </th>
+            <th md-column>
+              blocks/min
+            </th>
             <!-- <th md-column>
               previousBlockHash
             </th> -->
@@ -52,6 +55,9 @@
           </td>
           <td md-cell>
             {{peer.latestBlock.blockHeight}}
+          </td>
+          <td md-cell>
+            {{$ctrl.blocksPerMinute(peer.latestBlock.blockHeight, peer.startTime)}}
           </td>
           <!-- <td md-cell>
             {{peer.latestBlock.previousBlockHash}}
