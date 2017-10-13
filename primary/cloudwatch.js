@@ -18,7 +18,7 @@ bedrock.events.on('bedrock-loggers.init', () => {
   }));
   api.logger = bedrock.loggers.get('cloudwatch');
   api.logger.on('logging', (t, level, msg, meta) => {
-    console.log('XXXXXXXXXXXXXXX', t, level, msg);
+    console.log('XXXXXXXXXXXXXXX', level, msg);
   });
   api.logger.on('error', err => {
     console.log('EEEEEEEEEEEEEEEEEEEEEEEEEe', err);
