@@ -19,6 +19,7 @@ require('bedrock-mongodb');
 require('bedrock-views');
 require('bedrock-webpack');
 require('./server');
+require('./stats');
 
 require('./config');
 
