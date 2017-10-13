@@ -8,6 +8,7 @@ const bedrock = require('bedrock');
 const client = require('./client');
 const config = bedrock.config;
 const logger = require('./logger');
+const cw = require('./cloudwatch');
 const request = require('request');
 const uuid = require('uuid/v4');
 require('bedrock-express');
@@ -60,6 +61,10 @@ bedrock.events.on('bedrock-cli.ready', callback => {
 });
 
 bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
+  setInterval(() => {
+    cw.logger.debug('HELLO THERE!', Date.now());
+  }, 500);
+
   bedrock.runOnce('ledger-test.addEventInterval', callback => {
     setInterval(_addEvent, config['ledger-test'].eventInterval);
     logger.debug(
