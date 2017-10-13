@@ -24,7 +24,8 @@ bedrock.events.on('bedrock-ledger-test.ready', ledgerNode => {
         return;
       }
       logger.debug(
-        'outstanding events', {outstandingEvents: results.outstanding});
+        'outstandingEvents',
+        {preformatted: {outstandingEvents: results.outstanding}});
     });
   }
 });

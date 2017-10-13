@@ -67,5 +67,6 @@ config.views.system.packages.push({
 });
 
 const cloudwatch = config.loggers.cloudwatch;
-cloudwatch.logGroupName = 'ledger-node-collier';
+cloudwatch.logGroupName = 'ledger-node-collier-json3';
 cloudwatch.logStreamName = 'app';
+cloudwatch.json = true;
