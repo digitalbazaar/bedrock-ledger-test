@@ -44,6 +44,7 @@
     "bedrock-ledger-context": "digitalbazaar/bedrock-ledger-context",
     "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#cm4",
     "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#getLatestSummary",
+    "bedrock-logger-cloudwatch": "^1.0.0",
     "bedrock-mongodb": "digitalbazaar/bedrock-mongodb#updateDriver",
     "bedrock-passport": "^3.4.1",
     "bedrock-permission": "^2.4.3",
@@ -57,8 +58,7 @@
     "random-port": "^0.1.0",
     "random-words": "0.0.1",
     "request": "^2.83.0",
-    "uuid": "^3.1.0",
-    "winston-cloudwatch": "^1.12.0"
+    "uuid": "^3.1.0"
   },
   "bedrock": {
     "browserDependencies": [

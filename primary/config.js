@@ -65,3 +65,9 @@ config.views.system.packages.push({
   path: path.join(rootPath, 'primary', 'components'),
   manifest: path.join(rootPath, 'package.json')
 });
+
+const cloudwatch = config.loggers.cloudwatch;
+cloudwatch.awsAccessKeyId = 'xxx';
+cloudwatch.awsSecretKey = 'xxx';
+cloudwatch.logGroupName = 'bedrock-ledger-test';
+cloudwatch.logStreamName = 'local';
