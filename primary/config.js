@@ -25,7 +25,7 @@ config['ledger-test'].did =
   'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
 
 // interval to add new events (ms)
-config['ledger-test'].eventInterval = 10000;
+config['ledger-test'].eventInterval = 500;
 // number of events to add at each interval
 config['ledger-test'].eventNumber = 5;
 
@@ -67,7 +67,5 @@ config.views.system.packages.push({
 });
 
 const cloudwatch = config.loggers.cloudwatch;
-cloudwatch.awsAccessKeyId = 'xxx';
-cloudwatch.awsSecretKey = 'xxx';
-cloudwatch.logGroupName = 'bedrock-ledger-test';
-cloudwatch.logStreamName = 'local';
+cloudwatch.logGroupName = 'ledger-node-collier';
+cloudwatch.logStreamName = 'app';
