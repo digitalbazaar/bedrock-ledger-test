@@ -62,7 +62,7 @@ bedrock.events.on('bedrock-cli.ready', callback => {
 
 bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
   setInterval(() => {
-    cw.logger.debug('HELLO THERE!', Date.now());
+    cw.logger.log('HELLO THERE!', Date.now());
   }, 500);
 
   bedrock.runOnce('ledger-test.addEventInterval', callback => {
