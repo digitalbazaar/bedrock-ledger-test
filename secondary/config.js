@@ -22,7 +22,7 @@ config['ledger-test'].routes = {
 };
 
 // interval to add new events (ms)
-config['ledger-test'].eventInterval = 500;
+config['ledger-test'].eventInterval = 100;
 
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 

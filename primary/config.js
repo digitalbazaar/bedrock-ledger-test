@@ -25,9 +25,9 @@ config['ledger-test'].did =
   'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
 
 // interval to add new events (ms)
-config['ledger-test'].eventInterval = 500;
+config['ledger-test'].eventInterval = 100;
 // number of events to add at each interval
-config['ledger-test'].eventNumber = 5;
+config['ledger-test'].eventNumber = 1;
 
 config['ledger-test'].primaryBaseUrl = null;
 
