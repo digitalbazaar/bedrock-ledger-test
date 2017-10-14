@@ -23,6 +23,9 @@ let params = {
   ImageId: 'ami-69cb0913', // node, mongo base
   InstanceType: 't2.medium',
   KeyName: 'aws-personal',
+  IamInstanceProfile: {
+    Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
+  },
   MinCount: 9,
   MaxCount: 9,
   SecurityGroupIds: ['sg-9e6359ed'],
