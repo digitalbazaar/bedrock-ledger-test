@@ -11,7 +11,6 @@ runcmd:
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test
  - npm install
- - curl -O https://gist.githubusercontent.com/mattcollier/1ba8b6922dc5fed8e1e3f34b669d5d45/raw/b1ea8a7e471c62e0a1617073e1230ba76079118e/aws.config.js
  - npm run secondary-aws >/dev/null 2>&1
  `;
 
