@@ -10,6 +10,7 @@ const userData = `
 runcmd:
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test
+ - git checkout cloudwatch
  - npm install
  - npm run secondary-aws >/dev/null 2>&1
  `;
