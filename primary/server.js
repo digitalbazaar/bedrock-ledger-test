@@ -114,7 +114,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   }));
 
   app.post(routes.newNode, brRest.when.prefers.ld, (req, res, next) => {
-    const metricName = `oe-${req.body.privateHostname}`;
+    const metricName = `oe-${req.body.logGroupName}`;
     async.auto({
       store: callback => database.collections['peer-public-addresses'].insert({
         peer: `https://${req.body.publicIp}:18443/mongo`,
@@ -161,15 +161,15 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
         callback(null, JSON.parse(result.DashboardBody));
       }),
       dashboard: ['dashboardBody', 'metricFilter', (results, callback) => {
-        // console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-        // console.log(JSON.stringify(results.dashboardBody, null, 2));
-        // console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+        console.log(JSON.stringify(results.dashboardBody, null, 2));
+        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
         const dashboardBody = results.dashboardBody || {
           widgets: [{
             type: 'metric',
             x: 0,
             y: 0,
-            width: 12,
+            width: 18,
             height: 6,
             properties: {
               view: 'timeSeries',
