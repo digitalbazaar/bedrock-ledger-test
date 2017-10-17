@@ -47,7 +47,7 @@ bedrock.events.on('bedrock-cli.parsed', callback => {
         return callback(err);
       }
       config.loggers.cloudwatch.logGroupName =
-        lhn.substring(0, lhn.indexOf('.'));
+        results.lhn.substring(0, results.lhn.indexOf('.'));
       config.server.domain = results.lhn;
       config['ledger-test'].primaryBaseUrl =
         `${config.server.baseUri}/ledger-test`;
