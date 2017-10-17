@@ -9,6 +9,7 @@ const config = bedrock.config;
 const constants = config.constants;
 const path = require('path');
 const os = require('os');
+const uuid = require('uuid/v4');
 
 config['ledger-test'] = {};
 
@@ -25,9 +26,9 @@ config['ledger-test'].did =
   'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
 
 // interval to add new events (ms)
-config['ledger-test'].eventInterval = 100;
+config['ledger-test'].eventInterval = 200;
 // number of events to add at each interval
-config['ledger-test'].eventNumber = 1;
+config['ledger-test'].eventNumber = 20;
 
 config['ledger-test'].primaryBaseUrl = null;
 
@@ -67,6 +68,6 @@ config.views.system.packages.push({
 });
 
 const cloudwatch = config.loggers.cloudwatch;
-cloudwatch.logGroupName = 'ledger-node-collier-json3';
+cloudwatch.logGroupName = `primary-collier`;
 cloudwatch.logStreamName = 'app';
 cloudwatch.json = true;

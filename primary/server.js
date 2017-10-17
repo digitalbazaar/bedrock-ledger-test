@@ -5,12 +5,14 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
+const brAws = require('bedrock-aws');
 const brLedgerNode = require('bedrock-ledger-node');
 const brRest = require('bedrock-rest');
 const config = bedrock.config;
 const database = require('bedrock-mongodb');
 const fs = require('fs');
 const ledger = require('./ledger');
+const logger = require('./logger');
 const mongoExpress = require('mongo-express/lib/middleware');
 const mongoExpressConfig = require('./mongo-express-config');
 const os = require('os');
@@ -18,6 +20,14 @@ const path = require('path');
 const randomWords = require('random-words');
 let request = require('request');
 request = request.defaults({json: true, strictSSL: false});
+
+let cloudWatch;
+let cloudWatchLogs;
+
+bedrock.events.on('bedrock.start', () => {
+  cloudWatchLogs = new brAws.CloudWatchLogs();
+  cloudWatch = new brAws.CloudWatch();
+});
 
 bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
   open: callback => database.openCollections(
@@ -104,19 +114,85 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   }));
 
   app.post(routes.newNode, brRest.when.prefers.ld, (req, res, next) => {
+    const metricName = `oe-${req.body.privateHostname}`;
     async.auto({
       store: callback => database.collections['peer-public-addresses'].insert({
         peer: `https://${req.body.publicIp}:18443/mongo`,
         label: `${req.body.label}-${randomWords()}`,
         ledgerNodeId: req.body.ledgerNodeId,
         log: `https://${req.body.publicIp}:18443/log/app`,
+        logGroupName: req.body.logGroupName,
         privateHostname: req.body.privateHostname,
         publicHostname: req.body.publicHostname,
         startTime: Date.now()
-      }, database.writeOptions, callback)
+      }, database.writeOptions, callback),
+      logGroup: callback => cloudWatchLogs.createLogGroup({
+        logGroupName: req.body.logGroupName
+      }, () => {
+        // ignore error because logGroup may have already been created
+        callback();
+      }),
+      metricFilter: ['logGroup', (results, callback) => {
+        cloudWatchLogs.putMetricFilter({
+          filterName: 'outstanding events',
+          filterPattern: '{$.preformatted.outstandingEvents >= 0}',
+          logGroupName: req.body.logGroupName,
+          metricTransformations: [{
+            metricName,
+            metricNamespace: 'ledger-test',
+            metricValue: '$.preformatted.outstandingEvents'
+          }]
+        }, (err, result) => {
+          if(err) {
+            logger.error('Error creating CloudWatch metric filter.', err);
+            return callback(err);
+          }
+          logger.debug('Successfully created CloudWatch metric filter.');
+          callback(null, result);
+        });
+      }],
+      dashboardBody: callback => cloudWatch.getDashboard({
+        DashboardName: 'LedgerNodes'
+      }, (err, result) => {
+        if(err) {
+          console.log('Dashboard does not exist.', err);
+          return callback();
+        }
+        callback(null, JSON.parse(result.DashboardBody));
+      }),
+      dashboard: ['dashboardBody', 'metricFilter', (results, callback) => {
+        // console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+        // console.log(JSON.stringify(results.dashboardBody, null, 2));
+        // console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+        const dashboardBody = results.dashboardBody || {
+          widgets: [{
+            type: 'metric',
+            x: 0,
+            y: 0,
+            width: 12,
+            height: 6,
+            properties: {
+              view: 'timeSeries',
+              stacked: false,
+              metrics: [],
+              period: 60,
+              region: 'us-east-1',
+              title: 'Outstanding Events'
+            }
+          }]
+        };
+        dashboardBody.widgets[0].properties.metrics.push([
+          'ledger-test', metricName, {period: 60}
+        ]);
+        cloudWatch.putDashboard({
+          DashboardName: 'LedgerNodes',
+          DashboardBody: JSON.stringify(dashboardBody)
+        }, callback);
+      }]
     }, err => {
       // pass success if duplicate
       if(err && !database.isDuplicateError(err)) {
+        logger.error('Error storing node information.', err);
         return next(err);
       }
       res.status(200).end();

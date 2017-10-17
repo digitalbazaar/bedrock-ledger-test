@@ -39,6 +39,7 @@ api.sendStatus = (options, callback) => {
       baseUri: config.server.baseUri,
       label: 'Primary - Genesis',
       ledgerNodeId: options.ledgerNodeId,
+      logGroupName: config.loggers.cloudwatch.logGroupName,
       privateHostname: config.server.domain,
       publicIp: options.publicIp,
       publicHostname: options.publicHostname
