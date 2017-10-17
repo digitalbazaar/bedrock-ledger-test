@@ -161,9 +161,6 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
         callback(null, JSON.parse(result.DashboardBody));
       }),
       dashboard: ['dashboardBody', 'metricFilter', (results, callback) => {
-        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-        console.log(JSON.stringify(results.dashboardBody, null, 2));
-        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
         const dashboardBody = results.dashboardBody || {
           widgets: [{
             type: 'metric',
@@ -184,6 +181,9 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
         dashboardBody.widgets[0].properties.metrics.push([
           'ledger-test', metricName, {period: 60}
         ]);
+        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
+        console.log(JSON.stringify(dashboardBody, null, 2));
+        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
         cloudWatch.putDashboard({
           DashboardName: 'LedgerNodes',
           DashboardBody: JSON.stringify(dashboardBody)
