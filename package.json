@@ -43,7 +43,7 @@
     "bedrock-ledger-consensus-continuity": "github:digitalbazaar/bedrock-ledger-consensus-continuity#getLatestSummary",
     "bedrock-ledger-context": "digitalbazaar/bedrock-ledger-context",
     "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#cm4",
-    "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#getLatestSummary",
+    "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#stringifyEvent",
     "bedrock-logger-cloudwatch": "^1.0.0",
     "bedrock-mongodb": "digitalbazaar/bedrock-mongodb#updateDriver",
     "bedrock-passport": "^3.4.1",
