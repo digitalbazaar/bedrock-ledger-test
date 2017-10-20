@@ -19,7 +19,7 @@ const os = require('os');
 const path = require('path');
 const randomWords = require('random-words');
 let request = require('request');
-request = request.defaults({json: true, strictSSL: false});
+request = request.defaults({json: true, strictSSL: false, timeout: 5000});
 
 let cloudWatch;
 let cloudWatchLogs;
