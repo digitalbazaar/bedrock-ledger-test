@@ -11,13 +11,14 @@ const ledger = require('./ledger');
 const logger = require('./logger');
 const randomPort = require('random-port');
 const request = require('request');
-const uuid = require('uuid/v4');
 require('./ledger');
 require('bedrock-express');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
 require('bedrock-mongodb');
+require('bedrock-permission');
+require('./identities');
 require('./server');
 
 require('./config');
@@ -128,38 +129,5 @@ bedrock.events.on('bedrock.started', callback =>
       callback();
     });
   }, callback));
-
-bedrock.events.on('bedrock-ledger-test.ready', (node, callback) => {
-  bedrock.runOnce('ledger-test.addEventInterval', () => {
-    setInterval(_addEvent, config['ledger-test'].eventInterval);
-  }, callback);
-
-  function _addEvent() {
-    const event = {
-      '@context': config.constants.WEB_LEDGER_CONTEXT_V1_URL,
-      type: 'WebLedgerEvent',
-      operation: 'Create',
-      input: [{
-        '@context': config.constants.TEST_CONTEXT_V1_URL,
-        id: 'https://example.com/events/' + uuid(),
-        type: 'Concert',
-        name: publicIp,
-        startDate: bedrock.util.w3cDate(),
-        location: 'https://example.org/the-venue-austin',
-        offers: {
-          type: 'Offer',
-          price: '13.00',
-          priceCurrency: 'USD',
-          url: `${config.server.baseUri}/purchase/${uuid()}`
-        }
-      }]
-    };
-    node.events.add(event, err => {
-      if(err) {
-        logger.error(err);
-      }
-    });
-  }
-});
 
 bedrock.start();
