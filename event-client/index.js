@@ -20,10 +20,22 @@ bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
   'Configure for AWS.'
 ));
 
-bedrock.events.on('bedrock.configure', () => {
+bedrock.events.on('bedrock-cli.parsed', callback => {
   if(bedrock.program.aws) {
     require('./config-aws');
+    const metaBase = 'http://169.254.169.254/latest/meta-data';
+    const lhn = `${metaBase}/local-hostname/`;
+    return async.auto({
+      lhn: callback => request.get(lhn, (err, res) => callback(err, res.body)),
+    }, (err, results) => {
+      if(err) {
+        return callback(err);
+      }
+      config.server.domain = results.lhn;
+      callback();
+    });
   }
+  callback();
 });
 
 bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
