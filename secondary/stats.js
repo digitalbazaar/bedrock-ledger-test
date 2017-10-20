@@ -17,6 +17,7 @@ bedrock.events.on('bedrock-ledger-test.ready', ledgerNode => {
   }, () => {});
 
   function _logStats() {
+    console.log('LLLLLLLLLLLLLLLLLLLL', ledgerNode.id);
     async.auto({
       outstanding: callback => ledgerNode.storage.events.getCount(
         {consensus: false}, callback)
