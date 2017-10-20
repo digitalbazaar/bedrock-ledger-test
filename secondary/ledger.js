@@ -5,7 +5,9 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
+const config = bedrock.config;
 const brLedgerNode = require('bedrock-ledger-node');
+const brLedgerAgent = require('bedrock-ledger-agent');
 const logger = require('./logger');
 
 // module API
@@ -14,7 +16,13 @@ module.exports = api;
 
 api.create = (genesisBlock, callback) => {
   async.auto({
-    create: callback => brLedgerNode.add(null, {genesisBlock}, callback)
+    ledgerNode: callback => brLedgerNode.add(null, {genesisBlock}, callback),
+    ledgerAgent: ['ledgerNode', (results, callback) => {
+      const options = {
+        owner: config['ledger-test'].identities.regularUser.identity.id
+      };
+      brLedgerAgent.add(null, results.ledgerNode.id, options, callback);
+    }]
   }, (err, results) => {
     if(err) {
       logger.error('Error while initializing ledger', {error: err});
