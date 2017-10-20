@@ -10,7 +10,7 @@ require('./ledger');
 
 bedrock.events.on('bedrock-ledger-test.ready', ledgerNode => {
   bedrock.runOnce('ledger-test.addStatsInterval', callback => {
-    setInterval(_logStats, 1000);
+    setInterval(_logStats, 60000);
     callback();
   }, () => {});
 
