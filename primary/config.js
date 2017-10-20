@@ -4,7 +4,8 @@
 'use strict';
 
 const bedrock = require('bedrock');
-const cc = bedrock.util.config.main.computer();
+const c = bedrock.util.config.main;
+const cc = c.computer();
 const config = bedrock.config;
 const constants = config.constants;
 const helpers = require('./helpers');
@@ -23,6 +24,19 @@ config['ledger-test'].routes = {
   newNode: '/ledger-test/nodes',
   peers: '/ledger-test/peers'
 };
+
+c.pushComputed('scheduler.jobs', () => ({
+  id: `bedrock-ledger-test.stats.logStats`,
+  type: `bedrock-ledger-test.stats.logStats`,
+  // repeat forever, run every second
+  schedule: 'R/PT30S',
+  // no special priority
+  priority: 0,
+  concurrency: 1,
+  // use a 10000ms grace period between TTL for workers to finish up
+  // before forcibly running another worker
+  // lockDuration: config.ledger.jobs.scheduleConsensusWork.ttl + 10000
+}));
 
 config['ledger-test'].did =
   'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';

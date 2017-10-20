@@ -4,6 +4,7 @@
 'use strict';
 
 const bedrock = require('bedrock');
+const c = bedrock.util.config.main;
 const config = bedrock.config;
 const helpers = require('./helpers');
 const os = require('os');
@@ -23,6 +24,19 @@ config['ledger-test'].routes = {
   ledgers: '/ledger-test/ledgers',
   blocks: '/ledger-test/nodes/:ledgerNodeId/blocks'
 };
+
+c.pushComputed('scheduler.jobs', () => ({
+  id: `bedrock-ledger-test.stats.logStats`,
+  type: `bedrock-ledger-test.stats.logStats`,
+  // repeat forever, run every second
+  schedule: 'R/PT30S',
+  // no special priority
+  priority: 0,
+  concurrency: 1,
+  // use a 10000ms grace period between TTL for workers to finish up
+  // before forcibly running another worker
+  // lockDuration: config.ledger.jobs.scheduleConsensusWork.ttl + 10000
+}));
 
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
@@ -44,7 +58,7 @@ const cloudwatch = config.loggers.cloudwatch;
 cloudwatch.logGroupName = `secondary-local`;
 cloudwatch.logStreamName = 'app';
 cloudwatch.json = true;
-cloudwatch.uploadRate = 20000;
+cloudwatch.uploadRate = 60000;
 
 const identities = config['ledger-test'].identities = {};
 
