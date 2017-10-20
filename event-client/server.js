@@ -19,11 +19,12 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       $set: {'meta.eventsPerSec': req.body.eventsPerSec}
     };
     database.collections.ledgerAgent.update(query, update, err => {
-      console.log('EEEEEEEEE', err);
+      console.log('Updated', req.params.agentId, req.body.eventsPerSec);
       if(err) {
+        console.log('ERROR', err);
         return next(err);
       }
-      res.end();
+      res.status(200).end();
     });
   });
 
