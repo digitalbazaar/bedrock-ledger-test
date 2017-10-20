@@ -68,6 +68,7 @@ const cloudwatch = config.loggers.cloudwatch;
 cloudwatch.logGroupName = `primary-local`;
 cloudwatch.logStreamName = 'app';
 cloudwatch.json = true;
+cloudwatch.uploadRate = 20000;
 
 const identities = config['ledger-test'].identities = {};
 
