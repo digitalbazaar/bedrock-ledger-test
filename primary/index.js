@@ -9,15 +9,17 @@ const client = require('./client');
 const config = bedrock.config;
 const logger = require('./logger');
 const request = require('request');
-const uuid = require('uuid/v4');
 require('bedrock-express');
+require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
 require('bedrock-logger-cloudwatch');
 require('bedrock-mongodb');
+require('bedrock-permission');
 require('bedrock-views');
 require('bedrock-webpack');
+require('./identities');
 require('./server');
 require('./stats');
 
@@ -63,7 +65,6 @@ bedrock.events.on('bedrock-cli.parsed', callback => {
 
 bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
   bedrock.runOnce('ledger-test.addEventInterval', callback => {
-    setInterval(_addEvent, config['ledger-test'].eventInterval);
     logger.debug(
       'Contacting Primary', {url: config['ledger-test'].primaryBaseUrl});
     client.sendStatus({
@@ -79,31 +80,6 @@ bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
       callback();
     });
   }, callback);
-
-  function _addEvent() {
-    async.times(config['ledger-test'].eventNumber, (i, callback) => {
-      const event = {
-        '@context': config.constants.WEB_LEDGER_CONTEXT_V1_URL,
-        type: 'WebLedgerEvent',
-        operation: 'Create',
-        input: [{
-          '@context': config.constants.TEST_CONTEXT_V1_URL,
-          id: `https://example.com/events/${uuid()}`,
-          type: 'Concert',
-          name: 'Primary Event',
-          startDate: '2017-07-14T21:30',
-          location: 'https://example.org/the-venue-new-york',
-          offers: {
-            type: 'Offer',
-            price: '13.00',
-            priceCurrency: 'USD',
-            url: `${config.server.baseUri}/purchase/${uuid()}`
-          }
-        }]
-      };
-      ledgerNode.events.add(event, callback);
-    });
-  }
 });
 
 bedrock.start();

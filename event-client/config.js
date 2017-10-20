@@ -4,75 +4,73 @@
 'use strict';
 
 const bedrock = require('bedrock');
-const cc = bedrock.util.config.main.computer();
+const c = bedrock.util.config.main;
+const cc = c.computer();
 const config = bedrock.config;
-const constants = config.constants;
 const helpers = require('./helpers');
-const path = require('path');
 const os = require('os');
-const permissions = config.permission.permissions;
-const roles = config.permission.roles;
+const path = require('path');
+
+// reducing idleTime to make consensus workers more responsive
+config.scheduler.idleTime = 1000;
+
+config.server.port = 28443;
+config.server.httpPort = 28080;
+
+c.pushComputed('scheduler.jobs', () => ({
+  id: `bedrock-ledger-test.sendEvents`,
+  type: `bedrock-ledger-test.sendEvents`,
+  // repeat forever, run every second
+  schedule: 'R/PT1S',
+  // no special priority
+  priority: 0,
+  concurrency: 1,
+  // use a 10000ms grace period between TTL for workers to finish up
+  // before forcibly running another worker
+  // lockDuration: config.ledger.jobs.scheduleConsensusWork.ttl + 10000
+}));
+c.pushComputed('scheduler.jobs', () => ({
+  id: `bedrock-ledger-test.scanAgents`,
+  type: `bedrock-ledger-test.scanAgents`,
+  // repeat forever, run every second
+  schedule: 'R/PT1M',
+  // no special priority
+  priority: 0,
+  concurrency: 1,
+  // use a 10000ms grace period between TTL for workers to finish up
+  // before forcibly running another worker
+  // lockDuration: config.ledger.jobs.scheduleConsensusWork.ttl + 10000
+}));
+
+// mongodb config
+config.mongodb.name = 'ledger_test_client';
 
 config['ledger-test'] = {};
 
+config['ledger-test'].primaryHost = 'bedrock.local';
+cc('ledger-test.primaryBaseUrl', () =>
+  `https://${config['ledger-test'].primaryHost}:18443/ledger-test`);
+cc('ledger-test.primaryAgentUrl', () =>
+  `https://${config['ledger-test'].primaryHost}:18443/ledger-agents`);
+
 config['ledger-test'].routes = {
-  logFile: '/log/:logFile',
-  mongoExpress: '/mongo',
-  genesis: '/ledger-test/genesis',
-  blocks: '/ledger-test/nodes/:ledgerNodeId/blocks',
-  newNode: '/ledger-test/nodes',
-  peers: '/ledger-test/peers'
+  base: '/ledger-test',
+  agents: `/ledger-test/ledger-agents`,
+  eventNum: `/ledger-test/ledger-agents/:agentId/eventsPerSec`
 };
 
-config['ledger-test'].did =
-  'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
-
-// interval to add new events (ms)
-config['ledger-test'].eventInterval = 60000;
-// number of events to add at each interval
-config['ledger-test'].eventNumber = 1;
-
-config['ledger-test'].primaryBaseUrl = null;
-
-cc('ledger-test.config', () => ({
-  '@context': constants.WEB_LEDGER_CONTEXT_V1_URL,
-  type: 'WebLedgerConfigurationEvent',
-  ledgerConfiguration: {
-    type: 'WebLedgerConfiguration',
-    ledger: config['ledger-test'].did,
-    consensusMethod: 'Continuity2017',
-    eventValidator: [],
-    // electorCount: 20
-  }
-}));
+// default events per second
+config['ledger-test'].eventsPerSec = 10;
 
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
 // core configuration
-config.core.workers = 0;
+config.core.workers = 1;
 config.core.worker.restart = true;
 
 // logger config
 config.loggers.app.tailable = true;
 config.loggers.app.level = 'debug';
-
-// mongodb config
-config.mongodb.name = 'ledger_test_primary';
-
-// enable consensus workers
-config.ledger.jobs.scheduleConsensusWork.enabled = true;
-
-// add pseudo packages
-const rootPath = path.join(__dirname, '..');
-config.views.system.packages.push({
-  path: path.join(rootPath, 'primary', 'components'),
-  manifest: path.join(rootPath, 'package.json')
-});
-
-const cloudwatch = config.loggers.cloudwatch;
-cloudwatch.logGroupName = `primary-collier`;
-cloudwatch.logStreamName = 'app';
-cloudwatch.json = true;
 
 const identities = config['ledger-test'].identities = {};
 
@@ -81,7 +79,7 @@ const userName = 'regularUser';
 identities[userName] = {};
 identities[userName].identity = helpers.createIdentity(userName);
 identities[userName].identity.sysResourceRole.push({
-  sysRole: 'bedrock-ledger-test.test',
+  sysRole: 'bedrock-key-http.test',
   generateResource: 'id'
 });
 identities[userName].keys = helpers.createKeyPair({
@@ -125,16 +123,9 @@ identities[userName].keys = helpers.createKeyPair({
     '-----END RSA PRIVATE KEY-----\n'
 });
 
-roles['bedrock-ledger-test.test'] = {
-  id: 'bedrock-ledger-test.test',
-  label: 'Test Role',
-  comment: 'Role for Test User',
-  sysPermission: [
-    permissions.LEDGER_ACCESS.id,
-    permissions.LEDGER_CREATE.id,
-    permissions.LEDGER_REMOVE.id,
-    permissions.LEDGER_AGENT_ACCESS.id,
-    permissions.LEDGER_AGENT_CREATE.id,
-    permissions.LEDGER_AGENT_REMOVE.id
-  ]
-};
+// add pseudo packages
+const rootPath = path.join(__dirname);
+config.views.system.packages.push({
+  path: path.join(rootPath, 'components'),
+  manifest: path.join(rootPath, 'package.json')
+});

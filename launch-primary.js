@@ -26,6 +26,7 @@ runcmd:
  - cd bedrock-ledger-test
  - git checkout cloudwatch
  - npm install
+ - ./build-primary-aws.sh >/dev/null 2>&1
  `;
 
 // Create EC2 service object

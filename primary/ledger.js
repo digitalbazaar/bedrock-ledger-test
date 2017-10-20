@@ -5,6 +5,7 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
+const brIdentity = require('bedrock-identity');
 const config = bedrock.config;
 const brLedgerAgent = require('bedrock-ledger-agent');
 const logger = require('./logger');
@@ -16,8 +17,9 @@ module.exports = api;
 bedrock.events.on('bedrock.started', setupLedger);
 
 function setupLedger(callback) {
+  const actor = config['ledger-test'].identities.regularUser.identity.id;
   const options = {
-    owner: config['ledger-test'].did
+    owner: actor
   };
   brLedgerAgent.getAgentIterator(null, options, (err, iterator) => {
     if(err) {
@@ -56,16 +58,19 @@ function setupLedger(callback) {
 }
 
 function _createLedger(callback) {
+  const actor = config['ledger-test'].identities.regularUser.identity.id;
   async.auto({
-    create: callback => {
+    identity: callback => brIdentity.get(
+      null, actor, (err, result) => callback(err, result)),
+    create: ['identity', (results, callback) => {
       const options = {
         configEvent: config['ledger-test'].config,
         genesis: true,
         private: false,
-        owner: config['ledger-test'].did
+        owner: actor
       };
-      brLedgerAgent.add(null, null, options, callback);
-    }
+      brLedgerAgent.add(results.identity, null, options, callback);
+    }]
   }, err => {
     if(err) {
       logger.error('Error while initializing ledger', {error: err});
