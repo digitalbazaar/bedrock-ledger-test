@@ -48,7 +48,7 @@ let params = {
 };
 
 // Create the instance
-ec2.runInstances(params, function(err, data) {
+ec2.runInstances(params, (err, data) => {
   if(err) {
     console.log("Could not create instance", err);
     return;
