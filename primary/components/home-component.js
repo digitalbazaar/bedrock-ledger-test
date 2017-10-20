@@ -13,6 +13,8 @@ export default {
 function Ctrl($route, $interval) {
   const self = this;
 
+  const eventWindowSize = 15000; // in ms
+
   const marker = {};
   self.eventWindow = {};
 
@@ -29,7 +31,7 @@ function Ctrl($route, $interval) {
       self.eventWindow[p.label] = timeDiffSecs === 0 ? 0 :
         (newEvents / timeDiffSecs).toFixed(2);
     }
-  }, 5000);
+  }, eventWindowSize);
 
   self.blocksPerMinute = (blocks, startTime) => {
     const seconds = (Date.now() - startTime) / 1000;
