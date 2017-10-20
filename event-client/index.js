@@ -15,6 +15,11 @@ require('./server');
 
 require('./config');
 
+bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
+  '--aws',
+  'Configure for AWS.'
+));
+
 bedrock.events.on('bedrock.configure', () => {
   if(bedrock.program.aws) {
     require('./config-aws');
