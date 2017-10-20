@@ -17,10 +17,12 @@ require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
+require('bedrock-logger-cloudwatch');
 require('bedrock-mongodb');
 require('bedrock-permission');
 require('./identities');
 require('./server');
+require('./stats');
 
 require('./config');
 const cfg = config['ledger-test'];
@@ -48,6 +50,8 @@ bedrock.events.on('bedrock-cli.ready', callback => {
       if(err) {
         return callback(err);
       }
+      config.loggers.cloudwatch.logGroupName =
+        results.lhn.substring(0, results.lhn.indexOf('.'));
       config.server.domain = results.lhn;
       publicHostname = results.phn;
       publicIp = results.pip;

@@ -40,6 +40,11 @@ config.mongodb.name = 'ledger_test_secondary';
 // enable consensus workers
 config.ledger.jobs.scheduleConsensusWork.enabled = true;
 
+const cloudwatch = config.loggers.cloudwatch;
+cloudwatch.logGroupName = `secondary-local`;
+cloudwatch.logStreamName = 'app';
+cloudwatch.json = true;
+
 const identities = config['ledger-test'].identities = {};
 
 // identity with permission to add public keys

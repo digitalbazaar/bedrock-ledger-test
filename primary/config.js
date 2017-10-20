@@ -65,7 +65,7 @@ config.views.system.packages.push({
 });
 
 const cloudwatch = config.loggers.cloudwatch;
-cloudwatch.logGroupName = `primary-collier`;
+cloudwatch.logGroupName = `primary-local`;
 cloudwatch.logStreamName = 'app';
 cloudwatch.json = true;
 

@@ -25,6 +25,7 @@ api.sendStatus = (options, callback) => {
     sendStatus: callback => request({
       body: {
         baseUri: config.server.baseUri,
+        logGroupName: config.loggers.cloudwatch.logGroupName,
         label: 'Secondary',
         ledgerNodeId: options.ledgerNodeId,
         privateHostname: config.server.domain,
