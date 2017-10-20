@@ -9,7 +9,9 @@ const logger = require('./logger');
 require('./ledger');
 
 bedrock.events.on('bedrock-ledger-test.ready', ledgerNode => {
+  console.log('READY 111111111111111111111111111111111111');
   bedrock.runOnce('ledger-test.addStatsInterval', callback => {
+    console.log('SET INTERVAL 222222222222222222222222222222');
     setInterval(_logStats, 60000);
     callback();
   }, () => {});
