@@ -64,7 +64,7 @@ bedrock.events.on('bedrock-cli.parsed', callback => {
 });
 
 bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
-  bedrock.runOnce('ledger-test.addEventInterval', callback => {
+  bedrock.runOnce('ledger-test.sendStatus', callback => {
     logger.debug(
       'Contacting Primary', {url: config['ledger-test'].primaryBaseUrl});
     client.sendStatus({

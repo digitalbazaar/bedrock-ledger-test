@@ -24,9 +24,6 @@ config['ledger-test'].routes = {
   blocks: '/ledger-test/nodes/:ledgerNodeId/blocks'
 };
 
-// interval to add new events (ms)
-config['ledger-test'].eventInterval = 100;
-
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
 // core configuration
