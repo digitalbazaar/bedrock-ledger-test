@@ -60,7 +60,7 @@ config['ledger-test'].routes = {
 };
 
 // default events per second
-config['ledger-test'].eventsPerSec = 10;
+config['ledger-test'].eventsPerSec = 0;
 
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 

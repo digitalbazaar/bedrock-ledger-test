@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
+ */
+'use strict';
+
 const async = require('async');
 const bedrock = require('bedrock');
 const config = bedrock.config;
@@ -61,12 +66,10 @@ const actor = config['ledger-test'].identities.regularUser;
 
 function _scanAgents(job, callback) {
   const peersUrl = config['ledger-test'].primaryBaseUrl + '/peers';
-  console.log('ZZZZZZZZZZ', peersUrl);
   async.auto({
     peers: callback => request.get(peersUrl, (err, res) => callback(err, res)),
     ledgerAgent: ['peers', (results, callback) => {
       const peers = results.peers.body;
-      console.log('PPPPPP', JSON.stringify(peers, null, 2));
       async.each(peers, (p, callback) => async.auto({
         get: callback => {
           const host = p.privateHostname;
@@ -111,7 +114,7 @@ function _sendEvents(job, callback) {
     send: ['agents', (results, callback) =>
       async.each(results.agents, (agent, callback) => {
         const eventService = agent.ledgerAgent.service.ledgerEventService;
-        console.log('SENDING EVENTS', Date.now(), eventService);
+        console.log(Date.now(), agent.meta.label, agent.meta.eventsPerSec);
         async.timesLimit(agent.meta.eventsPerSec, 100, (i, callback) => {
           const event = {
             '@context': config.constants.WEB_LEDGER_CONTEXT_V1_URL,
