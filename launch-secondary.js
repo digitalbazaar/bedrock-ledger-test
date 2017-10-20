@@ -26,8 +26,8 @@ let params = {
   IamInstanceProfile: {
     Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
   },
-  MinCount: 9,
-  MaxCount: 9,
+  MinCount: 5,
+  MaxCount: 5,
   SecurityGroupIds: ['sg-9e6359ed'],
   SubnetId: 'subnet-60c3b105',
   UserData: Buffer.from(userData).toString('base64')
@@ -44,4 +44,8 @@ async.auto({
     }]};
     ec2.createTags(params, callback);
   }]
+}, err => {
+  if(err) {
+    console.log('ERROR', err);
+  }
 });
