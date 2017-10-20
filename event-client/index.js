@@ -66,7 +66,7 @@ function _scanAgents(job, callback) {
     peers: callback => request.get(peersUrl, (err, res) => callback(err, res)),
     ledgerAgent: ['peers', (results, callback) => {
       const peers = results.peers.body;
-      console.log('PPPPPP', JSON.stringigy(peers, null, 2));
+      console.log('PPPPPP', JSON.stringify(peers, null, 2));
       async.each(peers, (p, callback) => async.auto({
         get: callback => {
           const host = p.privateHostname;
