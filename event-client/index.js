@@ -61,10 +61,12 @@ const actor = config['ledger-test'].identities.regularUser;
 
 function _scanAgents(job, callback) {
   const peersUrl = config['ledger-test'].primaryBaseUrl + '/peers';
+  console.log('ZZZZZZZZZZ', peersUrl);
   async.auto({
     peers: callback => request.get(peersUrl, (err, res) => callback(err, res)),
     ledgerAgent: ['peers', (results, callback) => {
       const peers = results.peers.body;
+      console.log('PPPPPP', JSON.stringigy(peers, null, 2));
       async.each(peers, (p, callback) => async.auto({
         get: callback => {
           const host = p.privateHostname;
