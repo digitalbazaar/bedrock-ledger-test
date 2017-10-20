@@ -13,7 +13,7 @@ export default {
 function Ctrl($route, $interval) {
   const self = this;
 
-  const eventWindowSize = 15000; // in ms
+  const eventWindowSize = 6000; // in ms
 
   const marker = {};
   self.eventWindow = {};
