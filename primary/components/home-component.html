@@ -72,10 +72,7 @@
             {{peer.events.outstanding}}
           </td>
           <td md-cell>
-            {{$ctrl.eventsPerSecond({
-              total: peer.events.total,
-              label: peer.label
-            })}}
+            {{$ctrl.eventWindow[peer.label]}}
           </td>
           <td md-cell>
             <a ng-href="{{peer.peer}}">Mongo</a>

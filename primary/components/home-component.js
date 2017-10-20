@@ -10,24 +10,31 @@ export default {
 };
 
 /* @ngInject */
-function Ctrl($route) {
+function Ctrl($route, $interval) {
   const self = this;
 
   const marker = {};
+  self.eventWindow = {};
+
+  $interval(() => {
+    // snapshot total events
+    for(let i = 0; i < self.collection.peers.length; ++i) {
+      const p = self.collection.peers[i];
+      const now = Date.now();
+      const lastMarker = marker[p.label] ||
+        {timeStamp: now, total: p.events.total};
+      marker[p.label] = {timeStamp: now, total: p.events.total};
+      const newEvents = p.events.total - lastMarker.total;
+      const timeDiffSecs = (now - lastMarker.timeStamp) / 1000;
+      self.eventWindow[p.label] = timeDiffSecs === 0 ? 0 :
+        (newEvents / timeDiffSecs).toFixed(2);
+    }
+  }, 5000);
 
   self.blocksPerMinute = (blocks, startTime) => {
     const seconds = (Date.now() - startTime) / 1000;
     const minutes = seconds / 60;
     return (blocks / minutes).toFixed(2);
-  };
-
-  self.eventsPerSecond = ({total, label}) => {
-    const now = Date.now();
-    const lastMarker = marker[label] || {timeStamp: now, total};
-    marker[label] = {timeStamp: now, total};
-    const newEvents = total - lastMarker.total;
-    const timeDiffSecs = (now - lastMarker.timeStamp) / 1000;
-    return (newEvents / timeDiffSecs).toFixed(2);
   };
 
   self.refresh = () => {
