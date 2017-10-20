@@ -8,10 +8,11 @@ const bedrock = require('bedrock');
 const config = bedrock.config;
 const database = require('bedrock-mongodb');
 const helpers = require('./helpers');
+const pool = require('./pool');
+// const worker = require('./worker');
 let request = require('request');
 request = request.defaults({json: true, strictSSL: false});
 const scheduler = require('bedrock-jobs');
-const uuid = require('uuid/v4');
 require('bedrock-ledger-context');
 require('bedrock-express');
 require('bedrock-webpack');
@@ -115,40 +116,10 @@ function _sendEvents(job, callback) {
       async.each(results.agents, (agent, callback) => {
         const eventService = agent.ledgerAgent.service.ledgerEventService;
         console.log(Date.now(), agent.meta.label, agent.meta.eventsPerSec);
-        async.timesLimit(agent.meta.eventsPerSec, 100, (i, callback) => {
-          const event = {
-            '@context': config.constants.WEB_LEDGER_CONTEXT_V1_URL,
-            type: 'WebLedgerEvent',
-            operation: 'Create',
-            input: [{
-              '@context': config.constants.TEST_CONTEXT_V1_URL,
-              id: `https://example.com/events/123`,
-              type: 'Concert',
-              name: 'Primary Event',
-              startDate: '2017-07-14T21:30',
-              location: 'https://example.org/the-venue-new-york',
-              offers: {
-                type: 'Offer',
-                price: '13.00',
-                priceCurrency: 'USD',
-                url: `https://example.com/purchase/${uuid()}`
-              }
-            }]
-          };
-          request.post(helpers.createHttpSignatureRequest({
-            url: eventService,
-            body: event,
-            identity: actor
-          }), (err, res) => {
-            if(err) {
-              return callback(err);
-            }
-            if(res.statusCode !== 201) {
-              return callback(new Error('Error sending event.'));
-            }
-            callback();
-          });
-        }, callback);
+        pool.exec('sendEvent', [
+          {actor, eventNum: agent.meta.eventsPerSec, eventService}
+        ]).catch(err => console.error(err));
+        callback();
       }, callback)]
   }, callback);
 }

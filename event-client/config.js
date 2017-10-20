@@ -43,7 +43,7 @@ c.pushComputed('scheduler.jobs', () => ({
 }));
 
 // mongodb config
-config.mongodb.name = 'ledger_test_client';
+config.mongodb.name = 'ledger_test_event_client';
 
 config['ledger-test'] = {};
 
