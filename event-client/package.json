@@ -4,7 +4,8 @@
   "description": "Bedrock mongodb module",
   "main": "./index",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "aws": "node index.js --minify true --aws"
   },
   "dependencies": {
     "angular-material-data-table": "^0.10.10",
