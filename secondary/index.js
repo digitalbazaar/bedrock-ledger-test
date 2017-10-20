@@ -13,6 +13,7 @@ const randomPort = require('random-port');
 const request = require('request');
 require('./ledger');
 require('bedrock-express');
+require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
