@@ -18,20 +18,24 @@ function Ctrl($route, $interval) {
   const marker = {};
   self.eventWindow = {};
 
-  $interval(() => {
-    // snapshot total events
-    for(let i = 0; i < self.collection.peers.length; ++i) {
-      const p = self.collection.peers[i];
-      const now = Date.now();
-      const lastMarker = marker[p.label] ||
-        {timeStamp: now, total: p.events.total};
-      marker[p.label] = {timeStamp: now, total: p.events.total};
-      const newEvents = p.events.total - lastMarker.total;
-      const timeDiffSecs = (now - lastMarker.timeStamp) / 1000;
-      self.eventWindow[p.label] = timeDiffSecs === 0 ? 0 :
-        (newEvents / timeDiffSecs).toFixed(2);
-    }
-  }, eventWindowSize);
+  self.$onInit = () => {
+    console.log('CCCCCC', JSON.stringify(self.collection, null, 2));
+  };
+
+  // $interval(() => {
+  //   // snapshot total events
+  //   for(let i = 0; i < self.collection.peers.length; ++i) {
+  //     const p = self.collection.peers[i];
+  //     const now = Date.now();
+  //     const lastMarker = marker[p.label] ||
+  //       {timeStamp: now, total: p.events.total};
+  //     marker[p.label] = {timeStamp: now, total: p.events.total};
+  //     const newEvents = p.events.total - lastMarker.total;
+  //     const timeDiffSecs = (now - lastMarker.timeStamp) / 1000;
+  //     self.eventWindow[p.label] = timeDiffSecs === 0 ? 0 :
+  //       (newEvents / timeDiffSecs).toFixed(2);
+  //   }
+  // }, eventWindowSize);
 
   self.blocksPerMinute = (blocks, startTime) => {
     const seconds = (Date.now() - startTime) / 1000;

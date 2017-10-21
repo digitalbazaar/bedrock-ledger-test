@@ -5,9 +5,11 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
+const brLedgerNode = require('bedrock-ledger-node');
 const config = bedrock.config;
 const ledger = require('./ledger');
 const logger = require('./logger');
+const randomWords = require('random-words');
 let request = require('request');
 request = request.defaults({json: true, strictSSL: false});
 
@@ -32,21 +34,37 @@ api.addLedger = (baseUri, callback) => {
   }, (err, results) => callback(err, results.post));
 };
 
-api.sendStatus = (options, callback) => {
+api.sendStatus = ({ledgerNodeId, publicHostname}, callback) => {
   logger.debug('Sending status.', {url: config['ledger-test'].primaryBaseUrl});
-  request({
-    body: {
-      baseUri: config.server.baseUri,
-      label: 'Primary - Genesis',
-      ledgerNodeId: options.ledgerNodeId,
-      logGroupName: config.loggers.cloudwatch.logGroupName,
-      privateHostname: config.server.domain,
-      publicIp: options.publicIp,
-      publicHostname: options.publicHostname
-    },
-    method: 'POST',
-    url: `${config['ledger-test'].primaryBaseUrl}/nodes`,
-    json: true,
-    strictSSL: false
+  const baseUri = config.server.baseUri;
+  return async.auto({
+    ledgerNode: callback =>
+      brLedgerNode.get(null, ledgerNodeId, callback),
+    latestSummary: ['ledgerNode', (results, callback) =>
+      results.ledgerNode.storage.blocks.getLatestSummary(callback)],
+    eventsOutstanding: ['ledgerNode', (results, callback) =>
+      results.ledgerNode.storage.events.getCount({consensus: false}, callback)],
+    eventsTotal: ['ledgerNode', (results, callback) =>
+      results.ledgerNode.storage.events.getCount(callback)],
+    sendStatus: [
+      'eventsTotal', 'eventsOutstanding', 'latestSummary',
+      ({eventsOutstanding, eventsTotal, latestSummary}, callback) => request({
+        body: {
+          baseUri,
+          // use object key safe label
+          label: `Primary-${randomWords()}`,
+          ledgerNodeId,
+          logGroupName: config.loggers.cloudwatch.logGroupName,
+          logUrl: `${baseUri}/log/app`,
+          mongoUrl: `${baseUri}/mongo`,
+          privateHostname: config.server.domain,
+          publicHostname,
+          status: {latestSummary, eventsOutstanding, eventsTotal}
+        },
+        method: 'POST',
+        url: `${config['ledger-test'].primaryBaseUrl}/nodes`,
+        json: true,
+        strictSSL: false
+      }, callback)],
   }, err => callback(err));
 };

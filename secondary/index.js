@@ -11,6 +11,7 @@ const ledger = require('./ledger');
 const logger = require('./logger');
 const randomPort = require('random-port');
 const request = require('request');
+const scheduler = require('bedrock-jobs');
 require('./ledger');
 require('bedrock-express');
 require('bedrock-ledger-agent');
@@ -27,7 +28,6 @@ require('./stats');
 require('./config');
 const cfg = config['ledger-test'];
 
-let publicIp;
 let publicHostname;
 
 bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
@@ -41,11 +41,9 @@ bedrock.events.on('bedrock-cli.ready', callback => {
     const metaBase = 'http://169.254.169.254/latest/meta-data';
     const lhn = `${metaBase}/local-hostname/`;
     const phn = `${metaBase}/public-hostname/`;
-    const pip = `${metaBase}/public-ipv4/`;
     return async.auto({
       lhn: callback => request.get(lhn, (err, res) => callback(err, res.body)),
       phn: callback => request.get(phn, (err, res) => callback(err, res.body)),
-      pip: callback => request.get(pip, (err, res) => callback(err, res.body)),
     }, (err, results) => {
       if(err) {
         return callback(err);
@@ -54,7 +52,6 @@ bedrock.events.on('bedrock-cli.ready', callback => {
         results.lhn.substring(0, results.lhn.indexOf('.'));
       config.server.domain = results.lhn;
       publicHostname = results.phn;
-      publicIp = results.pip;
       callback();
     });
   }
@@ -82,9 +79,14 @@ bedrock.events.on('bedrock.started', callback =>
           }
           ledger.create(results.genesis.body, callback);
         }],
-        sendStatus: ['create', (results, callback) => client.sendStatus({
-          ledgerNodeId: results.create.id, publicIp, publicHostname
-        }, callback)]
+        sendStatus: ['create', (results, callback) => {
+          scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
+          callback();
+          function _sendStatus(job, callback) {
+            client.sendStatus(
+              {ledgerNodeId: results.create.id, publicHostname}, callback);
+          }
+        }]
       }, err => {
         if(err) {
           logger.debug('Error communicating with primary.', {

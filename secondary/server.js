@@ -30,32 +30,6 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       res.send(data);
     }));
 
-  // latest block
-  app.get(routes.blocks, brRest.when.prefers.ld, brRest.linkedDataHandler({
-    get: (req, res, callback) => async.auto({
-      ledgerNode: callback =>
-        brLedgerNode.get(null, req.params.ledgerNodeId, callback),
-      latest: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.storage.blocks.getLatestSummary(callback)],
-      eventsTotal: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.storage.events.getCount(callback)],
-      eventsOutstanding: ['ledgerNode', (results, callback) =>
-        results.ledgerNode.storage.events.getCount(
-          {consensus: false}, callback)],
-    }, (err, results) => {
-      if(err) {
-        return callback(err);
-      }
-      callback(null, {
-        latestBlock: results.latest,
-        events: {
-          total: results.eventsTotal,
-          outstanding: results.eventsOutstanding
-        }
-      });
-    })
-  }));
-
   app.post(routes.ledgers, brRest.when.prefers.ld, (req, res, next) =>
     async.auto({
       create: callback => ledger.create(req.body, callback)
