@@ -59,7 +59,13 @@ api.sendStatus = ({ledgerNodeId, publicHostname}, callback) => {
           mongoUrl: `${baseUri}/mongo`,
           privateHostname: config.server.domain,
           publicHostname,
-          status: {latestSummary, eventsOutstanding, eventsTotal}
+          status: {
+            latestSummary,
+            events: {
+              outstanding: eventsOutstanding,
+              total: eventsTotal
+            }
+          }
         },
         method: 'POST',
         url: `${config['ledger-test'].primaryBaseUrl}/nodes`,
