@@ -32,7 +32,7 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
     ['peer-public-addresses'], callback),
   index: ['open', (results, callback) => database.createIndexes([{
     collection: 'peer-public-addresses',
-    fields: {publicHostname: 1},
+    fields: {id: 1},
     options: {unique: true, background: false}
   }], callback)]
 }, callback));
@@ -99,8 +99,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
     async.auto({
       store: callback => database.collections['peer-public-addresses']
         .updateOne(
-          query, {$set: record, $setOnInsert: {'peer.startTime': Date.now()}},
-          _.assign({}, database.writeOptions, {upsert: true}),
+          query, record, _.assign({}, database.writeOptions, {upsert: true}),
           callback),
       cloudWatch: ['store', (results, callback) => {
         if(results.store.matchedCount === 1) {
