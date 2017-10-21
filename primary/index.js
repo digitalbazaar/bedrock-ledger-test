@@ -63,6 +63,7 @@ bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
     scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
     callback();
     function _sendStatus(job, callback) {
+      console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
       client.sendStatus(
         {ledgerNodeId: ledgerNode.id, publicHostname}, callback);
     }
