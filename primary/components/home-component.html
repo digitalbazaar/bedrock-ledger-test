@@ -54,10 +54,10 @@
             {{peer.privateHostname}}
           </td>
           <td md-cell>
-            {{peer.latestBlock.blockHeight}}
+            {{peer.status.latestSummary.eventBlock.block.blockHeight}}
           </td>
           <td md-cell>
-            {{$ctrl.blocksPerMinute(peer.latestBlock.blockHeight, peer.startTime)}}
+            <!-- {{$ctrl.blocksPerMinute(peer.latestBlock.blockHeight, peer.startTime)}} -->
           </td>
           <!-- <td md-cell>
             {{peer.latestBlock.previousBlockHash}}
@@ -66,10 +66,10 @@
             {{peer.events.total}}
           </td>
           <td md-cell>
-            {{peer.events.total - peer.events.outstanding}}
+            {{peer.status.events.total - peer.status.events.outstanding}}
           </td>
           <td md-cell>
-            {{peer.events.outstanding}}
+            {{peer.status.events.outstanding}}
           </td>
           <td md-cell>
             {{$ctrl.eventWindow[peer.label]}}

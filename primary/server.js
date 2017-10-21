@@ -61,7 +61,12 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   app.get(routes.peers, brRest.when.prefers.ld, brRest.linkedDataHandler({
     get: (req, res, callback) => async.auto({
       peers: callback => database.collections['peer-public-addresses']
-        .find().toArray(callback)
+        .find().toArray((err, result) => {
+          if(err) {
+            return callback(err);
+          }
+          return callback(null, result.map(p => p.peer));
+        })
     }, (err, results) => {
       if(err) {
         return callback(err);
