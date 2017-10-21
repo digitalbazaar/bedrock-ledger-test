@@ -66,7 +66,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       if(err) {
         return callback(err);
       }
-      callback(null, results.block);
+      callback(null, results.peers);
     })
   }));
 
