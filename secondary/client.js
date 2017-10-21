@@ -9,7 +9,6 @@ const brLedgerNode = require('bedrock-ledger-node');
 const config = bedrock.config;
 const logger = require('./logger');
 const request = require('request');
-const randomWords = require('random-words');
 
 const api = {};
 module.exports = api;
@@ -21,7 +20,7 @@ api.getGenesis = callback => request({
   strictSSL: false
 }, (err, res) => callback(err, res));
 
-api.sendStatus = ({ledgerNodeId, publicHostname}, callback) => {
+api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
   logger.debug('Sending status.', {url: config['ledger-test'].primaryBaseUrl});
   const baseUri = config.server.baseUri;
   return async.auto({
@@ -39,7 +38,7 @@ api.sendStatus = ({ledgerNodeId, publicHostname}, callback) => {
         body: {
           baseUri,
           // use object key safe label
-          label: `Secondary-${randomWords()}`,
+          label,
           ledgerNodeId,
           logGroupName: config.loggers.cloudwatch.logGroupName,
           logUrl: `https://${publicHostname}:${config.server.port}/log/app`,

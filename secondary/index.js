@@ -10,6 +10,7 @@ const client = require('./client');
 const ledger = require('./ledger');
 const logger = require('./logger');
 const randomPort = require('random-port');
+const randomWords = require('random-words');
 const request = require('request');
 const scheduler = require('bedrock-jobs');
 require('./ledger');
@@ -83,8 +84,11 @@ bedrock.events.on('bedrock.started', callback =>
           scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
           callback();
           function _sendStatus(job, callback) {
-            client.sendStatus(
-              {ledgerNodeId: results.create.id, publicHostname}, callback);
+            client.sendStatus({
+              label: `Secondary-${randomWords()}`,
+              ledgerNodeId: results.create.id,
+              publicHostname
+            }, callback);
           }
         }]
       }, err => {

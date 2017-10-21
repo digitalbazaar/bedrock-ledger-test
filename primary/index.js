@@ -8,6 +8,7 @@ const bedrock = require('bedrock');
 const client = require('./client');
 const config = bedrock.config;
 const request = require('request');
+const randomWords = require('random-words');
 const scheduler = require('bedrock-jobs');
 require('bedrock-express');
 require('bedrock-ledger-agent');
@@ -63,9 +64,11 @@ bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
     scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
     callback();
     function _sendStatus(job, callback) {
-      console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-      client.sendStatus(
-        {ledgerNodeId: ledgerNode.id, publicHostname}, callback);
+      client.sendStatus({
+        label: `Primary-${randomWords()}`,
+        ledgerNodeId: ledgerNode.id,
+        publicHostname
+      }, callback);
     }
   }, callback);
 });
