@@ -61,14 +61,12 @@ bedrock.events.on('bedrock-cli.parsed', callback => {
 
 bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
   bedrock.runOnce('ledger-test.sendStatus', callback => {
+    const label = `Primary-${randomWords()}`;
     scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
     callback();
     function _sendStatus(job, callback) {
-      client.sendStatus({
-        label: `Primary-${randomWords()}`,
-        ledgerNodeId: ledgerNode.id,
-        publicHostname
-      }, callback);
+      client.sendStatus(
+        {label, ledgerNodeId: ledgerNode.id, publicHostname}, callback);
     }
   }, callback);
 });

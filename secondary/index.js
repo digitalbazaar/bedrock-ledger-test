@@ -81,14 +81,13 @@ bedrock.events.on('bedrock.started', callback =>
           ledger.create(results.genesis.body, callback);
         }],
         sendStatus: ['create', (results, callback) => {
+          const label = `Secondary-${randomWords()}`;
           scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
           callback();
           function _sendStatus(job, callback) {
-            client.sendStatus({
-              label: `Secondary-${randomWords()}`,
-              ledgerNodeId: results.create.id,
-              publicHostname
-            }, callback);
+            client.sendStatus(
+              {label, ledgerNodeId: results.create.id, publicHostname},
+              callback);
           }
         }]
       }, err => {
