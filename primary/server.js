@@ -7,7 +7,6 @@ const _ = require('lodash');
 const async = require('async');
 const bedrock = require('bedrock');
 const brAws = require('bedrock-aws');
-const brLedgerNode = require('bedrock-ledger-node');
 const brRest = require('bedrock-rest');
 const config = bedrock.config;
 const database = require('bedrock-mongodb');
@@ -122,12 +121,12 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 function _setupCloudWatch(logGroupName, callback) {
   const metricName = `oe-${logGroupName}`;
   async.auto({
-    logGroup: ['store', (results, callback) => {
+    logGroup: callback => {
       cloudWatchLogs.createLogGroup({logGroupName}, () => {
         // ignore error because logGroup may have already been created
         callback();
       });
-    }],
+    },
     metricFilter: ['logGroup', (results, callback) =>
       cloudWatchLogs.putMetricFilter({
         filterName: 'outstanding events',
