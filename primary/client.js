@@ -55,8 +55,8 @@ api.sendStatus = ({ledgerNodeId, publicHostname}, callback) => {
           label: `Primary-${randomWords()}`,
           ledgerNodeId,
           logGroupName: config.loggers.cloudwatch.logGroupName,
-          logUrl: `${baseUri}/log/app`,
-          mongoUrl: `${baseUri}/mongo`,
+          logUrl: `https://${publicHostname}:${config.server.port}/log/app`,
+          mongoUrl: `https://${publicHostname}:${config.server.port}/mongo`,
           privateHostname: config.server.domain,
           publicHostname,
           status: {
