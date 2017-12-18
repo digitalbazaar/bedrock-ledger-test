@@ -45,7 +45,7 @@
     "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#cm4",
     "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#getLatestSummary",
     "bedrock-logger-cloudwatch": "^1.0.0",
-    "bedrock-mongodb": "digitalbazaar/bedrock-mongodb#updateDriver",
+    "bedrock-mongodb": "^4.0.0",
     "bedrock-passport": "^3.4.1",
     "bedrock-permission": "^2.4.3",
     "bedrock-rest": "^2.1.0",
