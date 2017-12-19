@@ -7,4 +7,4 @@ const bedrock = require('bedrock');
 const config = bedrock.config;
 
 // core configuration
-config.core.workers = 0;
+config.core.workers = 1;
