@@ -60,7 +60,7 @@
             {{$ctrl.blocksPerMinute(peer.latestBlock.blockHeight, peer.startTime)}}
           </td> -->
           <td md-cell>
-            {{peer.status.latestSummary.eventBlock.block.previousBlockHash}}
+            {{peer.status.latestSummary.eventBlock.block.previousBlockHash.substr(-5)}}
           </td>
           <td md-cell>
             {{peer.status.events.total}}
