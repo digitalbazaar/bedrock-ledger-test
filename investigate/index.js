@@ -14,7 +14,9 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
 bedrock.events.on('bedrock.started', () => {
   console.log('STARTED!!!!!!!!!!!!!!!!!!!!!');
   const eventsCollection = database.collections[eventCollectionName];
-  const query = {};
+  const query = {
+    eventHash: 'ni:///sha-256;7pohwbQPLj85PyFzHFkkp9wsO_sa4MnMGMbut2rUqfQ'
+  };
   async.auto({
     find: callback => eventsCollection.find(query).toArray(callback)
   }, (err, results) => {
