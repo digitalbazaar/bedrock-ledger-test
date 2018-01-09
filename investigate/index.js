@@ -1,6 +1,7 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const database = require('bedrock-mongodb');
+const eventHashes = require('./event-hashes');
 
 require('./config');
 
@@ -14,17 +15,18 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
 bedrock.events.on('bedrock.started', () => {
   console.log('STARTED!!!!!!!!!!!!!!!!!!!!!');
   const eventsCollection = database.collections[eventCollectionName];
-  const query = {
-    eventHash: 'ni:///sha-256;7pohwbQPLj85PyFzHFkkp9wsO_sa4MnMGMbut2rUqfQ'
-  };
-  async.auto({
-    find: callback => eventsCollection.find(query).toArray(callback)
-  }, (err, results) => {
+  // const query = {
+  //   eventHash: 'ni:///sha-256;7pohwbQPLj85PyFzHFkkp9wsO_sa4MnMGMbut2rUqfQ'
+  // };
+  const projection = {_id: 0, eventHash: 1};
+  async.map(eventHashes, (eventHash, callback) =>
+    eventsCollection.find({eventHash}, projection).toArray(callback),
+  (err, result) => {
     if(err) {
       console.log('An error occurred', err);
       return bedrock.exit(err);
     }
-    console.log('LOCAL-FIND', JSON.stringify(results.find, null, 2));
+    console.log('LOCAL-FIND', JSON.stringify(result.find, null, 2));
     bedrock.exit();
   });
 });
