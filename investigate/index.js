@@ -27,7 +27,7 @@ bedrock.events.on('bedrock.started', () => {
       console.log('An error occurred', err);
       return bedrock.exit(err);
     }
-    console.log('LOCAL-FIND', JSON.stringify(result.find, null, 2));
+    console.log('LOCAL-FIND', JSON.stringify(result, null, 2));
     bedrock.exit();
   });
 });
