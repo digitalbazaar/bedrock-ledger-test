@@ -17,12 +17,12 @@
             <th md-column>
               latestBlockHeight
             </th>
-            <th md-column>
-              blocks/min
-            </th>
             <!-- <th md-column>
-              previousBlockHash
+              blocks/min
             </th> -->
+            <th md-column>
+              previousBlockHash
+            </th>
             <th md-column>
               totalEvents
             </th>
@@ -56,12 +56,12 @@
           <td md-cell>
             {{peer.status.latestSummary.eventBlock.block.blockHeight}}
           </td>
-          <td md-cell>
-            <!-- {{$ctrl.blocksPerMinute(peer.latestBlock.blockHeight, peer.startTime)}} -->
-          </td>
           <!-- <td md-cell>
-            {{peer.latestBlock.previousBlockHash}}
+            {{$ctrl.blocksPerMinute(peer.latestBlock.blockHeight, peer.startTime)}}
           </td> -->
+          <td md-cell>
+            {{peer.latestBlock.previousBlockHash}}
+          </td>
           <td md-cell>
             {{peer.status.events.total}}
           </td>
