@@ -20,7 +20,7 @@ bedrock.events.on('bedrock.started', () => {
   // };
   console.log('HHHH', eventHashes);
   const projection = {_id: 0, eventHash: 1};
-  async.map(eventHashes, (eventHash, callback) =>
+  async.mapSeries(eventHashes, (eventHash, callback) =>
     eventsCollection.findOne({eventHash}, projection, callback),
   (err, result) => {
     if(err) {
