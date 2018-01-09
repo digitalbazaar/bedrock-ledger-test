@@ -18,26 +18,35 @@ bedrock.events.on('bedrock.started', () => {
   // const query = {
   //   eventHash: 'ni:///sha-256;7pohwbQPLj85PyFzHFkkp9wsO_sa4MnMGMbut2rUqfQ'
   // };
-  const projection = {_id: 0, eventHash: 1};
-  async.mapSeries(eventHashes, (eventHash, callback) =>
-    eventsCollection.findOne({eventHash}, projection, (err, result) => {
+  console.log('original length', eventHashes.length);
+  eventsCollection.find({eventHash: {$in: eventHashes}})
+    .count((err, result) => {
       if(err) {
-        return callback(err);
+        console.log('ERROR', err);
+        bedrock.exit(err);
       }
-      if(!result) {
-        console.log('BOO!');
-      }
-      callback(null, result);
-    }),
-  (err, result) => {
-    if(err) {
-      console.log('An error occurred', err);
-      return bedrock.exit(err);
-    }
-    // console.log('LOCAL-FIND', JSON.stringify(result, null, 2));
-    console.log('DONE.');
-    bedrock.exit();
-  });
+      console.log('Count', result);
+    });
+  // const projection = {_id: 0, eventHash: 1};
+  // async.mapSeries(eventHashes, (eventHash, callback) =>
+  //   eventsCollection.findOne({eventHash}, projection, (err, result) => {
+  //     if(err) {
+  //       return callback(err);
+  //     }
+  //     if(!result) {
+  //       console.log('BOO!');
+  //     }
+  //     callback(null, result);
+  //   }),
+  // (err, result) => {
+  //   if(err) {
+  //     console.log('An error occurred', err);
+  //     return bedrock.exit(err);
+  //   }
+  //   // console.log('LOCAL-FIND', JSON.stringify(result, null, 2));
+  //   console.log('DONE.');
+  //   bedrock.exit();
+  // });
 });
 
 bedrock.start();
