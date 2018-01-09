@@ -12,6 +12,7 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
 }, err => callback(err)));
 
 bedrock.events.on('bedrock.started', () => {
+  console.log('STARTED!!!!!!!!!!!!!!!!!!!!!');
   const eventsCollection = database.collections[eventCollectionName];
   const query = {};
   async.auto({
