@@ -24,6 +24,9 @@
               previousBlockHash
             </th>
             <th md-column>
+              blockHash
+            </th>
+            <th md-column>
               totalEvents
             </th>
             <th md-column>
@@ -61,6 +64,9 @@
           </td> -->
           <td md-cell>
             {{peer.status.latestSummary.eventBlock.block.previousBlockHash.substr(-5)}}
+          </td>
+          <td md-cell>
+            {{peer.status.latestSummary.eventBlock.meta.blockHash.substr(-5)}}
           </td>
           <td md-cell>
             {{peer.status.events.total}}
