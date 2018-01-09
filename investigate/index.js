@@ -18,6 +18,7 @@ bedrock.events.on('bedrock.started', () => {
   async.auto({
     find: callback => eventsCollection.find(query).toArray(callback)
   }, (err, results) => {
+    console.log('ENDED');
     if(err) {
       console.log('An error occurred', err);
     } else {
