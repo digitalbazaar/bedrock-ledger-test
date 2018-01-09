@@ -18,7 +18,6 @@ bedrock.events.on('bedrock.started', () => {
   // const query = {
   //   eventHash: 'ni:///sha-256;7pohwbQPLj85PyFzHFkkp9wsO_sa4MnMGMbut2rUqfQ'
   // };
-  console.log('HHHH', eventHashes);
   const projection = {_id: 0, eventHash: 1};
   async.mapSeries(eventHashes, (eventHash, callback) =>
     eventsCollection.findOne({eventHash}, projection, (err, result) => {
