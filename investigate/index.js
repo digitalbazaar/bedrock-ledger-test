@@ -18,13 +18,12 @@ bedrock.events.on('bedrock.started', () => {
   async.auto({
     find: callback => eventsCollection.find(query).toArray(callback)
   }, (err, results) => {
-    console.log('ENDED');
     if(err) {
       console.log('An error occurred', err);
-    } else {
-      console.log('LOCAL-FIND', JSON.stringify(results.find, null, 2));
+      return bedrock.exit(err);
     }
-    bedrock.exit(err);
+    console.log('LOCAL-FIND', JSON.stringify(results.find, null, 2));
+    bedrock.exit();
   });
 });
 
