@@ -21,13 +21,22 @@ bedrock.events.on('bedrock.started', () => {
   console.log('HHHH', eventHashes);
   const projection = {_id: 0, eventHash: 1};
   async.mapSeries(eventHashes, (eventHash, callback) =>
-    eventsCollection.findOne({eventHash}, projection, callback),
+    eventsCollection.findOne({eventHash}, projection, (err, result) => {
+      if(err) {
+        return callback(err);
+      }
+      if(!result) {
+        console.log('BOO!');
+      }
+      callback(null, result);
+    }),
   (err, result) => {
     if(err) {
       console.log('An error occurred', err);
       return bedrock.exit(err);
     }
-    console.log('LOCAL-FIND', JSON.stringify(result, null, 2));
+    // console.log('LOCAL-FIND', JSON.stringify(result, null, 2));
+    console.log('DONE.');
     bedrock.exit();
   });
 });
