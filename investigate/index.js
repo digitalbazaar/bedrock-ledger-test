@@ -28,6 +28,7 @@ bedrock.events.on('bedrock.started', () => {
       bedrock.exit(err);
     }
     console.log('Count', result);
+    bedrock.exit();
   });
   // const projection = {_id: 0, eventHash: 1};
   // async.mapSeries(eventHashes, (eventHash, callback) =>
