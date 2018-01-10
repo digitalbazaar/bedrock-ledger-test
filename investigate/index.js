@@ -19,14 +19,16 @@ bedrock.events.on('bedrock.started', () => {
   //   eventHash: 'ni:///sha-256;7pohwbQPLj85PyFzHFkkp9wsO_sa4MnMGMbut2rUqfQ'
   // };
   console.log('original length', eventHashes.length);
-  eventsCollection.find({eventHash: {$in: eventHashes}})
-    .count((err, result) => {
-      if(err) {
-        console.log('ERROR', err);
-        bedrock.exit(err);
-      }
-      console.log('Count', result);
-    });
+  eventsCollection.find({
+    eventHash: {$in: eventHashes},
+    'meta.deleted': {$exists: false}
+  }).count((err, result) => {
+    if(err) {
+      console.log('ERROR', err);
+      bedrock.exit(err);
+    }
+    console.log('Count', result);
+  });
   // const projection = {_id: 0, eventHash: 1};
   // async.mapSeries(eventHashes, (eventHash, callback) =>
   //   eventsCollection.findOne({eventHash}, projection, (err, result) => {
