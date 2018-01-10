@@ -5,7 +5,7 @@ const eventHashes = require('./event-hashes');
 
 require('./config');
 
-const eventCollectionName = 'e8766556-e2d6-40e4-a8ca-1aa1e3b396ca-event';
+const eventCollectionName = '52237c5d-646e-4783-9ee4-57caf9cf7264-event';
 
 bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
   openCollections: callback =>
