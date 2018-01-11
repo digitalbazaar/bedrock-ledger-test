@@ -19,7 +19,6 @@ function Ctrl($route, $interval) {
   self.eventWindow = {};
 
   $interval(() => {
-    console.log('CCCCCC', JSON.stringify(self.collection, null, 2));
     // snapshot total events
     for(let i = 0; i < self.collection.peers.length; ++i) {
       const p = self.collection.peers[i];

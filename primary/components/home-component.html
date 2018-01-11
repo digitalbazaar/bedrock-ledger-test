@@ -39,6 +39,12 @@
               outstandingEvents
             </th>
             <th md-column>
+              mergeEvents
+            </th>
+            <th md-column>
+              merge %
+            </th>
+            <th md-column>
               events/sec
             </th>
             <th md-column>
@@ -82,6 +88,12 @@
           </td>
           <td md-cell>
             {{peer.status.events.outstanding}}
+          </td>
+          <td md-cell>
+            {{peer.status.events.merge}}
+          </td>
+          <td md-cell>
+            {{Math.round(peer.status.events.merge / peer.status.events.total * 100)}}
           </td>
           <td md-cell>
             {{$ctrl.eventWindow[peer.label]}}
