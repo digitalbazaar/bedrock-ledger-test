@@ -38,7 +38,8 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       }).count(callback)],
     mergeEventsOutstanding: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.events.collection.find({
-        'event.type': 'ContinuityMergeEvent'
+        'event.type': 'ContinuityMergeEvent',
+        'meta.consensus': {$exists: false}
       }).count(callback)],
     sendStatus: [
       'eventsTotal', 'eventsOutstanding', 'latestSummary',
