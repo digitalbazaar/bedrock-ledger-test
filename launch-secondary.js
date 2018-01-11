@@ -7,6 +7,8 @@ AWS.config.loadFromPath('./config.json');
 
 const userData = `
 #cloud-config
+packages:
+ - redis-server
 runcmd:
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test
