@@ -27,15 +27,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     ledgerNode: callback =>
       brLedgerNode.get(null, ledgerNodeId, callback),
     latestSummary: ['ledgerNode', (results, callback) =>
-      results.ledgerNode.storage.blocks.getLatestSummary((err, result) => {
-        if(err) {
-          return callback(err);
-        }
-        if(result.eventBlock.block.consensusProof) {
-          delete result.eventBlock.block.consensusProof;
-        }
-        callback(null, result);
-      })],
+      results.ledgerNode.storage.blocks.getLatestSummary(callback)],
     eventsOutstanding: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.events.getCount({consensus: false}, callback)],
     eventsTotal: ['ledgerNode', (results, callback) =>
