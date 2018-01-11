@@ -36,7 +36,10 @@
               consensusEvents
             </th>
             <th md-column>
-              outstandingEvents
+              outTotal
+            </th>
+            <th md-column>
+              outMerge
             </th>
             <th md-column>
               mergeEvents
@@ -90,10 +93,13 @@
             {{peer.status.events.outstanding}}
           </td>
           <td md-cell>
-            {{peer.status.events.merge}}
+            {{peer.status.events.mergeEventsOutstanding}}
           </td>
           <td md-cell>
-            {{(peer.status.events.merge / peer.status.events.total * 100) | number: 0}}
+            {{peer.status.events.mergeEventsTotal}}
+          </td>
+          <td md-cell>
+            {{(peer.status.events.mergeEventsTotal / peer.status.events.total * 100) | number: 0}}
           </td>
           <td md-cell>
             {{$ctrl.eventWindow[peer.label]}}

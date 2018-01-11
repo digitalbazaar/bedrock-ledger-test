@@ -32,14 +32,20 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       results.ledgerNode.storage.events.getCount({consensus: false}, callback)],
     eventsTotal: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.events.getCount(callback)],
-    mergeEvents: ['ledgerNode', (results, callback) =>
+    mergeEventsTotal: ['ledgerNode', (results, callback) =>
+      results.ledgerNode.storage.events.collection.find({
+        'event.type': 'ContinuityMergeEvent'
+      }).count(callback)],
+    mergeEventsOutstanding: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.events.collection.find({
         'event.type': 'ContinuityMergeEvent'
       }).count(callback)],
     sendStatus: [
-      'eventsTotal', 'eventsOutstanding', 'latestSummary', 'mergeEvents',
-      ({eventsOutstanding, eventsTotal, latestSummary, mergeEvents},
-        callback) => request({
+      'eventsTotal', 'eventsOutstanding', 'latestSummary',
+      'mergeEventsOutstanding', 'mergeEventsTotal',
+      ({eventsOutstanding, eventsTotal, latestSummary, mergeEventsOutstanding,
+        mergeEventsTotal},
+      callback) => request({
         body: {
           baseUri,
           // use object key safe label
@@ -53,7 +59,8 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
           status: {
             latestSummary,
             events: {
-              merge: mergeEvents,
+              mergeEventsOutstanding,
+              mergeEventsTotal,
               outstanding: eventsOutstanding,
               total: eventsTotal
             }
