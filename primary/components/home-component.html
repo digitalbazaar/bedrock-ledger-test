@@ -93,7 +93,7 @@
             {{peer.status.events.merge}}
           </td>
           <td md-cell>
-            {{Math.round(peer.status.events.merge / peer.status.events.total * 100)}}
+            {{(peer.status.events.merge / peer.status.events.total * 100) | number 0}}
           </td>
           <td md-cell>
             {{$ctrl.eventWindow[peer.label]}}
