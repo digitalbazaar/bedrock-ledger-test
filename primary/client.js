@@ -52,6 +52,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         }
         console.log('SSSSSSSSSSSSSSSSSSSSSSSSSS LAST 3 MINS', err, result);
         const valid = result.map(i => parseInt(i, 10)).filter(i => i !== NaN);
+        console.log('VVVVVVVVVVVV', valid);
         if(valid.length === 0) {
           return callback(null, 0);
         }
