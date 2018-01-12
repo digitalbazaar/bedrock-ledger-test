@@ -50,6 +50,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         if(err) {
           return callback(err);
         }
+        console.log('SSSSSSSSSSSSSSSSSSSSSSSSSS', err, result);
         const valid = result.map(i => parseInt(i, 10)).filter(i => i !== NaN);
         const sum = valid.reduce((a, b) => a + b);
         callback(null, valid.length === 0 ? 0 : Math.round(sum / valid.length));
