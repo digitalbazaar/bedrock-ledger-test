@@ -51,6 +51,9 @@
               events/sec
             </th>
             <th md-column>
+              dups/min
+            </th>
+            <th md-column>
               Mongo
             </th>
             <th md-column>
@@ -103,6 +106,9 @@
           </td>
           <td md-cell>
             {{$ctrl.eventWindow[peer.label]}}
+          </td>
+          <td md-cell>
+            {{peer.status.events.dups}}
           </td>
           <td md-cell>
             <a ng-href="{{peer.mongoUrl}}">Mongo</a>

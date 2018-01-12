@@ -6,6 +6,7 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const brLedgerNode = require('bedrock-ledger-node');
+const cache = require('bedrock-redis');
 const config = bedrock.config;
 const logger = require('./logger');
 const request = require('request');
@@ -24,6 +25,23 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
   logger.debug('Sending status.', {url: config['ledger-test'].primaryBaseUrl});
   const baseUri = config.server.baseUri;
   return async.auto({
+    dups: callback => {
+      const thisMinute = Math.round(Date.now() / 60000);
+      // get values for the last 3 prior minutes to avoid incomplete data for
+      // current minute
+      cache.client.mget([
+        `dup-${thisMinute - 1}`,
+        `dup-${thisMinute - 2}`,
+        `dup-${thisMinute - 3}`,
+      ], (err, result) => {
+        if(err) {
+          return callback(err);
+        }
+        const valid = result.map(i => parseInt(i, 10)).filter(i => i !== NaN);
+        const sum = valid.reduce((a, b) => a + b);
+        callback(null, sum.length === 0 ? 0 : Math.round(sum / valid.length));
+      });
+    },
     ledgerNode: callback =>
       brLedgerNode.get(null, ledgerNodeId, callback),
     latestSummary: ['ledgerNode', (results, callback) =>
@@ -42,10 +60,10 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         'meta.consensus': {$exists: false}
       }).count(callback)],
     sendStatus: [
-      'eventsTotal', 'eventsOutstanding', 'latestSummary',
+      'dups', 'eventsTotal', 'eventsOutstanding', 'latestSummary',
       'mergeEventsOutstanding', 'mergeEventsTotal',
-      ({eventsOutstanding, eventsTotal, latestSummary, mergeEventsOutstanding,
-        mergeEventsTotal},
+      ({dups, eventsOutstanding, eventsTotal, latestSummary,
+        mergeEventsOutstanding, mergeEventsTotal},
       callback) => request({
         body: {
           baseUri,
@@ -60,6 +78,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
           status: {
             latestSummary,
             events: {
+              dups,
               mergeEventsOutstanding,
               mergeEventsTotal,
               outstanding: eventsOutstanding,
