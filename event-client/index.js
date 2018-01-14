@@ -82,6 +82,9 @@ function _scanAgents(job, callback) {
         },
         store: ['get', (results, callback) => {
           const ledgerAgent = results.get.body[0];
+          if(!ledgerAgent) {
+            return new Error('Missing ledgerAgent data.');
+          }
           const agent = {
             id: database.hash(ledgerAgent.id),
             ledgerAgent,
