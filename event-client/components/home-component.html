@@ -7,6 +7,9 @@
           <thead md-head>
             <tr md-row>
               <th md-column>
+                number
+              </th>
+              <th md-column>
                 label
               </th>
               <th md-column>
@@ -16,9 +19,12 @@
           </thead>
           <tr md-row ng-repeat="agent in $ctrl.collection.agents">
             <td md-cell>
-              {{agent.meta.label}}
+              {{$index + 1}}
             </td>
             <td md-cell>
+              {{agent.meta.label}}
+            </td>
+            <!-- <td md-cell>
               <md-slider-container>
                 <md-slider flex min="0" max="200" ng-model="agent.meta.eventsPerSec"
                   aria-label="red" id="red-slider" ng-change="$ctrl.eventChanged(agent)">
@@ -28,6 +34,12 @@
                     aria-label="red" aria-controls="red-slider" ng-change="$ctrl.eventChanged(agent)">
                 </md-input-container>
               </md-slider-container>
+            </td> -->
+            <td md-cell>
+              <md-input-container>
+                <input flex type="number" ng-model="agent.meta.eventsPerSec"
+                  aria-label="red" aria-controls="red-slider" ng-change="$ctrl.eventChanged(agent)">
+              </md-input-container>
             </td>
           </tr>
         </tbody>
