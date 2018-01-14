@@ -42,4 +42,13 @@ function Ctrl($route, $interval) {
   self.refresh = () => {
     $route.reload();
   };
+
+  self.averageDups = () => {
+    const dups = self.collection.peers.map(p => p.status.events.dups);
+    if(dups.some(d => d === null)) {
+      return 0;
+    }
+    const sum = dups.reduce((a, b) => a + b);
+    return Math.round(sum / dups.length);
+  };
 }
