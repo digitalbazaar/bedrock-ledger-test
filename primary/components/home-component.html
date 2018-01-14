@@ -117,11 +117,13 @@
             <a ng-href="{{peer.logUrl}}">log</a>
           </td>
         </tr>
-        <tr md-row>
+        <tfoot md-foot>
           <td md-cell colspan="14">
+          </td>
+          <td md-cell>
             {{$ctrl.averageDups()}}
           </td>
-        </tr>
+        </tfoot>
       </tbody>
     </table>
   </md-table-container>
