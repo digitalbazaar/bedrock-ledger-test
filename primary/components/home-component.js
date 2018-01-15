@@ -67,6 +67,7 @@ function Ctrl($route/* , $interval */) {
     if(eps === 0) {
       return 0;
     }
-    return `${Math.round(self.averageDups() / eps * 100)}%`;
+    const epm = eps * 60;
+    return `${Math.round(self.averageDups() / epm * 100)}%`;
   };
 }
