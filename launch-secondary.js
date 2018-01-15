@@ -32,7 +32,8 @@ let params = {
   MinCount: 9,
   MaxCount: 9,
   SecurityGroupIds: ['sg-9e6359ed'],
-  SubnetId: 'subnet-60c3b105',
+  // SubnetId: 'subnet-60c3b105',
+  SubnetId: 'subnet-5e34ab03',
   UserData: Buffer.from(userData).toString('base64')
 };
 
