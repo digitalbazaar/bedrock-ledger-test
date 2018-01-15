@@ -41,7 +41,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         }
         const valid = result.map(i => parseInt(i, 10))
           .filter(i => !Number.isNaN(i));
-        const sum = valid.reduce((a, b) => a + b);
+        const sum = valid.reduce((a, b) => a + b, 0);
         callback(null, Math.round(sum / result.length));
       });
     },
@@ -70,7 +70,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         }
         const valid = result.map(i => parseInt(i, 10))
           .filter(i => !Number.isNaN(i));
-        const sum = valid.reduce((a, b) => a + b);
+        const sum = valid.reduce((a, b) => a + b, 0);
         callback(null, Math.round(sum / result.length));
       });
     },
