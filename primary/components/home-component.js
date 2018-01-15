@@ -48,7 +48,7 @@ function Ctrl($route/* , $interval */) {
     if(dups.some(d => d === null)) {
       return 0;
     }
-    const sum = dups.reduce((a, b) => a + b);
+    const sum = dups.reduce((a, b) => a + b, 0);
     return Math.round(sum / dups.length);
   };
 
@@ -58,7 +58,7 @@ function Ctrl($route/* , $interval */) {
     if(eventsPerSecond.some(d => d === null)) {
       return 0;
     }
-    const sum = eventsPerSecond.reduce((a, b) => a + b);
+    const sum = eventsPerSecond.reduce((a, b) => a + b, 0);
     return Math.round(sum / eventsPerSecond.length);
   };
 
