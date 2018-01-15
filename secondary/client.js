@@ -33,17 +33,16 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         `dup-${thisMinute - 1}`,
         `dup-${thisMinute - 2}`,
         `dup-${thisMinute - 3}`,
+        `dup-${thisMinute - 4}`,
+        `dup-${thisMinute - 5}`,
       ], (err, result) => {
         if(err) {
           return callback(err);
         }
         const valid = result.map(i => parseInt(i, 10))
           .filter(i => !Number.isNaN(i));
-        if(valid.length === 0) {
-          return callback(null, 0);
-        }
         const sum = valid.reduce((a, b) => a + b);
-        callback(null, Math.round(sum / valid.length));
+        callback(null, Math.round(sum / result.length));
       });
     },
     eventsPerSecond: callback => {
@@ -55,17 +54,24 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         `events-${thisSecond - 3}`,
         `events-${thisSecond - 4}`,
         `events-${thisSecond - 5}`,
+        `events-${thisSecond - 6}`,
+        `events-${thisSecond - 7}`,
+        `events-${thisSecond - 8}`,
+        `events-${thisSecond - 9}`,
+        `events-${thisSecond - 10}`,
+        `events-${thisSecond - 11}`,
+        `events-${thisSecond - 12}`,
+        `events-${thisSecond - 13}`,
+        `events-${thisSecond - 14}`,
+        `events-${thisSecond - 15}`,
       ], (err, result) => {
         if(err) {
           return callback(err);
         }
         const valid = result.map(i => parseInt(i, 10))
           .filter(i => !Number.isNaN(i));
-        if(valid.length === 0) {
-          return callback(null, 0);
-        }
         const sum = valid.reduce((a, b) => a + b);
-        callback(null, Math.round(sum / valid.length));
+        callback(null, Math.round(sum / result.length));
       });
     },
     ledgerNode: callback =>
