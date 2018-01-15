@@ -37,9 +37,35 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         if(err) {
           return callback(err);
         }
-        const valid = result.map(i => parseInt(i, 10)).filter(i => i !== NaN);
+        const valid = result.map(i => parseInt(i, 10))
+          .filter(i => !Number.isNaN(i));
+        if(valid.length === 0) {
+          return callback(null, 0);
+        }
         const sum = valid.reduce((a, b) => a + b);
-        callback(null, sum.length === 0 ? 0 : Math.round(sum / valid.length));
+        callback(null, Math.round(sum / valid.length));
+      });
+    },
+    eventsPerSecond: callback => {
+      const thisSecond = Math.round(Date.now() / 1000);
+      // get values for the last 5 seconds
+      cache.client.mget([
+        `events-${thisSecond - 1}`,
+        `events-${thisSecond - 2}`,
+        `events-${thisSecond - 3}`,
+        `events-${thisSecond - 4}`,
+        `events-${thisSecond - 5}`,
+      ], (err, result) => {
+        if(err) {
+          return callback(err);
+        }
+        const valid = result.map(i => parseInt(i, 10))
+          .filter(i => !Number.isNaN(i));
+        if(valid.length === 0) {
+          return callback(null, 0);
+        }
+        const sum = valid.reduce((a, b) => a + b);
+        callback(null, Math.round(sum / valid.length));
       });
     },
     ledgerNode: callback =>
@@ -60,9 +86,9 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         'meta.consensus': {$exists: false}
       }).count(callback)],
     sendStatus: [
-      'dups', 'eventsTotal', 'eventsOutstanding', 'latestSummary',
-      'mergeEventsOutstanding', 'mergeEventsTotal',
-      ({dups, eventsOutstanding, eventsTotal, latestSummary,
+      'dups', 'eventsTotal', 'eventsOutstanding', 'eventsPerSecond',
+      'latestSummary', 'mergeEventsOutstanding', 'mergeEventsTotal',
+      ({dups, eventsOutstanding, eventsPerSecond, eventsTotal, latestSummary,
         mergeEventsOutstanding, mergeEventsTotal},
       callback) => request({
         body: {
@@ -82,6 +108,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
               mergeEventsOutstanding,
               mergeEventsTotal,
               outstanding: eventsOutstanding,
+              eventsPerSecond,
               total: eventsTotal
             }
           }

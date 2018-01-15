@@ -105,8 +105,11 @@
             {{(peer.status.events.mergeEventsTotal / peer.status.events.total * 100) | number: 0}}
           </td>
           <td md-cell>
-            {{$ctrl.eventWindow[peer.label]}}
+            {{peer.status.events.eventsPerSecond}}
           </td>
+          <!-- <td md-cell>
+            {{$ctrl.eventWindow[peer.label]}}
+          </td> -->
           <td md-cell>
             {{peer.status.events.dups}}
           </td>
