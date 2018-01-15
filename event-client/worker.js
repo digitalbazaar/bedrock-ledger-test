@@ -16,7 +16,7 @@ require('bedrock-ledger-context');
 const workerpool = require('workerpool');
 
 function sendEvent({eventService, eventNum, actor}) {
-  async.timesLimit(eventNum, 100, (i, callback) => {
+  async.timesLimit(eventNum, 500, (i, callback) => {
     const event = {
       '@context': constants.WEB_LEDGER_CONTEXT_V1_URL,
       type: 'WebLedgerEvent',
