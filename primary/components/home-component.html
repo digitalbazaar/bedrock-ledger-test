@@ -121,10 +121,16 @@
           </td>
         </tr>
         <tfoot md-foot>
-          <td md-cell colspan="14">
+          <td md-cell colspan="13">
+          </td>
+          <td md-cell>
+            {{$ctrl.averageEventsPerSecond()}}
           </td>
           <td md-cell>
             {{$ctrl.averageDups()}}
+          </td>
+          <td md-cell>
+            {{$ctrl.dupPercent()}}
           </td>
         </tfoot>
       </tbody>

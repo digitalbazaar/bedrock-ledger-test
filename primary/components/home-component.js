@@ -51,4 +51,22 @@ function Ctrl($route/* , $interval */) {
     const sum = dups.reduce((a, b) => a + b);
     return Math.round(sum / dups.length);
   };
+
+  self.averageEventsPerSecond = () => {
+    const eventsPerSecond = self.collection.peers
+      .map(p => p.status.events.eventsPerSecond);
+    if(eventsPerSecond.some(d => d === null)) {
+      return 0;
+    }
+    const sum = eventsPerSecond.reduce((a, b) => a + b);
+    return Math.round(sum / eventsPerSecond.length);
+  };
+
+  self.dupPercent = () => {
+    const eps = self.averageEventsPerSecond();
+    if(eps === 0) {
+      return 0;
+    }
+    return `${Math.round(self.averageDups() / eps * 100)}%`;
+  };
 }
