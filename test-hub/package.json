@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "angular-material-data-table": "^0.10.10",
+    "angular-moment": "^1.2.0",
     "async": "^2.5.0",
     "aws-sdk": "^2.126.0",
     "bedrock": "digitalbazaar/bedrock#cliParsed",
@@ -33,8 +34,10 @@
   "bedrock": {
     "browserDependencies": [
       "angular-material-data-table",
+      "angular-moment",
       "bedrock-angular",
-      "bedrock-angular-material"
+      "bedrock-angular-material",
+      "moment"
     ],
     "manifest": {
       "angular-material-data-table": {

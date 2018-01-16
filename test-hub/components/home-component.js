@@ -16,4 +16,9 @@ function Ctrl($route) {
   self.refresh = () => {
     $route.reload();
   };
+
+  self.passTotal = () => {
+    const sum = self.collection.clients.reduce((a, b) => a.pass + b.pass, 0);
+    return sum;
+  };
 }

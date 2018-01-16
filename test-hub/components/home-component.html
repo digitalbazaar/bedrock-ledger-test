@@ -37,9 +37,18 @@
               {{client.status}}
             </td>
             <td md-cell>
-              {{client.updated}}
+              <span am-time-ago="client.updated | amFromUnix"></span>
             </td>
           </tr>
+          <tfoot md-foot>
+            <tr md-row>
+              <td md-cell colspan="2">
+              </td>
+              <td md-cell>
+                {{$ctrl.passTotal()}}
+              </td>
+            </tr>
+          </tfoot>
         </tbody>
       </table>
     </md-table-container>

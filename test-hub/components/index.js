@@ -7,7 +7,7 @@ import HomeComponent from './home-component.js';
 import ClientService from './client-service.js';
 
 const module = angular.module('bedrock.ledger-test', [
-  'ngMaterial', 'md.data.table'
+  'angularMoment', 'ngMaterial', 'md.data.table'
 ]);
 
 bedrock.setRootModule(module);

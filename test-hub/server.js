@@ -22,7 +22,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       client: req.connection.remoteAddress,
       pass: req.body.pass,
       status: req.body.status,
-      updated: Date.now(),
+      updated: Math.round(Date.now() / 1000), // seconds
     };
     database.collections.testHub.update(
       {client: record.client}, record, {upsert: true}, err => {
