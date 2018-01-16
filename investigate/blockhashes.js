@@ -28,7 +28,7 @@ const investigate = (results, callback) => {
       'block.blockHeight': 1,
       'block.previousBlockHash': 1,
       'meta.blockHash': 1,
-    }).sort({'block.blockHeight': -1}).limit(5).toArray((err, result) => {
+    }).sort({'block.blockHeight': -1}).limit(2).toArray((err, result) => {
       if(err) {
         return callback(err);
       }
