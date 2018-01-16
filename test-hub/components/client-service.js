@@ -14,7 +14,7 @@ export default function factory($http, $interval) {
   $interval(() => service.getAll(), 1000);
 
   service.getAll = () => $http.get(baseUrl).then(response =>
-    service.collection.agents = response.data);
+    service.collection.clients = response.data);
 
   return service;
 }
