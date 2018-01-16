@@ -10,36 +10,34 @@
                 number
               </th>
               <th md-column>
-                label
+                client
               </th>
               <th md-column>
-                eventsPerSecond
+                pass
+              </th>
+              <th md-column>
+                status
+              </th>
+              <th md-column>
+                updated
               </th>
             </tr>
           </thead>
-          <tr md-row ng-repeat="agent in $ctrl.collection.agents">
+          <tr md-row ng-repeat="client in $ctrl.collection.clients">
             <td md-cell>
               {{$index + 1}}
             </td>
             <td md-cell>
-              {{agent.meta.label}}
+              {{client.client}}
             </td>
-            <!-- <td md-cell>
-              <md-slider-container>
-                <md-slider flex min="0" max="200" ng-model="agent.meta.eventsPerSec"
-                  aria-label="red" id="red-slider" ng-change="$ctrl.eventChanged(agent)">
-                </md-slider>
-                <md-input-container>
-                  <input flex type="number" ng-model="agent.meta.eventsPerSec"
-                    aria-label="red" aria-controls="red-slider" ng-change="$ctrl.eventChanged(agent)">
-                </md-input-container>
-              </md-slider-container>
-            </td> -->
             <td md-cell>
-              <md-input-container>
-                <input flex type="number" ng-model="agent.meta.eventsPerSec"
-                  aria-label="red" aria-controls="red-slider" ng-change="$ctrl.eventChanged(agent)">
-              </md-input-container>
+              {{client.pass}}
+            </td>
+            <td md-cell>
+              {{client.status}}
+            </td>
+            <td md-cell>
+              {{client.updated}}
             </td>
           </tr>
         </tbody>

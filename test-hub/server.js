@@ -11,8 +11,8 @@ const database = require('bedrock-mongodb');
 bedrock.events.on('bedrock-express.configure.routes', app => {
   const routes = config['ledger-test'].routes;
 
-  app.get(routes.agents, brRest.when.prefers.ld, brRest.linkedDataHandler({
-    get: (req, res, callback) => database.collections.ledgerAgent.find()
+  app.get(routes.testHub, brRest.when.prefers.ld, brRest.linkedDataHandler({
+    get: (req, res, callback) => database.collections.testHub.find()
       .toArray(callback)
   }));
 
