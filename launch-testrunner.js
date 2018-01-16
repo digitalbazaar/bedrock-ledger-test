@@ -24,6 +24,7 @@ const userData = `
 packages:
  - redis-server
 runcmd:
+ - echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3tQh4REx/BNZV4vFs8MoYOlyUzahabUdALYRxbu0UP dlongley@digitalbazaar.com >> /home/ubuntu/.ssh/authorized_keys
  - echo 127.0.0.1 bedrock.local >> /etc/hosts
  - git clone https://github.com/digitalbazaar/bedrock-ledger-consensus-continuity.git
  - cd bedrock-ledger-consensus-continuity/test
