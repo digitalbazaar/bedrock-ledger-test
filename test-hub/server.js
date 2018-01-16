@@ -19,16 +19,18 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   app.post(routes.testHub, (req, res, next) => {
     console.log(req.connection.remoteAddress, req.body);
     const record = {
-      host: req.headers.host,
+      client: req.connection.remoteAddress,
       pass: req.body.pass,
       status: req.body.status,
+      updated: Date.now(),
     };
-    database.collections.testHub.insert(record, {}, err => {
-      if(err) {
-        return next(err);
-      }
-      res.status(200).end();
-    });
+    database.collections.testHub.update(
+      {client: record.client}, record, {upsert: true}, err => {
+        if(err) {
+          return next(err);
+        }
+        res.status(200).end();
+      });
   });
 
   app.post(routes.eventNum, (req, res, next) => {
