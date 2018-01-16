@@ -49,7 +49,7 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
   drop: ['open', (results, callback) =>
     database.collections.ledgerAgent.remove({}, callback)],
   openCollections: ['drop', (results, callback) => database.openCollections(
-    ['ledgerAgent'], callback)],
+    ['ledgerAgent', 'testHub'], callback)],
   createIndexes: ['openCollections', (results, callback) =>
     database.createIndexes([{
       collection: 'ledgerAgent',

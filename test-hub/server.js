@@ -18,7 +18,17 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 
   app.post(routes.testHub, (req, res, next) => {
     console.log(req.headers.host, req.body);
-    res.status(200).end();
+    const record = {
+      host: req.headers.host,
+      pass: req.body.pass,
+      status: req.body.status,
+    };
+    database.collections.testHub.insert(record, {}, err => {
+      if(err) {
+        return next(err);
+      }
+      res.status(200).end();
+    });
   });
 
   app.post(routes.eventNum, (req, res, next) => {
