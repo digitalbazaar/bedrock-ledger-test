@@ -18,7 +18,7 @@ function Ctrl($route) {
   };
 
   self.passTotal = () => {
-    const sum = self.collection.clients.reduce((a, b) => a.pass + b.pass, 0);
+    const sum = self.collection.clients.reduce((a, v) => a + v.pass, 0);
     return sum;
   };
 }
