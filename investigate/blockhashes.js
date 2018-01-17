@@ -32,11 +32,11 @@ const investigate = (results, callback) => {
       }, callback);
     }, (err, result) => {
       console.log('Checking block', i);
-      console.log('RRRRR', result);
-      // if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
-      //   // console.log(`----- ${c} ------`);
-      //   console.log(JSON.stringify(result, null, 2));
-      // }
+      // console.log('RRRRR', result);
+      if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
+        // console.log(`----- ${c} ------`);
+        console.log(JSON.stringify(result, null, 2));
+      }
       callback();
     }), callback);
 };
