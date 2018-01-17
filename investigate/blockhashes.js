@@ -23,12 +23,18 @@ bedrock.events.on('bedrock-mongodb.ready', () => async.auto({
 
 const investigate = (results, callback) => {
   async.eachSeries(blockCollections, (c, callback) => {
-    database.collections[c].find({}, {
+    // database.collections[c].find({}, {
+    //   _id: 0,
+    //   'block.blockHeight': 1,
+    //   'block.previousBlockHash': 1,
+    //   'meta.blockHash': 1,
+    // }).sort({'block.blockHeight': -1}).limit(2).toArray((err, result) => {
+    database.collections[c].find({'block.blockHeight': 500}, {
       _id: 0,
       'block.blockHeight': 1,
       'block.previousBlockHash': 1,
       'meta.blockHash': 1,
-    }).sort({'block.blockHeight': -1}).limit(2).toArray((err, result) => {
+    }).toArray((err, result) => {
       if(err) {
         return callback(err);
       }
