@@ -36,6 +36,7 @@ const investigate = (results, callback) => {
       if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
         // console.log(`----- ${c} ------`);
         console.log(JSON.stringify(result, null, 2));
+        return callback(new Error('stop'));
       }
       callback();
     }), callback);
