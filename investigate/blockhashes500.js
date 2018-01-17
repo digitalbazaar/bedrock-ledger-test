@@ -22,24 +22,27 @@ bedrock.events.on('bedrock-mongodb.ready', () => async.auto({
 }, err => bedrock.exit(err)));
 
 const investigate = (results, callback) => {
-  async.times(500, (i, callback) =>
-    async.eachSeries(blockCollections, (c, callback) => {
-      database.collections[c].find({'block.blockHeight': i}, {
-        _id: 0,
-        'block.blockHeight': 1,
-        'block.previousBlockHash': 1,
-        'meta.blockHash': 1,
-      }).toArray((err, result) => {
-        if(err) {
-          return callback(err);
-        }
-        if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
-          console.log(`----- ${c} ------`);
-          console.log(JSON.stringify(result, null, 2));
-        }
-        callback();
-      });
-    }, callback), callback);
+  async.eachSeries(blockCollections, (c, callback) => {
+    // database.collections[c].find({}, {
+    //   _id: 0,
+    //   'block.blockHeight': 1,
+    //   'block.previousBlockHash': 1,
+    //   'meta.blockHash': 1,
+    // }).sort({'block.blockHeight': -1}).limit(2).toArray((err, result) => {
+    database.collections[c].find({'block.blockHeight': 500}, {
+      _id: 0,
+      'block.blockHeight': 1,
+      'block.previousBlockHash': 1,
+      'meta.blockHash': 1,
+    }).toArray((err, result) => {
+      if(err) {
+        return callback(err);
+      }
+      console.log(`----- ${c} ------`);
+      console.log(JSON.stringify(result, null, 2));
+      callback();
+    });
+  }, callback);
 };
 
 bedrock.start();
