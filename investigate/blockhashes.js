@@ -22,7 +22,7 @@ bedrock.events.on('bedrock-mongodb.ready', () => async.auto({
 }, err => bedrock.exit(err)));
 
 const investigate = (results, callback) => {
-  async.times(500, (i, callback) =>
+  async.timesSeries(500, (i, callback) =>
     async.eachSeries(blockCollections, (c, callback) => {
       database.collections[c].find({'block.blockHeight': i}, {
         _id: 0,
