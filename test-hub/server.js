@@ -3,6 +3,7 @@
  */
 'use strict';
 
+const async = require('async');
 const bedrock = require('bedrock');
 const brRest = require('bedrock-rest');
 const config = bedrock.config;
@@ -23,14 +24,25 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       pass: req.body.pass,
       status: req.body.status,
       updated: Math.round(Date.now() / 1000), // seconds
+      start: Date.now(),
     };
-    database.collections.testHub.update(
-      {client: record.client}, record, {upsert: true}, err => {
-        if(err) {
-          return next(err);
+    async.auto({
+      get: callback => database.collections.testHub.findOne(
+        {client: record.client}, callback),
+      update: ['get', (results, callback) => {
+        if(results.get) {
+          record.lastStart = results.get.start;
+          record.lastEnd = Date.now();
         }
-        res.status(200).end();
-      });
+        database.collections.testHub.update(
+          {client: record.client}, record, {upsert: true}, callback);
+      }]
+    }, err => {
+      if(err) {
+        return next(err);
+      }
+      res.status(200).end();
+    });
   });
 
   app.post(routes.eventNum, (req, res, next) => {

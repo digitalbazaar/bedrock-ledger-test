@@ -21,6 +21,9 @@
               <th md-column>
                 updated
               </th>
+              <th md-column>
+                prevDuration
+              </th>
             </tr>
           </thead>
           <tr md-row ng-repeat="client in $ctrl.collection.clients">
@@ -38,6 +41,9 @@
             </td>
             <td md-cell>
               <span am-time-ago="client.updated | amFromUnix"></span>
+            </td>
+            <td md-cell>
+              <span>{{client.lastStart | amDifference : client.lastEnd : 'minutes' | amDurationFormat : 'minute'}}</span>
             </td>
           </tr>
           <tfoot md-foot>
