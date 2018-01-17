@@ -24,12 +24,12 @@ bedrock.events.on('bedrock-mongodb.ready', () => async.auto({
 const investigate = (results, callback) => {
   async.timesSeries(500, (i, callback) =>
     async.map(blockCollections, (c, callback) => {
-      database.collections[c].find({'block.blockHeight': i}, {
+      database.collections[c].findOne({'block.blockHeight': i}, {
         _id: 0,
         'block.blockHeight': 1,
         'block.previousBlockHash': 1,
         'meta.blockHash': 1,
-      }).toArray(callback);
+      }, callback);
     }, (err, result) => {
       console.log('Checking block', i);
       console.log('RRRRR', result);
