@@ -23,24 +23,21 @@ bedrock.events.on('bedrock-mongodb.ready', () => async.auto({
 
 const investigate = (results, callback) => {
   async.timesSeries(500, (i, callback) =>
-    async.eachSeries(blockCollections, (c, callback) => {
+    async.map(blockCollections, (c, callback) => {
       database.collections[c].find({'block.blockHeight': i}, {
         _id: 0,
         'block.blockHeight': 1,
         'block.previousBlockHash': 1,
         'meta.blockHash': 1,
-      }).toArray((err, result) => {
-        if(err) {
-          return callback(err);
-        }
-        console.log('Checking block', i);
-        if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
-          console.log(`----- ${c} ------`);
-          console.log(JSON.stringify(result, null, 2));
-        }
-        callback();
-      });
-    }, callback), callback);
+      }).toArray(callback);
+    }, (err, result) => {
+      console.log('Checking block', i);
+      if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
+        // console.log(`----- ${c} ------`);
+        console.log(JSON.stringify(result, null, 2));
+      }
+      callback();
+    }), callback);
 };
 
 bedrock.start();
