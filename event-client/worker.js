@@ -48,7 +48,7 @@ function sendEvent({eventService, eventNum, actor}) {
       if(res.statusCode !== 201) {
         err = new Error(
           'Error sending event: server did not respond with 201.');
-        console.error(err);
+        console.error(err, res.statusCode, res.body);
         return callback(err);
       }
     });
