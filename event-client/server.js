@@ -12,9 +12,10 @@ const helpers = require('./helpers');
 let request = require('request');
 request = request.defaults({json: true, strictSSL: false});
 
-const actor = config['ledger-test'].identities.regularUser;
+let actor;
 
 bedrock.events.on('bedrock-express.configure.routes', app => {
+  actor = config['ledger-test'].identities.regularUser;
   const routes = config['ledger-test'].routes;
 
   app.get(routes.agents, brRest.when.prefers.ld, brRest.linkedDataHandler({
