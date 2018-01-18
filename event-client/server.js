@@ -12,6 +12,8 @@ const helpers = require('./helpers');
 let request = require('request');
 request = request.defaults({json: true, strictSSL: false});
 
+const actor = config['ledger-test'].identities.regularUser;
+
 bedrock.events.on('bedrock-express.configure.routes', app => {
   const routes = config['ledger-test'].routes;
 
