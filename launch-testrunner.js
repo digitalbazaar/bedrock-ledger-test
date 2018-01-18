@@ -30,8 +30,8 @@ let params = {
   IamInstanceProfile: {
     Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
   },
-  MinCount: 100,
-  MaxCount: 100,
+  MinCount: 50,
+  MaxCount: 50,
   SecurityGroupIds: ['sg-9e6359ed'],
   SubnetId: 'subnet-5e34ab03',
   // SubnetId: 'subnet-60c3b105',
