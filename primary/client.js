@@ -92,12 +92,10 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     latestSummary: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.blocks.getLatestSummary(callback)],
     eventsOutstanding: ['ledgerNode', (results, callback) =>
-      callback(null, 0)
-      // results.ledgerNode.storage.events.getCount({consensus: false}, callback)
+      results.ledgerNode.storage.events.getCount({consensus: false}, callback)
     ],
     eventsTotal: ['ledgerNode', (results, callback) =>
-      callback(null, 0)
-      // results.ledgerNode.storage.events.getCount(callback)
+      results.ledgerNode.storage.events.getCount(callback)
     ],
     mergeEventsTotal: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.events.collection.count({
