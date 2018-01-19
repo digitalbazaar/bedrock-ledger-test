@@ -10,7 +10,7 @@ const config = bedrock.config;
 const database = require('bedrock-mongodb');
 
 bedrock.events.on('bedrock-express.configure.routes', app => {
-  const routes = config['ledger-test'].routes;
+  const routes = config['test-hub'].routes;
 
   app.get(routes.testHub, brRest.when.prefers.ld, brRest.linkedDataHandler({
     get: (req, res, callback) => database.collections.testHub.find()
@@ -44,22 +44,4 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       res.status(200).end();
     });
   });
-
-  app.post(routes.eventNum, (req, res, next) => {
-    const query = {
-      id: database.hash(req.params.agentId)
-    };
-    const update = {
-      $set: {'meta.eventsPerSec': req.body.eventsPerSec}
-    };
-    database.collections.ledgerAgent.update(query, update, err => {
-      console.log('Updated', req.params.agentId, req.body.eventsPerSec);
-      if(err) {
-        console.log('ERROR', err);
-        return next(err);
-      }
-      res.status(200).end();
-    });
-  });
-
 });
