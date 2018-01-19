@@ -12,8 +12,10 @@ runcmd:
  - echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3tQh4REx/BNZV4vFs8MoYOlyUzahabUdALYRxbu0UP dlongley@digitalbazaar.com >> /home/ubuntu/.ssh/authorized_keys
  - echo 127.0.0.1 bedrock.local >> /etc/hosts
  - git clone https://github.com/digitalbazaar/bedrock-ledger-consensus-continuity.git
- - cd bedrock-ledger-consensus-continuity/test
+ - cd bedrock-ledger-consensus-continuity
  - git checkout election-worker
+ - npm install
+ - cd test
  - npm install
  - ./loop.sh
  `;
@@ -24,14 +26,14 @@ const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 let params = {
   // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
   ImageId: 'ami-ebfd8191', // node, mongo base
-  InstanceType: 't2.medium',
-  // InstanceType: 'c5.large',
+  // InstanceType: 't2.medium',
+  InstanceType: 'c5.large',
   KeyName: 'aws-personal',
   IamInstanceProfile: {
     Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
   },
-  MinCount: 50,
-  MaxCount: 50,
+  MinCount: 10,
+  MaxCount: 10,
   SecurityGroupIds: ['sg-9e6359ed'],
   SubnetId: 'subnet-5e34ab03',
   // SubnetId: 'subnet-60c3b105',
