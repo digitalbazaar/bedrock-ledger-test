@@ -17,7 +17,7 @@
               </th>
             </tr>
           </thead>
-          <tr md-row ng-repeat="agent in $ctrl.collection.agents">
+          <tr md-row ng-repeat="agent in $ctrl.collection.agents | orderBy:'meta.label'">
             <td md-cell>
               {{$index + 1}}
             </td>
