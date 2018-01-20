@@ -13,7 +13,7 @@ runcmd:
  - echo 127.0.0.1 bedrock.local >> /etc/hosts
  - git clone https://github.com/digitalbazaar/bedrock-ledger-consensus-continuity.git
  - cd bedrock-ledger-consensus-continuity
- - git checkout election-worker
+ - git checkout gossip3
  - npm install
  - cd test
  - npm install
