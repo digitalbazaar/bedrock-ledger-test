@@ -25,7 +25,7 @@ const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 
 let params = {
   // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
-  ImageId: 'ami-ebfd8191', // node, mongo base
+  ImageId: 'ami-79ab8303', // node, mongo base
   // InstanceType: 't2.medium',
   InstanceType: 'c5.large',
   KeyName: 'aws-personal',
