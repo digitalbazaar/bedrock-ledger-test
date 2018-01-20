@@ -22,7 +22,6 @@ AWS.config.loadFromPath('./config.json');
 const userData = `
 #cloud-config
 runcmd:
- - echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3tQh4REx/BNZV4vFs8MoYOlyUzahabUdALYRxbu0UP dlongley@digitalbazaar.com >> /home/ubuntu/.ssh/authorized_keys
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test
  - git checkout cloudwatch
@@ -35,7 +34,7 @@ const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 
 let params = {
   // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
-  ImageId: 'ami-79ab8303', // ledger2.0
+  ImageId: 'ami-44b59d3e', // ledger2.0
   // InstanceType: 't2.medium',
   InstanceType: 'm5.xlarge',
   KeyName: 'aws-personal',
