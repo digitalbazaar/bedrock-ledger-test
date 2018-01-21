@@ -14,7 +14,7 @@ const roles = config.permission.roles;
 
 config['ledger-test'] = {};
 
-config['ledger-test'].primaryHost = 'ip-172-31-0-85.ec2.internal';
+config['ledger-test'].primaryHost = 'ip-172-31-0-64.ec2.internal';
 config['ledger-test'].primaryBaseUrl =
   `https://${config['ledger-test'].primaryHost}:18443/ledger-test`;
 
