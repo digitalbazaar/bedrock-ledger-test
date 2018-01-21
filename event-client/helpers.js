@@ -13,7 +13,8 @@ api.createHttpSignatureRequest = options => {
       key: options.identity.keys.privateKey.privateKeyPem,
       keyId: options.identity.keys.publicKey.id,
       headers: ['date', 'host', 'request-line']
-    }
+    },
+    pool: {maxSockets: 250}
   };
   if(options.body) {
     newRequest.body = options.body;
