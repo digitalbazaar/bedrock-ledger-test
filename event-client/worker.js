@@ -5,7 +5,9 @@
 const async = require('async');
 const constants = require('bedrock').config.constants;
 let request = require('request');
-request = request.defaults({json: true, strictSSL: false});
+request = request.defaults({
+  json: true, strictSSL: false, pool: {maxSockets: 250}
+});
 const helpers = require('./helpers');
 const uuid = require('uuid/v4');
 require('bedrock-ledger-context');
