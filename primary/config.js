@@ -75,7 +75,7 @@ config.core.worker.restart = true;
 
 // logger config
 config.loggers.app.tailable = true;
-config.loggers.app.level = 'error';
+config.loggers.app.level = 'debug';
 
 // mongodb config
 config.mongodb.name = 'ledger_test_primary';
