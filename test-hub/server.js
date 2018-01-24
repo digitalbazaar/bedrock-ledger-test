@@ -21,6 +21,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
     console.log(req.connection.remoteAddress, req.body);
     const record = {
       client: req.connection.remoteAddress,
+      commit: req.body.commit,
       pass: req.body.pass,
       status: req.body.status,
       updated: Math.round(Date.now() / 1000), // seconds

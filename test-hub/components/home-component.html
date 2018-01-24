@@ -10,6 +10,9 @@
                 number
               </th>
               <th md-column>
+                commit
+              </th>
+              <th md-column>
                 client
               </th>
               <th md-column>
@@ -26,9 +29,12 @@
               </th>
             </tr>
           </thead>
-          <tr md-row ng-repeat="client in $ctrl.collection.clients">
+          <tr md-row ng-repeat="client in $ctrl.collection.clients | orderBy:'commit'">
             <td md-cell>
               {{$index + 1}}
+            </td>
+            <td md-cell>
+              {{client.commit}}
             </td>
             <td md-cell>
               {{client.client}}
