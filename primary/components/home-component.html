@@ -61,7 +61,7 @@
             </th>
           </tr>
         </thead>
-        <tr md-row ng-repeat="peer in $ctrl.collection.peers">
+        <tr md-row ng-repeat="peer in $ctrl.collection.peers | orderBy:'peer.label'">
           <td md-cell>
             {{$index + 1}}
           </td>
