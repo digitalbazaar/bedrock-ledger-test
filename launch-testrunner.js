@@ -10,7 +10,7 @@ runcmd:
  - echo 127.0.0.1 bedrock.local >> /etc/hosts
  - git clone https://github.com/digitalbazaar/bedrock-ledger-consensus-continuity.git
  - cd bedrock-ledger-consensus-continuity
- - git checkout prior-to-diff
+ - git checkout byzantine-handling
  - npm install
  - cd test
  - npm install
@@ -23,14 +23,14 @@ const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 let params = {
   // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
   ImageId: 'ami-44b59d3e', // node, mongo base
-  // InstanceType: 't2.medium',
-  InstanceType: 'c5.large',
+  InstanceType: 't2.medium',
+  // InstanceType: 'c5.large',
   KeyName: 'aws-personal',
   IamInstanceProfile: {
     Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
   },
-  MinCount: 12,
-  MaxCount: 12,
+  MinCount: 50,
+  MaxCount: 50,
   SecurityGroupIds: ['sg-9e6359ed'],
   SubnetId: 'subnet-5e34ab03',
   // SubnetId: 'subnet-60c3b105',
