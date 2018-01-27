@@ -61,22 +61,23 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     eventsPerSecond: callback => {
       const thisSecond = Math.round(Date.now() / 1000);
       // get values for the last 5 seconds
+      const lni = ledgerNodeId.substr(-36);
       cache.client.mget([
-        `events-${thisSecond - 1}`,
-        `events-${thisSecond - 2}`,
-        `events-${thisSecond - 3}`,
-        `events-${thisSecond - 4}`,
-        `events-${thisSecond - 5}`,
-        `events-${thisSecond - 6}`,
-        `events-${thisSecond - 7}`,
-        `events-${thisSecond - 8}`,
-        `events-${thisSecond - 9}`,
-        `events-${thisSecond - 10}`,
-        `events-${thisSecond - 11}`,
-        `events-${thisSecond - 12}`,
-        `events-${thisSecond - 13}`,
-        `events-${thisSecond - 14}`,
-        `events-${thisSecond - 15}`,
+        `ec|${lni}|${thisSecond - 1}`,
+        `ec|${lni}|${thisSecond - 2}`,
+        `ec|${lni}|${thisSecond - 3}`,
+        `ec|${lni}|${thisSecond - 4}`,
+        `ec|${lni}|${thisSecond - 5}`,
+        `ec|${lni}|${thisSecond - 6}`,
+        `ec|${lni}|${thisSecond - 7}`,
+        `ec|${lni}|${thisSecond - 8}`,
+        `ec|${lni}|${thisSecond - 9}`,
+        `ec|${lni}|${thisSecond - 10}`,
+        `ec|${lni}|${thisSecond - 11}`,
+        `ec|${lni}|${thisSecond - 12}`,
+        `ec|${lni}|${thisSecond - 13}`,
+        `ec|${lni}|${thisSecond - 14}`,
+        `ec|${lni}|${thisSecond - 15}`,
       ], (err, result) => {
         if(err) {
           return callback(err);
