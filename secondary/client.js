@@ -49,7 +49,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       const thisSecond = Math.round(Date.now() / 1000);
       // get values for the last 5 seconds
       const lni = ledgerNodeId.substr(-36);
-      const maxSeconds = 30;
+      const maxSeconds = 60;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
         op.push(`ec|${lni}|${thisSecond - i}`);
