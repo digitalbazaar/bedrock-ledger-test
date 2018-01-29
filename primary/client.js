@@ -62,23 +62,12 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       const thisSecond = Math.round(Date.now() / 1000);
       // get values for the last 5 seconds
       const lni = ledgerNodeId.substr(-36);
-      cache.client.mget([
-        `ec|${lni}|${thisSecond - 1}`,
-        `ec|${lni}|${thisSecond - 2}`,
-        `ec|${lni}|${thisSecond - 3}`,
-        `ec|${lni}|${thisSecond - 4}`,
-        `ec|${lni}|${thisSecond - 5}`,
-        `ec|${lni}|${thisSecond - 6}`,
-        `ec|${lni}|${thisSecond - 7}`,
-        `ec|${lni}|${thisSecond - 8}`,
-        `ec|${lni}|${thisSecond - 9}`,
-        `ec|${lni}|${thisSecond - 10}`,
-        `ec|${lni}|${thisSecond - 11}`,
-        `ec|${lni}|${thisSecond - 12}`,
-        `ec|${lni}|${thisSecond - 13}`,
-        `ec|${lni}|${thisSecond - 14}`,
-        `ec|${lni}|${thisSecond - 15}`,
-      ], (err, result) => {
+      const maxSeconds = 30;
+      const op = [];
+      for(let i = 1; i <= maxSeconds; ++i) {
+        op.push(`ec|${lni}|${thisSecond - i}`);
+      }
+      cache.client.mget(op, (err, result) => {
         if(err) {
           return callback(err);
         }
