@@ -34,3 +34,4 @@ if [ $? -ne 0 ]
 fi
 echo CLIENT
 echo "https://${eventclientpublic}:18443"
+echo
