@@ -25,7 +25,7 @@ api.getGenesis = callback => request({
     if(res) {
       logger.debug('Error', {
         statusCode: res.statusCode,
-        error: res.body
+        body: res.body
       });
     }
     if(err) {
