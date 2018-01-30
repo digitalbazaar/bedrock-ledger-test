@@ -22,6 +22,15 @@ api.getGenesis = callback => request({
 }, (err, res) => {
   if(err || res.statusCode !== 200) {
     logger.debug('Error retrieving genesis block.');
+    if(res) {
+      logger.debug('Error', {
+        statusCode: res.statusCode,
+        error: res.body
+      });
+    }
+    if(err) {
+      logger.debug(err.toString());
+    }
     return callback(new Error('Could not retrieve genesis block.'));
   }
   callback(null, res.body);
