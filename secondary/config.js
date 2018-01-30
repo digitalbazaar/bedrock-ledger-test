@@ -5,6 +5,7 @@
 
 const bedrock = require('bedrock');
 const c = bedrock.util.config.main;
+const cc = c.computer();
 const config = bedrock.config;
 const helpers = require('./helpers');
 const os = require('os');
@@ -14,8 +15,9 @@ const roles = config.permission.roles;
 
 config['ledger-test'] = {};
 
-config['ledger-test'].primaryBaseUrl =
-  `https://${config['ledger-test'].primaryHost}:18443/ledger-test`;
+config['ledger-test'].primaryHost = 'bedrock.local';
+cc('ledger-test.primaryBaseUrl', () =>
+  `https://${config['ledger-test'].primaryHost}:18443/ledger-test`);
 
 config['ledger-test'].routes = {
   logFile: '/log/:logFile',
