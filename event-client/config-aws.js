@@ -6,12 +6,13 @@
 const bedrock = require('bedrock');
 const config = bedrock.config;
 const fs = require('fs');
+const path = require('path');
 const yaml = require('js-yaml');
 
 let instanceConfig;
 try {
   instanceConfig = yaml.safeLoad(fs.readFileSync(
-    './instance-config.yml', 'utf8'));
+    path.join(__dirname, 'instance-config.yml'), 'utf8'));
 } catch(err) {
   console.log('CONFIGURATION ERROR', err);
   throw err;

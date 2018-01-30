@@ -26,7 +26,7 @@ if [ $? -ne 0 ]
 fi
 echo "secondaries launched successfully"
 
-eventclientpublic="$(./launch-event-client.js)"
+eventclientpublic="$(./launch-event-client.js --primary ${primaryprivate})"
 if [ $? -ne 0 ]
   then
     echo "error provisioning event client"
