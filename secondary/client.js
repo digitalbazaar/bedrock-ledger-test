@@ -21,9 +21,7 @@ api.getGenesis = callback => request({
   strictSSL: false
 }, (err, res) => {
   if(err || res.statusCode !== 200) {
-    logger.debug('Error retrieving genesis block.', {
-      error: err.toString()
-    });
+    logger.debug('Error retrieving genesis block.');
     return callback(new Error('Could not retrieve genesis block.'));
   }
   callback(null, res.body);
