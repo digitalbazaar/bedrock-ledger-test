@@ -12,7 +12,7 @@ const yaml = require('js-yaml');
 let instanceConfig;
 try {
   instanceConfig = yaml.safeLoad(fs.readFileSync(
-    path.join(__dirname, 'instance-config.yml'), 'utf8'));
+    path.join(process.cwd(), 'instance-config.yml'), 'utf8'));
 } catch(err) {
   console.log('CONFIGURATION ERROR', err);
   throw err;
