@@ -93,6 +93,7 @@ function _scanAgents(callback) {
     if(err) {
       console.log('ERROR', err);
     }
-    callback(err);
+    // only log errors
+    callback();
   });
 }
