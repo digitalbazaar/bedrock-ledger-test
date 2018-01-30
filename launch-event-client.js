@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
 // Load credentials and set region from JSON file
@@ -37,16 +39,30 @@ let params = {
 ec2.runInstances(params, function(err, data) {
   if(err) {
     console.log("Could not create instance", err);
+    process.exitCode = 1;
     return;
   }
-  const instanceId = data.Instances[0].InstanceId;
-  console.log("Created instance", instanceId);
+  const {InstanceId} = data.Instances[0];
   // Add tags to the instance
-  params = {Resources: [instanceId], Tags: [{
+  params = {Resources: [InstanceId], Tags: [{
     Key: 'Name',
     Value: 'EventClient'
   }]};
-  ec2.createTags(params, function(err) {
-    console.log("Tagging instance", err ? "failure" : "success");
+  ec2.createTags(params, function() {
+    // console.log("Tagging instance", err ? "failure" : "success");
   });
+  ec2.waitFor(
+    'instanceRunning', {Filters: [
+      {Name: 'instance-id', Values: [InstanceId]}
+    ]},
+    (err, data) => {
+      if(err) {
+        console.log('Error', err);
+        process.exitCode = 1;
+        return;
+      }
+      // add leading space
+      const {PublicDnsName} = data.Reservations[0].Instances[0];
+      process.stdout.write(`${PublicDnsName}\n`);
+    });
 });

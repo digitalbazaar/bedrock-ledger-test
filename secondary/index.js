@@ -69,16 +69,11 @@ bedrock.events.on('bedrock.started', callback =>
     if(bedrock.program.aws) {
       logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
-        genesis: callback => client.getGenesis(callback),
+        genesis: callback => async.retry(
+          {times: 300, interval: 1000}, callback =>
+            client.getGenesis(callback), callback),
         create: ['genesis', (results, callback) => {
-          if(results.genesis.statusCode !== 200) {
-            logger.debug('Error retrieving genesis block.', {
-              statusCode: results.genesis.statusCode,
-              error: results.genesis.body
-            });
-            return callback(new Error('Error retrieving genesis block.'));
-          }
-          ledger.create(results.genesis.body, callback);
+          ledger.create(results.genesis, callback);
         }],
         sendStatus: ['create', (results, callback) => {
           const label = `Secondary-${randomWords()}`;

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Load the AWS SDK for Node.js
 const async = require('async');
 const AWS = require('aws-sdk');

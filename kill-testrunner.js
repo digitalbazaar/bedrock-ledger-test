@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
 // Load credentials and set region from JSON file

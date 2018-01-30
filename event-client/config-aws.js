@@ -3,8 +3,24 @@
  */
 'use strict';
 
-const config = require('bedrock').config;
+const bedrock = require('bedrock');
+const config = bedrock.config;
+const fs = require('fs');
+const yaml = require('js-yaml');
+
+let instanceConfig;
+try {
+  instanceConfig = yaml.safeLoad(fs.readFileSync(
+    './instance-config.yml', 'utf8'));
+} catch(err) {
+  console.log('CONFIGURATION ERROR', err);
+  throw err;
+}
 
 config.server.port = 18443;
 config.server.httpPort = 18080;
-config['ledger-test'].primaryHost = 'ip-172-31-0-10.ec2.internal';
+
+// core configuration
+config.core.workers = 0;
+
+config['ledger-test'].primaryHost = instanceConfig['primary-hostname'];

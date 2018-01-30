@@ -19,7 +19,16 @@ api.getGenesis = callback => request({
   url: `${config['ledger-test'].primaryBaseUrl}/genesis`,
   json: true,
   strictSSL: false
-}, (err, res) => callback(err, res));
+}, (err, res) => {
+  if(err || res.statusCode !== 200) {
+    logger.debug('Error retrieving genesis block.');
+    if(err) {
+      logger.error(err);
+    }
+    return callback(new Error('Error retrieving genesis block.'));
+  }
+  callback(null, res.body);
+});
 
 api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
   logger.debug('Sending status.', {url: config['ledger-test'].primaryBaseUrl});
