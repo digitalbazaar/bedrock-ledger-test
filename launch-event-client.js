@@ -63,7 +63,7 @@ if(execute) {
     // Add tags to the instance
     params = {Resources: [InstanceId], Tags: [{
       Key: 'Name',
-      Value: 'EventClient'
+      Value: 'event-client'
     }]};
     ec2.createTags(params, function() {
       // console.log("Tagging instance", err ? "failure" : "success");
