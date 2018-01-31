@@ -52,29 +52,47 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         if(err) {
           return callback(err);
         }
-        const valid = result.map(i => parseInt(i, 10))
-          .filter(i => !Number.isNaN(i));
+        const valid = result.filter(i => i !== null).map(i => parseInt(i, 10));
         const sum = valid.reduce((a, b) => a + b, 0);
-        callback(null, Math.round(sum / result.length));
+        callback(null, Math.round(sum / valid.length));
       });
     },
     eventsPerSecond: callback => {
+      // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
-      // get values for the last 5 seconds
       const lni = ledgerNodeId.substr(-36);
       const maxSeconds = 60;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
-        op.push(`ec|${lni}|${thisSecond - i}`);
+        op.push(`lec|${lni}|${thisSecond - i}`);
       }
       cache.client.mget(op, (err, result) => {
         if(err) {
           return callback(err);
         }
-        const valid = result.map(i => parseInt(i, 10))
-          .filter(i => !Number.isNaN(i));
+        const valid = result.filter(i => i !== null).map(i => parseInt(i, 10));
         const sum = valid.reduce((a, b) => a + b, 0);
-        callback(null, Math.round(sum / result.length));
+        // average by the number of valid samples
+        callback(null, Math.round(sum / valid.length));
+      });
+    },
+    peerEventsPerSecond: callback => {
+      // local events per second
+      const thisSecond = Math.round(Date.now() / 1000);
+      const lni = ledgerNodeId.substr(-36);
+      const maxSeconds = 60;
+      const op = [];
+      for(let i = 1; i <= maxSeconds; ++i) {
+        op.push(`pec|${lni}|${thisSecond - i}`);
+      }
+      cache.client.mget(op, (err, result) => {
+        if(err) {
+          return callback(err);
+        }
+        const valid = result.filter(i => i !== null).map(i => parseInt(i, 10));
+        const sum = valid.reduce((a, b) => a + b, 0);
+        // average by the number of valid samples
+        callback(null, Math.round(sum / valid.length));
       });
     },
     ledgerNode: callback =>
@@ -82,11 +100,9 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     latestSummary: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.blocks.getLatestSummary(callback)],
     eventsOutstanding: ['ledgerNode', (results, callback) =>
-      results.ledgerNode.storage.events.getCount({consensus: false}, callback)
-    ],
+      results.ledgerNode.storage.events.getCount({consensus: false}, callback)],
     eventsTotal: ['ledgerNode', (results, callback) =>
-      results.ledgerNode.storage.events.getCount(callback)
-    ],
+      results.ledgerNode.storage.events.getCount(callback)],
     mergeEventsTotal: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.events.collection.count({
         'event.type': 'ContinuityMergeEvent'
@@ -99,8 +115,9 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     sendStatus: [
       'dups', 'eventsTotal', 'eventsOutstanding', 'eventsPerSecond',
       'latestSummary', 'mergeEventsOutstanding', 'mergeEventsTotal',
+      "peerEventsPerSecond",
       ({dups, eventsOutstanding, eventsPerSecond, eventsTotal, latestSummary,
-        mergeEventsOutstanding, mergeEventsTotal},
+        mergeEventsOutstanding, mergeEventsTotal, peerEventsPerSecond},
       callback) => request({
         body: {
           baseUri,
@@ -116,11 +133,12 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
             latestSummary,
             events: {
               dups,
+              eventsPerSecond,
               mergeEventsOutstanding,
               mergeEventsTotal,
               outstanding: eventsOutstanding,
-              eventsPerSecond,
-              total: eventsTotal
+              peerEventsPerSecond,
+              total: eventsTotal,
             }
           }
         },

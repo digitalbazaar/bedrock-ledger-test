@@ -48,7 +48,13 @@
               merge %
             </th>
             <th md-column>
-              events/sec
+              e/sec
+            </th>
+            <th md-column>
+              peer e/sec
+            </th>
+            <th md-column>
+              total e/sec
             </th>
             <th md-column>
               dups/min
@@ -106,6 +112,12 @@
           </td>
           <td md-cell>
             {{peer.status.events.eventsPerSecond}}
+          </td>
+          <td md-cell>
+            {{peer.status.events.peerEventsPerSecond}}
+          </td>
+          <td md-cell>
+            {{peer.status.events.peerEventsPerSecond + peer.status.events.eventsPerSecond}}
           </td>
           <!-- <td md-cell>
             {{$ctrl.eventWindow[peer.label]}}
