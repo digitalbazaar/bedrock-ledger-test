@@ -111,13 +111,13 @@
             {{(peer.status.events.mergeEventsTotal / peer.status.events.total * 100) | number: 0}}
           </td>
           <td md-cell>
-            {{peer.status.events.eventsPerSecond}}
+            {{peer.status.events.eventsPerSecondLocal}}
           </td>
           <td md-cell>
-            {{peer.status.events.peerEventsPerSecond}}
+            {{peer.status.events.eventsPerSecondPeer}}
           </td>
           <td md-cell>
-            {{peer.status.events.peerEventsPerSecond + peer.status.events.eventsPerSecond}}
+            {{peer.status.events.eventsPerSecondLocal + peer.status.events.eventsPerSecondPeer}}
           </td>
           <!-- <td md-cell>
             {{$ctrl.eventWindow[peer.label]}}
@@ -133,7 +133,7 @@
           </td>
         </tr>
         <tfoot md-foot>
-          <td md-cell colspan="13">
+          <td md-cell colspan="15">
           </td>
           <td md-cell>
             {{$ctrl.averageEventsPerSecond()}}

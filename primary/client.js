@@ -67,7 +67,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       const maxSeconds = 60;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
-        op.push(`lec|${lni}|${thisSecond - i}`);
+        op.push(`ecl|${lni}|${thisSecond - i}`);
       }
       cache.client.mget(op, (err, result) => {
         if(err) {
@@ -89,7 +89,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       const maxSeconds = 60;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
-        op.push(`pec|${lni}|${thisSecond - i}`);
+        op.push(`ecp|${lni}|${thisSecond - i}`);
       }
       cache.client.mget(op, (err, result) => {
         if(err) {
@@ -122,11 +122,11 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         'meta.consensus': {$exists: false}
       }, callback)],
     sendStatus: [
-      'dups', 'eventsTotal', 'eventsOutstanding', 'eventsPerSecond',
-      'latestSummary', 'mergeEventsOutstanding', 'mergeEventsTotal',
-      "peerEventsPerSecond",
-      ({dups, eventsOutstanding, eventsPerSecond, eventsTotal, latestSummary,
-        mergeEventsOutstanding, mergeEventsTotal, peerEventsPerSecond},
+      'dups', 'eventsTotal', 'eventsOutstanding', 'eventsPerSecondLocal',
+      'eventsPerSecondPeer', 'latestSummary', 'mergeEventsOutstanding',
+      'mergeEventsTotal',
+      ({dups, eventsOutstanding, eventsPerSecondLocal, eventsPerSecondPeer,
+        eventsTotal, latestSummary, mergeEventsOutstanding, mergeEventsTotal},
       callback) => request({
         body: {
           baseUri,
@@ -142,11 +142,11 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
             latestSummary,
             events: {
               dups,
-              eventsPerSecond,
+              eventsPerSecondLocal,
+              eventsPerSecondPeer,
               mergeEventsOutstanding,
               mergeEventsTotal,
               outstanding: eventsOutstanding,
-              peerEventsPerSecond,
               total: eventsTotal,
             }
           }
