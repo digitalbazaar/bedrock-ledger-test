@@ -62,7 +62,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         callback(null, Math.round(sum / valid.length));
       });
     },
-    eventsPerSecond: callback => {
+    eventsPerSecondLocal: callback => {
       // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
       const lni = ledgerNodeId.substr(-36);
@@ -84,7 +84,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         callback(null, Math.round(sum / valid.length));
       });
     },
-    peerEventsPerSecond: callback => {
+    eventsPerSecondPeer: callback => {
       // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
       const lni = ledgerNodeId.substr(-36);
