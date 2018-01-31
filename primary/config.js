@@ -25,23 +25,23 @@ config['ledger-test'].routes = {
   peers: '/ledger-test/peers'
 };
 
-c.pushComputed('scheduler.jobs', () => ({
-  id: `bedrock-ledger-test.stats.logStats`,
-  type: `bedrock-ledger-test.stats.logStats`,
-  // repeat forever, run every second
-  schedule: 'R/PT1M',
-  // no special priority
-  priority: 0,
-  concurrency: 1,
-  // use a 10000ms grace period between TTL for workers to finish up
-  // before forcibly running another worker
-  // lockDuration: config.ledger.jobs.scheduleConsensusWork.ttl + 10000
-}));
+// c.pushComputed('scheduler.jobs', () => ({
+//   id: `bedrock-ledger-test.stats.logStats`,
+//   type: `bedrock-ledger-test.stats.logStats`,
+//   // repeat forever, run every second
+//   schedule: 'R/PT1M',
+//   // no special priority
+//   priority: 0,
+//   concurrency: 1,
+//   // use a 10000ms grace period between TTL for workers to finish up
+//   // before forcibly running another worker
+//   // lockDuration: config.ledger.jobs.scheduleConsensusWork.ttl + 10000
+// }));
 c.pushComputed('scheduler.jobs', () => ({
   id: `bedrock-ledger-test.sendStatus`,
   type: `bedrock-ledger-test.sendStatus`,
   // repeat forever, run every second
-  schedule: 'R/PT20S',
+  schedule: 'R/PT5M',
   // no special priority
   priority: 0,
   concurrency: 1,
