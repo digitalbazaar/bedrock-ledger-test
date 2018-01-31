@@ -39,8 +39,8 @@ if(execute) {
   let params = {
     // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
     ImageId: 'ami-44b59d3e', // ledger2.0
-    // InstanceType: 't2.micro',
-    InstanceType: 'm5.xlarge',
+    InstanceType: 't2.small',
+    // InstanceType: 'm5.xlarge',
     KeyName: 'aws-personal',
     IamInstanceProfile: {
       Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
