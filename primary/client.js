@@ -73,10 +73,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         if(err) {
           return callback(err);
         }
-        const valid = result.filter(i => i !== null).map(i => parseInt(i, 10));
-        if(valid.length === 0) {
-          return callback(null, 0);
-        }
+        const valid = result.map(i => parseInt(i, 10) || 0);
         const sum = valid.reduce((a, b) => a + b, 0);
         // average by the number of valid samples
         callback(null, Math.round(sum / valid.length));
@@ -95,10 +92,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         if(err) {
           return callback(err);
         }
-        const valid = result.filter(i => i !== null).map(i => parseInt(i, 10));
-        if(valid.length === 0) {
-          return callback(null, 0);
-        }
+        const valid = result.map(i => parseInt(i, 10) || 0);
         const sum = valid.reduce((a, b) => a + b, 0);
         // average by the number of valid samples
         callback(null, Math.round(sum / valid.length));
