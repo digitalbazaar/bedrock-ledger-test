@@ -66,7 +66,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
       const lni = ledgerNodeId.substr(-36);
-      const maxSeconds = 60;
+      const maxSeconds = 300;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
         op.push(`ecl|${lni}|${thisSecond - i}`);
@@ -88,7 +88,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
       const lni = ledgerNodeId.substr(-36);
-      const maxSeconds = 60;
+      const maxSeconds = 300;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
         op.push(`ecp|${lni}|${thisSecond - i}`);
