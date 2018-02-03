@@ -6,7 +6,6 @@ const AWS = require('aws-sdk');
 AWS.config.loadFromPath('./config.json');
 
 const program = require('commander');
-const uuid = require('uuid/v4');
 
 let execute = true;
 
@@ -29,7 +28,7 @@ if(execute) {
    - cd bedrock-ledger-test
    - git checkout cloudwatch
    - [ sh, -xc, "echo mongo-hostname: ${program.mongo} >> ./instance-config.yml" ]
-   - [ sh, -xc, "echo mongo-dbname: ${uuid()} >> ./instance-config.yml" ]
+   - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
    - npm install
    - ./build-primary-aws.sh >/dev/null 2>&1
    `;

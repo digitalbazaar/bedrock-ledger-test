@@ -2,7 +2,6 @@
 
 const async = require('async');
 const program = require('commander');
-const uuid = require('uuid/v4');
 
 let execute = true;
 
@@ -35,7 +34,7 @@ if(execute) {
    - git checkout cloudwatch
    - [ sh, -xc, "echo primary-hostname: ${program.primary} >> ./instance-config.yml" ]
    - [ sh, -xc, "echo mongo-hostname: ${program.mongo} >> ./instance-config.yml" ]
-   - [ sh, -xc, "echo mongo-dbname: ${uuid()} >> ./instance-config.yml" ]
+   - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
    - npm install
    - npm run secondary-aws >/dev/null 2>&1
    `;
