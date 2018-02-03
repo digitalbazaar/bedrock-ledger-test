@@ -2,18 +2,20 @@
 
 const async = require('async');
 const program = require('commander');
+const uuid = require('uuid/v4');
 
 let execute = true;
 
 program
   .option('-c, --count <n>', 'instance count')
+  .option('-m, --mongo [value]', 'mongo server hostname')
   .option('-p, --primary [value]', 'primary node hostname')
   .parse(process.argv);
 
-if(execute && !program.primary) {
+if(!(program.primary && program.mongo)) {
   execute = false;
   console.log(
-    'Hostname for the primary must be specified with --primary option.');
+    'Hostname for the primary and mongo must be specified.');
   process.exitCode = 1;
 }
 
@@ -31,7 +33,9 @@ if(execute) {
    - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
    - cd bedrock-ledger-test
    - git checkout cloudwatch
-   - [ sh, -xc, "echo primary-hostname: ${program.primary} > ./instance-config.yml" ]
+   - [ sh, -xc, "echo primary-hostname: ${program.primary} >> ./instance-config.yml" ]
+   - [ sh, -xc, "echo mongo-hostname: ${program.mongo} >> ./instance-config.yml" ]
+   - [ sh, -xc, "echo mongo-dbname: ${uuid()} >> ./instance-config.yml" ]
    - npm install
    - npm run secondary-aws >/dev/null 2>&1
    `;

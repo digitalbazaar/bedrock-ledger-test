@@ -25,3 +25,6 @@ config.server.httpPort = 18080;
 config.core.workers = 0;
 
 config['ledger-test'].primaryHost = instanceConfig['primary-hostname'];
+
+config.mongodb.host = instanceConfig['mongo-hostname'];
+config.mongodb.name = instanceConfig['mongo-dbname'];

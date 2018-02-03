@@ -5,9 +5,14 @@ if [ -z "$1" ]
     echo "secondary instance count must be the first argument"
     exit 1
 fi
+if [ -z "$2" ]
+  then
+    echo "mongo hostname must be the second argument"
+    exit 1
+fi
 
 # make array from output of launch-primary.js
-launchoutput=($(./launch-primary.js))
+launchoutput=($(./launch-primary.js --mongo ${2}))
 primaryprivate="${launchoutput[0]}"
 primarypublic="${launchoutput[1]}"
 
