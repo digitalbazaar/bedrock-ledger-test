@@ -39,7 +39,7 @@ if(execute) {
   let params = {
     // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
     ImageId: 'ami-44b59d3e', // ledger2.0
-    InstanceType: 't2.small',
+    InstanceType: 't2.medium',
     // InstanceType: 'm5.xlarge',
     KeyName: 'aws-personal',
     IamInstanceProfile: {
