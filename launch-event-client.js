@@ -10,7 +10,7 @@ AWS.config.loadFromPath('./config.json');
 let execute = true;
 
 program
-  .option('--primary [value]', 'primary node hostname')
+  .option('-p, --primary [value]', 'primary node hostname')
   .parse(process.argv);
 
 if(execute && !program.primary) {
