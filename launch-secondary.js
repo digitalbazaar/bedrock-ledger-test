@@ -6,8 +6,8 @@ const program = require('commander');
 let execute = true;
 
 program
-  .option('--count <n>', 'instance count')
-  .option('--primary [value]', 'primary node hostname')
+  .option('-c, --count <n>', 'instance count')
+  .option('-p, --primary [value]', 'primary node hostname')
   .parse(process.argv);
 
 if(execute && !program.primary) {
