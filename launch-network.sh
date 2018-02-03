@@ -23,7 +23,7 @@ if [ $? -ne 0 ]
 fi
 echo PRIMARY
 echo "https://${primarypublic}:18443"
-./launch-secondary.js --primary "${primaryprivate}" --count $1
+./launch-secondary.js --primary "${primaryprivate}" --count $1 --mongo "${2}"
 if [ $? -ne 0 ]
   then
     echo "error provisioning secondaries"
@@ -31,7 +31,7 @@ if [ $? -ne 0 ]
 fi
 echo "secondaries launched successfully"
 
-eventclientpublic="$(./launch-event-client.js --primary ${primaryprivate} --mongo ${2})"
+eventclientpublic="$(./launch-event-client.js --primary ${primaryprivate})"
 if [ $? -ne 0 ]
   then
     echo "error provisioning event client"
