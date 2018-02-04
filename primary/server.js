@@ -105,13 +105,13 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
         .updateOne(
           query, record, _.assign({}, database.writeOptions, {upsert: true}),
           callback),
-      cloudWatch: ['store', (results, callback) => {
-        if(results.store.matchedCount === 1) {
-          // we only want to create log group once
-          return callback();
-        }
-        _setupCloudWatch(logGroupName, callback);
-      }]
+      // cloudWatch: ['store', (results, callback) => {
+      //   if(results.store.matchedCount === 1) {
+      //     // we only want to create log group once
+      //     return callback();
+      //   }
+      //   _setupCloudWatch(logGroupName, callback);
+      // }]
     }, err => {
       // pass success if duplicate
       if(err && !database.isDuplicateError(err)) {
