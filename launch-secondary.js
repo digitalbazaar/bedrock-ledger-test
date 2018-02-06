@@ -48,8 +48,8 @@ if(execute) {
     ImageId: 'ami-44b59d3e', // ledger2.0
     // InstanceType: 't2.medium',
     // InstanceType: 'c5.large',
-    InstanceType: 'r4.large',
-    // InstanceType: 'm5.xlarge',
+    // InstanceType: 'r4.large',
+    InstanceType: 'm5.xlarge',
     KeyName: 'aws-personal',
     IamInstanceProfile: {
       Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
