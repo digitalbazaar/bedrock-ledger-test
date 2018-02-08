@@ -30,8 +30,10 @@ if(execute) {
    - [ sh, -xc, "echo mongo-hostname: ${program.mongo} >> ./instance-config.yml" ]
    - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
    - npm install
-   - ./build-primary-aws.sh >/dev/null 2>&1
+   - node ./primary/index.js compile-less
+   - npm run primary-aws >/dev/null 2>&1
    `;
+  // - ./build-primary-aws.sh >/dev/null 2>&1
 
   // Create EC2 service object
   const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});

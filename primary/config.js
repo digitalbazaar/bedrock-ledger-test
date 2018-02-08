@@ -22,7 +22,8 @@ config['ledger-test'].routes = {
   genesis: '/ledger-test/genesis',
   blocks: '/ledger-test/nodes/:ledgerNodeId/blocks',
   newNode: '/ledger-test/nodes',
-  peers: '/ledger-test/peers'
+  peers: '/ledger-test/peers',
+  peerHistory: '/ledger-test/peers/:peerId',
 };
 
 // c.pushComputed('scheduler.jobs', () => ({
@@ -92,6 +93,7 @@ config.views.system.packages.push({
   path: path.join(rootPath, 'primary', 'components'),
   manifest: path.join(rootPath, 'package.json')
 });
+config.views.vars.minify = false;
 
 const cloudwatch = config.loggers.cloudwatch;
 cloudwatch.logGroupName = `primary-local`;

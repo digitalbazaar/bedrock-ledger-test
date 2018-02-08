@@ -38,6 +38,23 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
   logger.debug('Sending status.', {url: config['ledger-test'].primaryBaseUrl});
   const baseUri = config.server.baseUri;
   return async.auto({
+    duration: callback => cache.client.mget(
+      `aggregate|${ledgerNodeId}`,
+      `findConsensus|${ledgerNodeId}`,
+      `recentHistory|${ledgerNodeId}`,
+      `recentHistoryMergeOnly|${ledgerNodeId}`,
+      (err, result) => {
+        if(err) {
+          return callback(err);
+        }
+        callback(null, {
+          aggregate: parseInt(result[0], 10) || 0,
+          findConsensus: parseInt(result[1], 10) || 0,
+          recentHistory: parseInt(result[2], 10) || 0,
+          recentHistoryMergeOnly: parseInt(result[3], 10) || 0,
+        });
+      }
+    ),
     dups: callback => {
       const thisMinute = Math.round(Date.now() / 60000);
       // get values for the last 3 prior minutes to avoid incomplete data for
@@ -116,12 +133,13 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         'meta.consensus': {$exists: false}
       }, callback)],
     sendStatus: [
-      'dups', 'eventsTotal', 'eventsOutstanding', 'eventsPerSecondLocal',
-      'eventsPerSecondPeer', 'latestSummary', 'mergeEventsOutstanding',
-      'mergeEventsTotal',
-      ({dups, eventsOutstanding, eventsPerSecondLocal, eventsPerSecondPeer,
-        eventsTotal, latestSummary, mergeEventsOutstanding, mergeEventsTotal},
-      callback) => request({
+      'dups', 'duration', 'eventsTotal', 'eventsOutstanding',
+      'eventsPerSecondLocal', 'eventsPerSecondPeer', 'latestSummary',
+      'mergeEventsOutstanding', 'mergeEventsTotal',
+      ({dups, duration, eventsOutstanding, eventsPerSecondLocal,
+        eventsPerSecondPeer, eventsTotal, latestSummary, mergeEventsOutstanding,
+        mergeEventsTotal
+      }, callback) => request({
         body: {
           baseUri,
           // use object key safe label
@@ -134,6 +152,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
           publicHostname,
           status: {
             latestSummary,
+            duration,
             events: {
               dups,
               eventsPerSecondLocal,

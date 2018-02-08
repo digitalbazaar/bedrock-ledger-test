@@ -31,7 +31,7 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
     ['peer-public-addresses'], callback),
   index: ['open', (results, callback) => database.createIndexes([{
     collection: 'peer-public-addresses',
-    fields: {id: 1},
+    fields: {id: 1, 'peer.timeStamp': 1},
     options: {unique: true, background: false}
   }], callback)]
 }, callback));
@@ -61,11 +61,34 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   app.get(routes.peers, brRest.when.prefers.ld, brRest.linkedDataHandler({
     get: (req, res, callback) => async.auto({
       peers: callback => database.collections['peer-public-addresses']
-        .find().toArray((err, result) => {
+        .aggregate([
+          {$sort: {'peer.timeStamp': 1}},
+          {$group: {_id: "$id", last: {$last: "$peer"}}}
+        ], callback)
+        // .find().toArray((err, result) => {
+        //   if(err) {
+        //     return callback(err);
+        //   }
+        //   return callback(null, result.map(p => p.peer));
+        // })
+    }, (err, results) => {
+      if(err) {
+        return callback(err);
+      }
+      callback(null, results.peers);
+    })
+  }));
+
+  // peer history
+  app.get(routes.peerHistory, brRest.when.prefers.ld, brRest.linkedDataHandler({
+    get: (req, res, callback) => async.auto({
+      peers: callback => database.collections['peer-public-addresses']
+        .find({id: req.params.peerId}).sort({'peer.timeStamp': -1}).limit(60)
+        .toArray((err, result) => {
           if(err) {
             return callback(err);
           }
-          return callback(null, result.map(p => p.peer));
+          return callback(null, result.map(p => p.peer).reverse());
         })
     }, (err, results) => {
       if(err) {
@@ -83,9 +106,6 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 
     // using the ledgerNodeId as key
     const peerId = database.hash(ledgerNodeId);
-    const query = {
-      id: peerId
-    };
     const record = {
       id: peerId,
       peer: {
@@ -97,14 +117,13 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
         logUrl,
         privateHostname,
         publicHostname,
-        status
+        status,
+        timeStamp: Date.now(),
       }
     };
     async.auto({
       store: callback => database.collections['peer-public-addresses']
-        .updateOne(
-          query, record, _.assign({}, database.writeOptions, {upsert: true}),
-          callback),
+        .insert(record, database.writeOptions, callback),
       // cloudWatch: ['store', (results, callback) => {
       //   if(results.store.matchedCount === 1) {
       //     // we only want to create log group once

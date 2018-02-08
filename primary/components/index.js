@@ -7,7 +7,7 @@ import HomeComponent from './home-component.js';
 import PeerService from './peer-service.js';
 
 const module = angular.module('bedrock.ledger-test', [
-  'ngMaterial', 'md.data.table'
+  'chart.js', 'ngMaterial', 'md.data.table'
 ]);
 
 bedrock.setRootModule(module);

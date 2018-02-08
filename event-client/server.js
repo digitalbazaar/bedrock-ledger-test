@@ -55,7 +55,7 @@ function _scanAgents(callback) {
   async.auto({
     peers: callback => request.get(peersUrl, (err, res) => callback(err, res)),
     ledgerAgent: ['peers', (results, callback) => {
-      const peers = results.peers.body;
+      const peers = results.peers.body.map(r => r.last);
       async.each(peers, (p, callback) => async.auto({
         get: callback => {
           const host = p.privateHostname;
@@ -70,7 +70,6 @@ function _scanAgents(callback) {
           if(!ledgerAgent) {
             return new Error('Missing ledgerAgent data.');
           }
-          console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXx', ledgerAgent);
           const agent = {
             id: database.hash(ledgerAgent.id),
             ledgerAgent,

@@ -26,7 +26,7 @@ if(execute) {
   runcmd:
    - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
    - cd bedrock-ledger-test
-   - git checkout cloudwatch
+   - git checkout experimental
    - cd event-client
    - [ sh, -xc, "echo primary-hostname: ${program.primary} > ./instance-config.yml" ]
    - npm install

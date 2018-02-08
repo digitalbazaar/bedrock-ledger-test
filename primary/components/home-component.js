@@ -10,8 +10,68 @@ export default {
 };
 
 /* @ngInject */
-function Ctrl($route) {
+function Ctrl($interval, $route, brPeerService) {
   const self = this;
+  self.labels = [];
+  self.data = [];
+  self.data2 = [];
+
+  self.seriesDuration = [
+    'aggregate', 'findConsensus', 'recentHistory', 'recentHistoryMergeOnly'
+  ];
+
+  self.options = {
+    animation: false,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'events',
+          fontSize: 10
+        }
+      }],
+      xAxes: [{
+        type: 'time',
+        distribution: 'linear',
+        time: {
+          displayFormats: {
+            minute: 'kk:mm',
+          },
+        },
+      }]
+    }
+  };
+
+  self.optionsDuration = {
+    animation: false,
+    legend: {
+      display: true
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'duration (ms)',
+          fontSize: 10,
+        }
+      }],
+      xAxes: [{
+        type: 'time',
+        distribution: 'linear',
+        time: {
+          displayFormats: {
+            minute: 'kk:mm',
+          },
+        },
+      }]
+    }
+  };
 
   self.blocksPerMinute = (blocks, startTime) => {
     const seconds = (Date.now() - startTime) / 1000;
@@ -22,6 +82,23 @@ function Ctrl($route) {
   self.refresh = () => {
     $route.reload();
   };
+
+  $interval(() => {
+    if(self.collection.peers[0]) {
+      const primaryId = self.collection.peers[0]._id;
+      brPeerService.get(primaryId).then(result => {
+        self.labels = result.map(r => r.timeStamp);
+        self.data = result.map(r => r.status.events.mergeEventsOutstanding);
+        self.data2 = [
+          result.map(r => r.status.duration.aggregate),
+          result.map(r => r.status.duration.findConsensus),
+          result.map(r => r.status.duration.recentHistory),
+          result.map(r => r.status.duration.recentHistoryMergeOnly)
+        ];
+        console.log('PRIMARY', result);
+      });
+    }
+  }, 30000);
 
   self.averageDups = () => {
     const dups = self.collection.peers.map(p => p.status.events.dups);

@@ -11,10 +11,17 @@ export default function factory($http, $interval) {
     peers: []
   };
 
-  $interval(() => service.getAll(), 1000);
+  $interval(() => service.getAll(), 10000);
 
   service.getAll = () => $http.get(baseUrl).then(response =>
-    service.collection.peers = response.data);
+    service.collection.peers = response.data.map(r => {
+      const {last} = r;
+      last._id = r._id;
+      return last;
+    }));
+
+  service.get = id => $http.get(`${baseUrl}/${id}`)
+    .then(response => response.data);
 
   return service;
 }

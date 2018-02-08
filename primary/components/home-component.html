@@ -1,4 +1,3 @@
-<h1>Peers <md-button ng-click="$ctrl.refresh()">Refresh</md-button></h1>
 <div>
   <md-table-container>
     <table md-table>
@@ -148,4 +147,14 @@
       </tbody>
     </table>
   </md-table-container>
+</div>
+<div>
+  <h5>Outstanding Merge Events</h5>
+  <canvas class="chart chart-line" chart-data="$ctrl.data" chart-labels="$ctrl.labels"
+  	chart-options="$ctrl.options" height="150" width="1000"></canvas>
+</div>
+<div>
+  <h5>Durations</h5>
+  <canvas class="chart chart-line" chart-labels="$ctrl.labels" chart-series="$ctrl.seriesDuration"
+  	chart-data="$ctrl.data2" chart-options="$ctrl.optionsDuration" height="150" width="1000"></canvas>
 </div>
