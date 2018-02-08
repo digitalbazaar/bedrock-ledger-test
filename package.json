@@ -38,7 +38,7 @@
     "bedrock-express": "^2.0.8",
     "bedrock-identity": "^4.6.0",
     "bedrock-jobs": "^2.0.3",
-    "bedrock-key": "^4.0.0",
+    "bedrock-key": "digitalbazaar/bedrock-key#optimize",
     "bedrock-ledger-agent": "digitalbazaar/bedrock-ledger-agent#cm4",
     "bedrock-ledger-consensus-continuity": "github:digitalbazaar/bedrock-ledger-consensus-continuity#gossip14plus",
     "bedrock-ledger-context": "digitalbazaar/bedrock-ledger-context#continuityUpdate",
