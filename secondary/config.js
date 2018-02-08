@@ -57,6 +57,9 @@ config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 config.core.workers = 0;
 config.core.worker.restart = true;
 
+// enable cache for public keys
+config.key.cache.enable = true;
+
 // logger config
 config.loggers.app.tailable = true;
 config.loggers.app.level = 'debug';
