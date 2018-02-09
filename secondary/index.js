@@ -70,7 +70,7 @@ bedrock.events.on('bedrock.started', callback =>
       logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
         genesis: callback => async.retry(
-          {times: 300, interval: 1000}, callback =>
+          {times: 300, interval: 5000}, callback =>
             client.getGenesis(callback), callback),
         create: ['genesis', (results, callback) => {
           ledger.create(results.genesis, callback);
