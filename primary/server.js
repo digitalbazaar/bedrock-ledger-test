@@ -83,7 +83,9 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   app.get(routes.peerHistory, brRest.when.prefers.ld, brRest.linkedDataHandler({
     get: (req, res, callback) => async.auto({
       peers: callback => database.collections['peer-public-addresses']
-        .find({id: req.params.peerId}).sort({'peer.timeStamp': -1})
+        .find({id: req.params.peerId}, {
+          _id: 0, 'peer.label': 1, 'peer.status': 1, 'peer.timeStamp': 1
+        }).sort({'peer.timeStamp': -1})
         // .limit(60)
         .toArray((err, result) => {
           if(err) {
