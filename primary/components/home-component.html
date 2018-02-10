@@ -1,4 +1,4 @@
-<div style="font-size: .8em;">
+<div>
   <md-table-container>
     <table md-table>
       <tbody md-body>
@@ -66,7 +66,7 @@
             </th>
           </tr>
         </thead>
-        <tr md-row ng-repeat="peer in $ctrl.collection.peers | orderBy:'label'">
+        <tr md-row ng-repeat="peer in $ctrl.collection.peers | orderBy:'label'" style="font-size: .8em;">
           <td md-cell>
             {{$index + 1}}
           </td>
@@ -152,7 +152,7 @@
   <canvas class="chart chart-line" chart-data="$ctrl.data" chart-labels="$ctrl.labels"
   	chart-options="$ctrl.options" chart-dataset-override="$ctrl.datasetOverride" height="175" width="1000"></canvas>
 </div>
-<div style="padding: 5px; padding-right: 150px;">
+<div style="padding: 5px; padding-right: 145px;">
   <canvas class="chart chart-line" chart-labels="$ctrl.labels" chart-series="$ctrl.seriesDuration"
   	chart-data="$ctrl.data2" chart-options="$ctrl.optionsDuration" height="175" width="1000"></canvas>
 </div>
