@@ -91,23 +91,24 @@ function Ctrl($interval, $route, brPeerService) {
     },
     scales: {
       yAxes: [{
-        ticks: {
-          beginAtZero: true,
-        },
         scaleLabel: {
           display: true,
           labelString: 'duration (ms)',
           fontSize: 10,
-        }
+        },
+        ticks: {
+          beginAtZero: true,
+        },
+        type: 'logarithmic',
       }],
       xAxes: [{
-        type: 'time',
         distribution: 'linear',
         time: {
           displayFormats: {
             minute: 'kk:mm',
           },
         },
+        type: 'time',
       }]
     }
   };
