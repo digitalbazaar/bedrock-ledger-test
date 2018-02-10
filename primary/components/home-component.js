@@ -29,6 +29,7 @@ function Ctrl($interval, $route, brPeerService) {
   }, {
     label: 'total',
     yAxisID: 'right-y-axis2',
+    backgroundColor: 'transparent',
   }];
 
   self.options = {
