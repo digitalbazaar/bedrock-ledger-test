@@ -21,8 +21,10 @@ function Ctrl($interval, $route, brPeerService) {
   ];
 
   self.datasetOverride = [{
+    label: 'merge',
     yAxisID: 'left-y-axis',
   }, {
+    label: 'total',
     yAxisID: 'right-y-axis',
   }];
 
