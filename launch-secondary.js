@@ -8,6 +8,7 @@ let execute = true;
 program
   .option('-c, --count <n>', 'instance count')
   .option('-m, --mongo [value]', 'mongo server hostname')
+  .option('-n, --network [value]', 'network id')
   .option('-p, --primary [value]', 'primary node hostname')
   .parse(process.argv);
 
@@ -70,6 +71,9 @@ if(execute) {
       params = {Resources, Tags: [{
         Key: 'Name',
         Value: 'ledger-test-secondary'
+      }, {
+        Key: 'network-id',
+        Value: program.network
       }]};
       ec2.createTags(params, callback);
     }]

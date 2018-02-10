@@ -11,6 +11,7 @@ let execute = true;
 
 program
   .option('-m, --mongo [value]', 'mongo server hostname')
+  .option('-n, --network [value]', 'network id')
   .parse(process.argv);
 
 if(!program.mongo) {
@@ -70,6 +71,9 @@ if(execute) {
     params = {Resources: [InstanceId], Tags: [{
       Key: 'Name',
       Value: 'Primary'
+    }, {
+      Key: 'network-id',
+      Value: program.network
     }]};
     ec2.createTags(params, function() {
       // console.log("Tagging instance", err ? "failure" : "success");

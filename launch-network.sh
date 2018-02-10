@@ -12,7 +12,8 @@ if [ -z "$2" ]
 fi
 
 # make array from output of launch-primary.js
-launchoutput=($(./launch-primary.js --mongo ${2}))
+networkid=$(uuidgen)
+launchoutput=($(./launch-primary.js -m ${2} -n "${networkid}"))
 primaryprivate="${launchoutput[0]}"
 primarypublic="${launchoutput[1]}"
 
@@ -21,9 +22,10 @@ if [ $? -ne 0 ]
     echo "error provisioning primary"
     exit 1
 fi
+echo "NETWORK ID ${networkid}"
 echo PRIMARY
 echo "https://${primarypublic}:18443"
-./launch-secondary.js --primary "${primaryprivate}" --count $1 --mongo "${2}"
+./launch-secondary.js -p "${primaryprivate}" -c $1 -m "${2}" -n "${networkid}"
 if [ $? -ne 0 ]
   then
     echo "error provisioning secondaries"
@@ -31,7 +33,7 @@ if [ $? -ne 0 ]
 fi
 echo "secondaries launched successfully"
 
-eventclientpublic="$(./launch-event-client.js --primary ${primaryprivate})"
+eventclientpublic="$(./launch-event-client.js --primary ${primaryprivate} -n "${networkid}")"
 if [ $? -ne 0 ]
   then
     echo "error provisioning event client"

@@ -10,6 +10,7 @@ AWS.config.loadFromPath('./config.json');
 let execute = true;
 
 program
+  .option('-n, --network [value]', 'network id')
   .option('-p, --primary [value]', 'primary node hostname')
   .parse(process.argv);
 
@@ -64,6 +65,9 @@ if(execute) {
     params = {Resources: [InstanceId], Tags: [{
       Key: 'Name',
       Value: 'event-client'
+    }, {
+      Key: 'network-id',
+      Value: program.network
     }]};
     ec2.createTags(params, function() {
       // console.log("Tagging instance", err ? "failure" : "success");
