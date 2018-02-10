@@ -21,8 +21,11 @@ function Ctrl($interval, $route, brPeerService) {
   ];
 
   self.datasetOverride = [{
-    label: 'merge',
+    label: 'out merge',
     yAxisID: 'left-y-axis',
+  }, {
+    label: 'out total',
+    yAxisID: 'right-y-axis',
   }, {
     label: 'total',
     yAxisID: 'right-y-axis',
@@ -56,6 +59,7 @@ function Ctrl($interval, $route, brPeerService) {
         ticks: {
           beginAtZero: true
         },
+        type: 'logarithmic',
       }],
       xAxes: [{
         type: 'time',
@@ -115,6 +119,7 @@ function Ctrl($interval, $route, brPeerService) {
         self.data = [
           result.map(r => r.status.events.mergeEventsOutstanding),
           result.map(r => r.status.events.outstanding),
+          result.map(r => r.status.events.total),
         ],
         self.data2 = [
           result.map(r => r.status.duration.aggregate),
