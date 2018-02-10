@@ -28,7 +28,7 @@ function Ctrl($interval, $route, brPeerService) {
     yAxisID: 'right-y-axis',
   }, {
     label: 'total',
-    yAxisID: 'right-y-axis',
+    yAxisID: 'right-y-axis2',
   }];
 
   self.options = {
@@ -42,8 +42,8 @@ function Ctrl($interval, $route, brPeerService) {
         position: 'left',
         scaleLabel: {
           display: true,
-          labelString: 'outstanding merge',
-          fontSize: 10
+          labelString: 'out merge',
+          fontSize: 12
         },
         ticks: {
           beginAtZero: true
@@ -53,13 +53,23 @@ function Ctrl($interval, $route, brPeerService) {
         position: 'right',
         scaleLabel: {
           display: true,
-          labelString: 'outstanding total',
-          fontSize: 10
+          labelString: 'out total',
+          fontSize: 12
         },
         ticks: {
           beginAtZero: true
         },
-        type: 'logarithmic',
+      }, {
+        id: 'right-y-axis2',
+        position: 'right',
+        scaleLabel: {
+          display: true,
+          labelString: 'total',
+          fontSize: 12
+        },
+        ticks: {
+          beginAtZero: true
+        },
       }],
       xAxes: [{
         type: 'time',
