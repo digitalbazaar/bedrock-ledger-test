@@ -45,7 +45,6 @@ function Ctrl($interval, $route, brPeerService) {
         ticks: {
           beginAtZero: true
         },
-        type: 'logarithmic',
       }],
       xAxes: [{
         type: 'time',
