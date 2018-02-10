@@ -28,6 +28,9 @@ function Ctrl($interval, $route, brPeerService) {
 
   self.options = {
     animation: false,
+    legend: {
+      display: true
+    },
     scales: {
       yAxes: [{
         id: 'left-y-axis',
