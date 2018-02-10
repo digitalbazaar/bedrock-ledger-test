@@ -20,6 +20,12 @@ function Ctrl($interval, $route, brPeerService) {
     'aggregate', 'findConsensus', 'recentHistory', 'recentHistoryMergeOnly'
   ];
 
+  self.datasetOverride = [{
+    yAxisID: 'left-y-axis',
+  }, {
+    yAxisID: 'right-y-axis',
+  }];
+
   self.options = {
     animation: false,
     scales: {
