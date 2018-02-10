@@ -25,6 +25,7 @@ function Ctrl($interval, $route, brPeerService) {
     scales: {
       yAxes: [{
         id: 'left-y-axis',
+        position: 'left',
         scaleLabel: {
           display: true,
           labelString: 'outstanding merge',
@@ -33,9 +34,9 @@ function Ctrl($interval, $route, brPeerService) {
         ticks: {
           beginAtZero: true
         },
-        type: 'linear',
       }, {
         id: 'right-y-axis',
+        position: 'right',
         scaleLabel: {
           display: true,
           labelString: 'outstanding total',
