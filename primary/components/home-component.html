@@ -67,67 +67,67 @@
           </tr>
         </thead>
         <tr md-row ng-repeat="peer in $ctrl.collection.peers | orderBy:'label'">
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{$index + 1}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.label}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.publicHostname}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.privateHostname}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.latestSummary.eventBlock.block.blockHeight}}
           </td>
           <!-- <td md-cell>
             {{$ctrl.blocksPerMinute(peer.latestBlock.blockHeight, peer.startTime)}}
           </td> -->
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.latestSummary.eventBlock.block.previousBlockHash.substr(-5)}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.latestSummary.eventBlock.meta.blockHash.substr(-5)}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.total}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.total - peer.status.events.outstanding}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.outstanding}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.mergeEventsOutstanding}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.mergeEventsTotal}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{(peer.status.events.mergeEventsTotal / peer.status.events.total * 100) | number: 0}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.eventsPerSecondLocal}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.eventsPerSecondPeer}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.eventsPerSecondLocal + peer.status.events.eventsPerSecondPeer}}
           </td>
           <!-- <td md-cell>
             {{$ctrl.eventWindow[peer.label]}}
           </td> -->
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             {{peer.status.events.dups}}
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             <a ng-href="{{peer.mongoUrl}}">Mongo</a>
           </td>
-          <td md-cell style="font-size: .5em;">
+          <td md-cell style="font-size: .8em;">
             <a ng-href="{{peer.logUrl}}">log</a>
           </td>
         </tr>
