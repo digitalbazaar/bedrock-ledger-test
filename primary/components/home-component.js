@@ -24,14 +24,27 @@ function Ctrl($interval, $route, brPeerService) {
     animation: false,
     scales: {
       yAxes: [{
+        id: 'left-y-axis',
+        scaleLabel: {
+          display: true,
+          labelString: 'outstanding merge',
+          fontSize: 10
+        },
         ticks: {
           beginAtZero: true
         },
+        type: 'linear',
+      }, {
+        id: 'right-y-axis',
         scaleLabel: {
           display: true,
-          labelString: 'events',
+          labelString: 'outstanding total',
           fontSize: 10
-        }
+        },
+        ticks: {
+          beginAtZero: true
+        },
+        type: 'logarithmic',
       }],
       xAxes: [{
         type: 'time',
@@ -88,7 +101,10 @@ function Ctrl($interval, $route, brPeerService) {
       const primaryId = self.collection.peers[0]._id;
       brPeerService.get(primaryId).then(result => {
         self.labels = result.map(r => r.timeStamp);
-        self.data = result.map(r => r.status.events.mergeEventsOutstanding);
+        self.data = [
+          result.map(r => r.status.events.mergeEventsOutstanding),
+          result.map(r => r.status.events.outstanding),
+        ],
         self.data2 = [
           result.map(r => r.status.duration.aggregate),
           result.map(r => r.status.duration.findConsensus),
