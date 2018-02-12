@@ -68,7 +68,7 @@ cc('ledger-test.config', () => ({
   }
 }));
 
-config['ledger-consensus-continuity'].consensus.debounce = 2500;
+config['ledger-consensus-continuity'].consensus.debounce = 1500;
 
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
