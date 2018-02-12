@@ -66,6 +66,7 @@ config.loggers.app.level = 'debug';
 
 // mongodb config
 config.mongodb.name = 'ledger_test_secondary';
+config.mongodb.connectOptions.poolSize = 12;
 
 // enable consensus workers
 config.ledger.jobs.scheduleConsensusWork.enabled = true;
