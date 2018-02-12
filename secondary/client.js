@@ -43,7 +43,6 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     duration: callback => cache.client.mget(
       `aggregate|${ledgerNodeId}`,
       `findConsensus|${ledgerNodeId}`,
-      `recentHistory|${ledgerNodeId}`,
       `recentHistoryMergeOnly|${ledgerNodeId}`,
       (err, result) => {
         if(err) {
@@ -52,7 +51,6 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         callback(null, {
           aggregate: parseInt(result[0], 10) || 0,
           findConsensus: parseInt(result[1], 10) || 0,
-          recentHistory: parseInt(result[2], 10) || 0,
           recentHistoryMergeOnly: parseInt(result[3], 10) || 0,
         });
       }
@@ -119,6 +117,25 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     },
     ledgerNode: callback =>
       brLedgerNode.get(null, ledgerNodeId, callback),
+    avgConsensusTime: ['ledgerNode', (results, callback) =>
+      results.ledgerNode.storage.events.collection.aggregate([
+        {$match: {
+          'meta.consensus': {$exists: true}, 'meta.continuity2017.type': 'm'
+        }},
+        {$project: {
+          consensusTime: {$subtract: ['$meta.consensusDate', '$meta.created']}
+        }},
+        {$group: {
+          _id: null,
+          avgConsensusTime: {$avg: '$consensusTime'}
+        }}
+      ]).toArray((err, result) => {
+        if(err) {
+          return callback(err);
+        }
+        callback(null, result[0].avgConsensusTime);
+      })
+    ],
     latestSummary: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.blocks.getLatestSummary(callback)],
     eventsOutstanding: ['ledgerNode', (results, callback) =>
@@ -135,12 +152,12 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         'meta.consensus': {$exists: false}
       }, callback)],
     sendStatus: [
-      'dups', 'duration', 'eventsTotal', 'eventsOutstanding',
-      'eventsPerSecondLocal', 'eventsPerSecondPeer', 'latestSummary',
-      'mergeEventsOutstanding', 'mergeEventsTotal',
-      ({dups, duration, eventsOutstanding, eventsPerSecondLocal,
-        eventsPerSecondPeer, eventsTotal, latestSummary, mergeEventsOutstanding,
-        mergeEventsTotal
+      'avgConsensusTime', 'dups', 'duration', 'eventsTotal',
+      'eventsOutstanding', 'eventsPerSecondLocal', 'eventsPerSecondPeer',
+      'latestSummary', 'mergeEventsOutstanding', 'mergeEventsTotal',
+      ({avgConsensusTime, dups, duration, eventsOutstanding,
+        eventsPerSecondLocal, eventsPerSecondPeer, eventsTotal, latestSummary,
+        mergeEventsOutstanding, mergeEventsTotal
       }, callback) => request({
         body: {
           baseUri,
@@ -156,6 +173,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
             latestSummary,
             duration,
             events: {
+              avgConsensusTime,
               dups,
               eventsPerSecondLocal,
               eventsPerSecondPeer,

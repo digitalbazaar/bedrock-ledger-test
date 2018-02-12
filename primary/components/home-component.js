@@ -16,10 +16,6 @@ function Ctrl($interval, $route, brPeerService) {
   self.data = [];
   self.data2 = [];
 
-  self.seriesDuration = [
-    'aggregate', 'findConsensus', 'recentHistory', 'recentHistoryMergeOnly'
-  ];
-
   self.datasetOverride = [{
     label: 'out merge',
     yAxisID: 'left-y-axis',
@@ -29,6 +25,21 @@ function Ctrl($interval, $route, brPeerService) {
   }, {
     label: 'total',
     yAxisID: 'right-y-axis2',
+    backgroundColor: 'transparent',
+  }];
+
+  self.durationOverride = [{
+    label: 'aggregate',
+    yAxisID: 'left-y-axis',
+  }, {
+    label: 'findConsensus',
+    yAxisID: 'left-y-axis',
+  }, {
+    label: 'recentHistoryMergeOnly',
+    yAxisID: 'left-y-axis',
+  }, {
+    label: 'avgConsensusTime',
+    yAxisID: 'right-y-axis',
     backgroundColor: 'transparent',
   }];
 
@@ -91,6 +102,8 @@ function Ctrl($interval, $route, brPeerService) {
     },
     scales: {
       yAxes: [{
+        id: 'left-y-axis',
+        position: 'left',
         scaleLabel: {
           display: true,
           labelString: 'duration (ms)',
@@ -100,6 +113,18 @@ function Ctrl($interval, $route, brPeerService) {
           beginAtZero: true,
         },
         type: 'logarithmic',
+      }, {
+        id: 'right-y-axis',
+        position: 'right',
+        scaleLabel: {
+          display: true,
+          labelString: 'time (sec)',
+          fontSize: 10,
+        },
+        ticks: {
+          beginAtZero: true,
+        },
+        type: 'linear',
       }],
       xAxes: [{
         distribution: 'linear',
@@ -136,8 +161,8 @@ function Ctrl($interval, $route, brPeerService) {
         self.data2 = [
           result.map(r => r.status.duration.aggregate),
           result.map(r => r.status.duration.findConsensus),
-          result.map(r => r.status.duration.recentHistory),
-          result.map(r => r.status.duration.recentHistoryMergeOnly)
+          result.map(r => r.status.duration.recentHistoryMergeOnly),
+          result.map(r => r.status.events.avgConsensusTime),
         ];
         console.log('PRIMARY', result);
       });
