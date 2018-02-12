@@ -162,7 +162,7 @@ function Ctrl($interval, $route, brPeerService) {
           result.map(r => r.status.duration.aggregate),
           result.map(r => r.status.duration.findConsensus),
           result.map(r => r.status.duration.recentHistoryMergeOnly),
-          result.map(r => r.status.events.avgConsensusTime),
+          result.map(r => Math.round(r.status.events.avgConsensusTime / 1000)),
         ];
         console.log('PRIMARY', result);
       });
