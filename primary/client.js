@@ -49,7 +49,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         callback(null, {
           aggregate: parseInt(result[0], 10) || 0,
           findConsensus: parseInt(result[1], 10) || 0,
-          recentHistoryMergeOnly: parseInt(result[3], 10) || 0,
+          recentHistoryMergeOnly: parseInt(result[2], 10) || 0,
         });
       }
     ),
