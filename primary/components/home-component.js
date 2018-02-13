@@ -149,8 +149,10 @@ function Ctrl($interval, $route, brPeerService) {
   };
 
   $interval(() => {
-    if(self.collection.peers[0]) {
-      const primaryId = self.collection.peers[0]._id;
+    if(self.collection.peers.length !== 0) {
+      const primaryIndex = self.collection.peers
+        .findIndex(p => p.label.startsWith('Primary-'));
+      const primaryId = self.collection.peers[primaryIndex]._id;
       brPeerService.get(primaryId).then(result => {
         self.labels = result.map(r => r.timeStamp);
         self.data = [
