@@ -24,10 +24,24 @@ if(execute) {
   // Create EC2 service object
   const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
 
+  const userData = `
+  #cloud-config
+  runcmd:
+   - mkfs.xfs /dev/nvme0n1
+   - [ sh, -xc, "echo /dev/nvme0n1 /mnt/db xfs rw,nobarrier,auto 0 0 >> /etc/fstab" ]
+   - mount /dev/nvme0n1 /mnt/db
+   - mkdir /mnt/db/mongodb
+   - chown mongodb:mongodb /mnt/db/mongodb
+   - systemctl enable mongod
+   - systemctl start mongod
+   `;
+
   let params = {
     // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
-    ImageId: 'ami-a09a99da', // mongo 3.4.11
-    InstanceType: 'm5.xlarge',
+    // ImageId: 'ami-a09a99d', // mongo 3.4.11
+    // InstanceType: 'm5.xlarge',
+    ImageId: 'ami-1d6d7067', // i3 mongo 3.4.11
+    InstanceType: 'i3.large',
     KeyName: 'aws-personal',
     IamInstanceProfile: {
       Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
@@ -36,6 +50,7 @@ if(execute) {
     MaxCount: 1,
     SecurityGroupIds: ['sg-ee5cef99'],
     SubnetId: 'subnet-a84582a7',
+    UserData: Buffer.from(userData).toString('base64')
   };
 
   // Create the instance
