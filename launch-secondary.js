@@ -30,6 +30,8 @@ if(execute) {
   const userData = `
   #cloud-config
   runcmd:
+   - systemctl enable mongod
+   - systemctl start mongod
    - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
    - cd bedrock-ledger-test
    - git checkout experimental
