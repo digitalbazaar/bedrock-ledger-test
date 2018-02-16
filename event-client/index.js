@@ -71,7 +71,7 @@ function _sendEvents(job, callback) {
     send: ['agents', (results, callback) =>
       async.each(results.agents, (agent, callback) => {
         console.log('AAAAAAAAA', JSON.stringify(agent, null, 2));
-        const eventService = agent.ledgerAgent.service.ledgerEventService;
+        const eventService = agent.ledgerAgent.service.ledgerOperationService;
         console.log(Date.now(), agent.meta.label, agent.meta.eventsPerSec);
         pool.exec('sendEvent', [
           {actor, eventNum: agent.meta.eventsPerSec, eventService}
