@@ -70,11 +70,10 @@ function _sendEvents(job, callback) {
       .toArray(callback),
     send: ['agents', (results, callback) =>
       async.each(results.agents, (agent, callback) => {
-        console.log('AAAAAAAAA', JSON.stringify(agent, null, 2));
-        const eventService = agent.ledgerAgent.service.ledgerOperationService;
+        const {ledgerOperationService} = agent.ledgerAgent.service;
         console.log(Date.now(), agent.meta.label, agent.meta.eventsPerSec);
         pool.exec('sendEvent', [
-          {actor, eventNum: agent.meta.eventsPerSec, eventService}
+          {actor, eventNum: agent.meta.eventsPerSec, ledgerOperationService}
         ]).catch(err => console.error(err));
         callback();
       }, callback)]
