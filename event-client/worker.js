@@ -21,8 +21,7 @@ function sendEvent({eventService, eventNum, actor}) {
   async.timesLimit(eventNum, 250, (i, callback) => {
     const event = {
       '@context': constants.WEB_LEDGER_CONTEXT_V1_URL,
-      type: 'WebLedgerEvent',
-      operation: 'Create',
+      type: 'CreateWebLedgerRecord',
       input: [{
         '@context': constants.TEST_CONTEXT_V1_URL,
         id: `https://example.com/events/123`,
