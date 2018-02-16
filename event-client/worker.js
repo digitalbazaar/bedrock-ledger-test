@@ -17,7 +17,7 @@ require('bedrock-ledger-context');
 // load workerpool
 const workerpool = require('workerpool');
 
-function sendEvent({eventService, eventNum, actor}) {
+function sendEvent({ledgerOperationService, eventNum, actor}) {
   async.timesLimit(eventNum, 250, (i, callback) => {
     const event = {
       '@context': constants.WEB_LEDGER_CONTEXT_V1_URL,
@@ -38,7 +38,7 @@ function sendEvent({eventService, eventNum, actor}) {
       }]
     };
     request.post(helpers.createHttpSignatureRequest({
-      url: eventService,
+      url: ledgerOperationService,
       body: event,
       identity: actor
     }), (err, res) => {
