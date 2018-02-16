@@ -70,6 +70,7 @@ function _sendEvents(job, callback) {
       .toArray(callback),
     send: ['agents', (results, callback) =>
       async.each(results.agents, (agent, callback) => {
+        console.log('AAAAAAAAA', JSON.stringify(agent, null, 2));
         const eventService = agent.ledgerAgent.service.ledgerEventService;
         console.log(Date.now(), agent.meta.label, agent.meta.eventsPerSec);
         pool.exec('sendEvent', [
