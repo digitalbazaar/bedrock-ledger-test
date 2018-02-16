@@ -49,7 +49,7 @@ if(execute) {
     MinCount: 1,
     MaxCount: 1,
     SecurityGroupIds: ['sg-ee5cef99'],
-    SubnetId: 'subnet-a84582a7',
+    SubnetId: 'subnet-acedaff1',
     UserData: Buffer.from(userData).toString('base64')
   };
 
