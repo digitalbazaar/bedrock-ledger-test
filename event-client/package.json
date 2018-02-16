@@ -5,7 +5,7 @@
   "main": "./index",
   "scripts": {
     "start": "node index.js",
-    "aws": "mongo flush-mongo.js && node index.js --minify true --aws"
+    "aws": "mongo flush-mongo.js && node index.js --aws"
   },
   "dependencies": {
     "angular-material-data-table": "^0.10.10",

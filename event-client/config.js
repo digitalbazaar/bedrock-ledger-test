@@ -129,3 +129,4 @@ config.views.system.packages.push({
   path: path.join(rootPath, 'components'),
   manifest: path.join(rootPath, 'package.json')
 });
+config.views.vars.minify = true;
