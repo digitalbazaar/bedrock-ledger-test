@@ -58,14 +58,11 @@ config['ledger-test'].primaryBaseUrl = null;
 
 cc('ledger-test.config', () => ({
   '@context': constants.WEB_LEDGER_CONTEXT_V1_URL,
-  type: 'WebLedgerConfigurationEvent',
-  ledgerConfiguration: {
-    type: 'WebLedgerConfiguration',
-    ledger: config['ledger-test'].did,
-    consensusMethod: 'Continuity2017',
-    eventValidator: [],
-    // electorCount: 20
-  }
+  type: 'WebLedgerConfiguration',
+  ledger: config['ledger-test'].did,
+  consensusMethod: 'Continuity2017',
+  ledgerConfigurationValidator: [],
+  operationValidator: [],
 }));
 
 config['ledger-consensus-continuity'].consensus.debounce = 1500;

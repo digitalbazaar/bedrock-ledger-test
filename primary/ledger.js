@@ -64,7 +64,7 @@ function _createLedger(callback) {
       null, actor, (err, result) => callback(err, result)),
     create: ['identity', (results, callback) => {
       const options = {
-        configEvent: config['ledger-test'].config,
+        ledgerConfiguration: config['ledger-test'].config,
         genesis: true,
         private: false,
         owner: actor
