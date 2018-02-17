@@ -26,8 +26,6 @@ config['ledger-test'].routes = {
   blocks: '/ledger-test/nodes/:ledgerNodeId/blocks'
 };
 
-config['ledger-consensus-continuity'].consensus.debounce = 1500;
-
 // c.pushComputed('scheduler.jobs', () => ({
 //   id: `bedrock-ledger-test.stats.logStats`,
 //   type: `bedrock-ledger-test.stats.logStats`,
