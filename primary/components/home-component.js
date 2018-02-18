@@ -29,16 +29,16 @@ function Ctrl($interval, $route, brPeerService) {
   }];
 
   self.durationOverride = [{
-    label: 'aggregate',
+    label: 'aggregate (ms)',
     yAxisID: 'left-y-axis',
   }, {
-    label: 'findConsensus',
+    label: 'findConsensus (ms)',
     yAxisID: 'left-y-axis',
   }, {
-    label: 'recentHistoryMergeOnly',
+    label: 'recentHistoryMergeOnly (ms)',
     yAxisID: 'left-y-axis',
   }, {
-    label: 'avgConsensusTime',
+    label: 'avgConsensusTime (sec)',
     yAxisID: 'right-y-axis',
     backgroundColor: 'transparent',
   }];
