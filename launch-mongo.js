@@ -27,6 +27,7 @@ if(execute) {
   const userData = `
   #cloud-config
   runcmd:
+   - echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3tQh4REx/BNZV4vFs8MoYOlyUzahabUdALYRxbu0UP dlongley@digitalbazaar.com >> /home/ubuntu/.ssh/authorized_keys
    - mkfs.xfs /dev/nvme0n1
    - [ sh, -xc, "echo /dev/nvme0n1 /mnt/db xfs rw,nobarrier,auto 0 0 >> /etc/fstab" ]
    - mount /dev/nvme0n1 /mnt/db
