@@ -56,7 +56,7 @@ if(execute) {
     MinCount: 1,
     MaxCount: 1,
     SecurityGroupIds: ['sg-9e6359ed'],
-    SubnetId: 'subnet-acedaff1',
+    SubnetId: 'subnet-2091d97d',
     // SubnetId: 'subnet-60c3b105',
     UserData: Buffer.from(userData).toString('base64')
   };

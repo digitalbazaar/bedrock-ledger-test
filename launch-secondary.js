@@ -62,7 +62,7 @@ if(execute) {
     MaxCount: instanceCount,
     SecurityGroupIds: ['sg-9e6359ed'],
     // SubnetId: 'subnet-60c3b105',
-    SubnetId: 'subnet-acedaff1',
+    SubnetId: 'subnet-2091d97d',
     UserData: Buffer.from(userData).toString('base64')
   };
 
