@@ -1,5 +1,18 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
+const yaml = require('js-yaml');
+
+let instanceConfig;
+try {
+  instanceConfig = yaml.safeLoad(fs.readFileSync(
+    path.join(process.cwd(), 'instance-config.yml'), 'utf8'));
+} catch(err) {
+  console.log('CONFIGURATION ERROR', err);
+  throw err;
+}
+
 var mongo;
 
 // Accesing Bluemix variable to get MongoDB info
@@ -11,9 +24,9 @@ if (process.env.VCAP_SERVICES) {
   }
 } else {
   mongo = {
-    host: '127.0.0.1',
+    host: instanceConfig['mongo-hostname'],
     port: '27017',
-    db: 'ledger_test_primary'
+    db: instanceConfig['mongo-dbname'],
     // setting the connection string will only give access to that database
     // to see more databases you need to set mongodb.admin to true or add databases to the mongodb.auth list
     // connectionString: process.env.ME_CONFIG_MONGODB_SERVER ? '' : process.env.ME_CONFIG_MONGODB_URL,
