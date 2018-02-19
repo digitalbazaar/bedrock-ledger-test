@@ -67,6 +67,8 @@ cc('ledger-test.config', () => ({
 
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 
+config['ledger-consensus-continuity'].gossip.maxDepth = 3;
+
 // core configuration
 config.core.workers = 0;
 config.core.worker.restart = true;
