@@ -5,4 +5,4 @@ echo "Flushing mongodb..."
 mongo flush-mongo.js
 echo "Flushing redis..."
 redis-cli flushall
-node ./primary/index.js --minify true --aws
+node ./primary/index.js --aws
