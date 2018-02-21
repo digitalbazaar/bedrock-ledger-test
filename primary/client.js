@@ -187,5 +187,8 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         json: true,
         strictSSL: false
       }, callback)],
-  }, err => callback(err));
+  }, (err, result) => {
+    console.log('ZZZZZZZZZ', err, result);
+    callback(err);
+  });
 };
