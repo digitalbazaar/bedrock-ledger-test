@@ -116,7 +116,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     ledgerNode: callback => {
       console.log('AAAAAAAAAAAAAAAAAAAAA');
       brLedgerNode.get(null, ledgerNodeId, (err, result) => {
-        console.log('BBBBBBBBBBBBBB');
+        console.log('BBBBBBBBBBBBBB', result.id);
         callback(err, result);
       });
     },
