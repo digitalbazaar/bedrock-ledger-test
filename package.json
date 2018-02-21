@@ -41,7 +41,7 @@
     "bedrock-jobs": "^2.0.3",
     "bedrock-key": "digitalbazaar/bedrock-key#optimize",
     "bedrock-ledger-agent": "digitalbazaar/bedrock-ledger-agent#storageUpdate",
-    "bedrock-ledger-consensus-continuity": "digitalbazaar/bedrock-ledger-consensus-continuity#gossip18",
+    "bedrock-ledger-consensus-continuity": "digitalbazaar/bedrock-ledger-consensus-continuity#gossip19",
     "bedrock-ledger-context": "digitalbazaar/bedrock-ledger-context#master",
     "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#storageUpdate",
     "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#operations",
