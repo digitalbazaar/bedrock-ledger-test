@@ -161,37 +161,40 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       ({avgConsensusTime, dups, duration, eventsOutstanding,
         eventsPerSecondLocal, eventsPerSecondPeer, eventsTotal, latestSummary,
         mergeEventsOutstanding, mergeEventsTotal
-      }, callback) => request({
-        body: {
-          baseUri,
-          // use object key safe label
-          label,
-          ledgerNodeId,
-          logGroupName: config.loggers.cloudwatch.logGroupName,
-          logUrl: `https://${publicHostname}:${config.server.port}/log/app`,
-          mongoUrl: `https://${publicHostname}:${config.server.port}/mongo`,
-          privateHostname: config.server.domain,
-          publicHostname,
-          status: {
-            latestSummary,
-            duration,
-            events: {
-              avgConsensusTime,
-              dups,
-              eventsPerSecondLocal,
-              eventsPerSecondPeer,
-              mergeEventsOutstanding,
-              mergeEventsTotal,
-              outstanding: eventsOutstanding,
-              total: eventsTotal,
+      }, callback) => {
+        console.log('CCCCCCCCCCCCCCCCCCCCCCCCCC');
+        request({
+          body: {
+            baseUri,
+            // use object key safe label
+            label,
+            ledgerNodeId,
+            logGroupName: config.loggers.cloudwatch.logGroupName,
+            logUrl: `https://${publicHostname}:${config.server.port}/log/app`,
+            mongoUrl: `https://${publicHostname}:${config.server.port}/mongo`,
+            privateHostname: config.server.domain,
+            publicHostname,
+            status: {
+              latestSummary,
+              duration,
+              events: {
+                avgConsensusTime,
+                dups,
+                eventsPerSecondLocal,
+                eventsPerSecondPeer,
+                mergeEventsOutstanding,
+                mergeEventsTotal,
+                outstanding: eventsOutstanding,
+                total: eventsTotal,
+              }
             }
-          }
-        },
-        method: 'POST',
-        url: `${config['ledger-test'].primaryBaseUrl}/nodes`,
-        json: true,
-        strictSSL: false
-      }, callback)],
+          },
+          method: 'POST',
+          url: `${config['ledger-test'].primaryBaseUrl}/nodes`,
+          json: true,
+          strictSSL: false
+        }, callback);
+      }],
   }, (err, result) => {
     console.log('ZZZZZZZZZ', err, result);
     callback(err);
