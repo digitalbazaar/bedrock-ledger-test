@@ -29,7 +29,7 @@ if(execute) {
    - systemctl start mongod
    - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
    - cd bedrock-ledger-test
-   - git checkout experimental
+   - git checkout orion
    - [ sh, -xc, "echo mongo-hostname: ${program.mongo} >> ./instance-config.yml" ]
    - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
    - npm install
