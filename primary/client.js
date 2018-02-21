@@ -114,9 +114,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       });
     },
     ledgerNode: callback => {
-      console.log('AAAAAAAAAAAAAAAAAAAAA');
       brLedgerNode.get(null, ledgerNodeId, (err, result) => {
-        console.log('BBBBBBBBBBBBBB', result.id);
         callback(err, result);
       });
     },
@@ -162,7 +160,6 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         eventsPerSecondLocal, eventsPerSecondPeer, eventsTotal, latestSummary,
         mergeEventsOutstanding, mergeEventsTotal
       }, callback) => {
-        console.log('CCCCCCCCCCCCCCCCCCCCCCCCCC');
         request({
           body: {
             baseUri,
@@ -195,8 +192,5 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
           strictSSL: false
         }, callback);
       }],
-  }, (err, result) => {
-    console.log('ZZZZZZZZZ', err, result);
-    callback(err);
-  });
+  }, err => callback(err));
 };

@@ -106,7 +106,6 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       baseUri, label, ledgerNodeId, logGroupName, logUrl, mongoUrl,
       privateHostname, publicHostname, status
     } = req.body;
-    console.log('BBBBBBB', JSON.stringify(req.body, null, 2));
     // using the ledgerNodeId as key
     const peerId = database.hash(ledgerNodeId);
     const record = {
