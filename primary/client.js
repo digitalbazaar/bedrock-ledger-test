@@ -113,8 +113,13 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         callback(null, Math.round(sum / valid.length));
       });
     },
-    ledgerNode: callback =>
-      brLedgerNode.get(null, ledgerNodeId, callback),
+    ledgerNode: callback => {
+      console.log('AAAAAAAAAAAAAAAAAAAAA');
+      brLedgerNode.get(null, ledgerNodeId, (err, result) => {
+        console.log('BBBBBBBBBBBBBB');
+        callback(err, result);
+      });
+    },
     avgConsensusTime: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.events.collection.aggregate([
         {$match: {
