@@ -8,6 +8,7 @@ const bedrock = require('bedrock');
 const brLedgerNode = require('bedrock-ledger-node');
 const cache = require('bedrock-redis');
 const config = bedrock.config;
+const database = require('bedrock-mongodb');
 const ledger = require('./ledger');
 const logger = require('./logger');
 let request = require('request');
@@ -75,10 +76,39 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         callback(null, Math.round(sum / valid.length));
       });
     },
+    opsPerSecond: callback => {
+      // local events per second
+      const thisSecond = Math.round(Date.now() / 1000);
+      const lni = database.hash(ledgerNodeId);
+      const maxSeconds = 600;
+      const ocl = [];
+      const ocp = [];
+      for(let i = 1; i <= maxSeconds; ++i) {
+        ocl.push(`ocl|${lni}|${thisSecond - i}`);
+        ocp.push(`ocp|${lni}|${thisSecond - i}`);
+      }
+      cache.client.multi()
+        .mget(ocl)
+        .mget(ocp)
+        .exec((err, result) => {
+          if(err) {
+            return callback(err);
+          }
+          const validLocal = result[0].map(i => parseInt(i, 10) || 0);
+          const sumLocal = validLocal.reduce((a, b) => a + b, 0);
+          const validPeer = result[1].map(i => parseInt(i, 10) || 0);
+          const sumPeer = validLocal.reduce((a, b) => a + b, 0);
+          // average by the number of valid samples
+          callback(null, {
+            local: Math.round(sumLocal / validLocal.length),
+            peer: Math.round(sumPeer / validPeer.length)
+          });
+        });
+    },
     eventsPerSecondLocal: callback => {
       // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
-      const lni = ledgerNodeId.substr(-36);
+      const lni = database.hash(ledgerNodeId);
       const maxSeconds = 600;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
@@ -97,7 +127,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     eventsPerSecondPeer: callback => {
       // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
-      const lni = ledgerNodeId.substr(-36);
+      const lni = database.hash(ledgerNodeId);
       const maxSeconds = 600;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
@@ -156,9 +186,10 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       'avgConsensusTime', 'dups', 'duration', 'eventsTotal',
       'eventsOutstanding', 'eventsPerSecondLocal', 'eventsPerSecondPeer',
       'latestSummary', 'mergeEventsOutstanding', 'mergeEventsTotal',
+      'opsPerSecond',
       ({avgConsensusTime, dups, duration, eventsOutstanding,
         eventsPerSecondLocal, eventsPerSecondPeer, eventsTotal, latestSummary,
-        mergeEventsOutstanding, mergeEventsTotal
+        mergeEventsOutstanding, mergeEventsTotal, opsPerSecond
       }, callback) => {
         request({
           body: {
@@ -183,7 +214,8 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
                 mergeEventsTotal,
                 outstanding: eventsOutstanding,
                 total: eventsTotal,
-              }
+              },
+              opsPerSecond,
             }
           },
           method: 'POST',

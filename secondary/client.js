@@ -7,6 +7,7 @@ const async = require('async');
 const bedrock = require('bedrock');
 const brLedgerNode = require('bedrock-ledger-node');
 const cache = require('bedrock-redis');
+const database = require('bedrock-mongodb');
 const config = bedrock.config;
 const logger = require('./logger');
 const request = require('request');
@@ -77,10 +78,39 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         callback(null, Math.round(sum / valid.length));
       });
     },
+    opsPerSecond: callback => {
+      // local events per second
+      const thisSecond = Math.round(Date.now() / 1000);
+      const lni = database.hash(ledgerNodeId);
+      const maxSeconds = 600;
+      const ocl = [];
+      const ocp = [];
+      for(let i = 1; i <= maxSeconds; ++i) {
+        ocl.push(`ocl|${lni}|${thisSecond - i}`);
+        ocp.push(`ocp|${lni}|${thisSecond - i}`);
+      }
+      cache.client.multi()
+        .mget(ocl)
+        .mget(ocp)
+        .exec((err, result) => {
+          if(err) {
+            return callback(err);
+          }
+          const validLocal = result[0].map(i => parseInt(i, 10) || 0);
+          const sumLocal = validLocal.reduce((a, b) => a + b, 0);
+          const validPeer = result[1].map(i => parseInt(i, 10) || 0);
+          const sumPeer = validLocal.reduce((a, b) => a + b, 0);
+          // average by the number of valid samples
+          callback(null, {
+            local: Math.round(sumLocal / validLocal.length),
+            peer: Math.round(sumPeer / validPeer.length)
+          });
+        });
+    },
     eventsPerSecondLocal: callback => {
       // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
-      const lni = ledgerNodeId.substr(-36);
+      const lni = database.hash(ledgerNodeId);
       const maxSeconds = 600;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
@@ -99,7 +129,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
     eventsPerSecondPeer: callback => {
       // local events per second
       const thisSecond = Math.round(Date.now() / 1000);
-      const lni = ledgerNodeId.substr(-36);
+      const lni = database.hash(ledgerNodeId);
       const maxSeconds = 600;
       const op = [];
       for(let i = 1; i <= maxSeconds; ++i) {
@@ -115,8 +145,11 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
         callback(null, Math.round(sum / valid.length));
       });
     },
-    ledgerNode: callback =>
-      brLedgerNode.get(null, ledgerNodeId, callback),
+    ledgerNode: callback => {
+      brLedgerNode.get(null, ledgerNodeId, (err, result) => {
+        callback(err, result);
+      });
+    },
     avgConsensusTime: ['ledgerNode', (results, callback) =>
       results.ledgerNode.storage.events.collection.aggregate([
         {$match: {
@@ -155,39 +188,43 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
       'avgConsensusTime', 'dups', 'duration', 'eventsTotal',
       'eventsOutstanding', 'eventsPerSecondLocal', 'eventsPerSecondPeer',
       'latestSummary', 'mergeEventsOutstanding', 'mergeEventsTotal',
+      'opsPerSecond',
       ({avgConsensusTime, dups, duration, eventsOutstanding,
         eventsPerSecondLocal, eventsPerSecondPeer, eventsTotal, latestSummary,
-        mergeEventsOutstanding, mergeEventsTotal
-      }, callback) => request({
-        body: {
-          baseUri,
-          // use object key safe label
-          label,
-          ledgerNodeId,
-          logGroupName: config.loggers.cloudwatch.logGroupName,
-          logUrl: `https://${publicHostname}:${config.server.port}/log/app`,
-          mongoUrl: `https://${publicHostname}:${config.server.port}/mongo`,
-          privateHostname: config.server.domain,
-          publicHostname,
-          status: {
-            latestSummary,
-            duration,
-            events: {
-              avgConsensusTime,
-              dups,
-              eventsPerSecondLocal,
-              eventsPerSecondPeer,
-              mergeEventsOutstanding,
-              mergeEventsTotal,
-              outstanding: eventsOutstanding,
-              total: eventsTotal,
+        mergeEventsOutstanding, mergeEventsTotal, opsPerSecond
+      }, callback) => {
+        request({
+          body: {
+            baseUri,
+            // use object key safe label
+            label,
+            ledgerNodeId,
+            logGroupName: config.loggers.cloudwatch.logGroupName,
+            logUrl: `https://${publicHostname}:${config.server.port}/log/app`,
+            mongoUrl: `https://${publicHostname}:${config.server.port}/mongo`,
+            privateHostname: config.server.domain,
+            publicHostname,
+            status: {
+              latestSummary,
+              duration,
+              events: {
+                avgConsensusTime,
+                dups,
+                eventsPerSecondLocal,
+                eventsPerSecondPeer,
+                mergeEventsOutstanding,
+                mergeEventsTotal,
+                outstanding: eventsOutstanding,
+                total: eventsTotal,
+              },
+              opsPerSecond,
             }
-          }
-        },
-        method: 'POST',
-        url: `${config['ledger-test'].primaryBaseUrl}/nodes`,
-        json: true,
-        strictSSL: false
-      }, callback)],
+          },
+          method: 'POST',
+          url: `${config['ledger-test'].primaryBaseUrl}/nodes`,
+          json: true,
+          strictSSL: false
+        }, callback);
+      }],
   }, err => callback(err));
 };
