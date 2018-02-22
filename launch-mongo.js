@@ -42,7 +42,7 @@ if(execute) {
     // ImageId: 'ami-a09a99d', // mongo 3.4.11
     // InstanceType: 'm5.xlarge',
     // ImageId: 'ami-1d6d7067', // i3 mongo 3.4.11
-    ImageId: 'ami-0266867f', // i3 mongo 3.6
+    ImageId: 'ami-6b23c016', // i3 mongo 3.6
     InstanceType: 'i3.large',
     KeyName: 'aws-personal',
     IamInstanceProfile: {
