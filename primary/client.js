@@ -97,7 +97,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
           const validLocal = result[0].map(i => parseInt(i, 10) || 0);
           const sumLocal = validLocal.reduce((a, b) => a + b, 0);
           const validPeer = result[1].map(i => parseInt(i, 10) || 0);
-          const sumPeer = validLocal.reduce((a, b) => a + b, 0);
+          const sumPeer = validPeer.reduce((a, b) => a + b, 0);
           // average by the number of valid samples
           callback(null, {
             local: Math.round(sumLocal / validLocal.length),
