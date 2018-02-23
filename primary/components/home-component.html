@@ -50,10 +50,10 @@
               local ops/sec
             </th>
             <th md-column>
-              peer ops e/sec
+              peer ops/sec
             </th>
             <th md-column>
-              total ops e/sec
+              total ops/sec
             </th>
             <th md-column>
               local e/sec
@@ -152,6 +152,11 @@
         <tfoot md-foot>
           <td md-cell colspan="15">
           </td>
+          <td md-cell>
+            {{$ctrl.averageOpsPerSecond()}}
+          </td>
+          <td></td>
+          <td></td>
           <td md-cell>
             {{$ctrl.averageEventsPerSecond()}}
           </td>

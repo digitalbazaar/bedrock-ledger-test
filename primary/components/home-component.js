@@ -192,6 +192,17 @@ function Ctrl($interval, $route, brPeerService) {
     return Math.round(sum / eventsPerSecond.length);
   };
 
+  self.averageOpsPerSecond = () => {
+    const opsPerSecond = self.collection.peers.map(p =>
+      p.status.opsPerSecond.peer + p.status.opsPerSecond.local);
+    // incase some peers are not reporting
+    if(opsPerSecond.some(d => d === null)) {
+      return 0;
+    }
+    const sum = opsPerSecond.reduce((a, b) => a + b, 0);
+    return Math.round(sum / opsPerSecond.length);
+  };
+
   self.dupPercent = () => {
     const eps = self.averageEventsPerSecond();
     if(eps === 0) {
