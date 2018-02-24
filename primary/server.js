@@ -32,7 +32,7 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
   index: ['open', (results, callback) => database.createIndexes([{
     collection: 'peer-public-addresses',
     fields: {id: 1},
-    options: {unique: true, background: false}
+    options: {unique: false, background: false}
   }, {
     collection: 'peer-public-addresses',
     fields: {'peer.timeStamp': 1},
