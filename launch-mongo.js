@@ -44,7 +44,8 @@ if(execute) {
     // InstanceType: 'm5.xlarge',
     // ImageId: 'ami-1d6d7067', // i3 mongo 3.4.11
     ImageId: 'ami-8842a1f5', // i3 mongo 3.6
-    InstanceType: 'i3.large',
+    // InstanceType: 'i3.large',
+    InstanceType: 'i3.xlarge',
     KeyName: 'aws-personal',
     IamInstanceProfile: {
       Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
