@@ -27,7 +27,6 @@ if(execute) {
   const userData = `
   #cloud-config
   runcmd:
-   - echo ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID3tQh4REx/BNZV4vFs8MoYOlyUzahabUdALYRxbu0UP dlongley@digitalbazaar.com >> /home/ubuntu/.ssh/authorized_keys
    - mkfs.xfs /dev/nvme0n1
    - [ sh, -xc, "echo /dev/nvme0n1 /mnt/db xfs rw,nobarrier,auto 0 0 >> /etc/fstab" ]
    - mkdir /mnt/db
@@ -43,17 +42,17 @@ if(execute) {
     // ImageId: 'ami-a09a99d', // mongo 3.4.11
     // InstanceType: 'm5.xlarge',
     // ImageId: 'ami-1d6d7067', // i3 mongo 3.4.11
-    ImageId: 'ami-8842a1f5', // i3 mongo 3.6
-    // InstanceType: 'i3.large',
+    // ImageId: 'ami-8842a1f5', // i3 mongo 3.6
+    ImageId: 'ami-b61ff2cb', // i3 mongo 3.6 + dnsmasq (aws-sandbox)
     InstanceType: 'i3.xlarge',
-    KeyName: 'aws-personal',
+    //KeyName: '',
     IamInstanceProfile: {
-      Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
+      Arn: 'arn:aws:iam::818836321125:instance-profile/bedrock-server'
     },
     MinCount: 1,
     MaxCount: 1,
-    SecurityGroupIds: ['sg-ee5cef99'],
-    SubnetId: 'subnet-2091d97d',
+    SecurityGroupIds: ['sg-f5c5cc82'],
+    SubnetId: 'subnet-ac9f94e7',
     UserData: Buffer.from(userData).toString('base64')
   };
 
@@ -68,7 +67,7 @@ if(execute) {
     // Add tags to the instance
     params = {Resources: [InstanceId], Tags: [{
       Key: 'Name',
-      Value: 'mongo-server'
+      Value: 'ledger-test-mongo'
     }]};
     ec2.createTags(params, function() {
       // console.log("Tagging instance", err ? "failure" : "success");

@@ -44,19 +44,20 @@ if(execute) {
   let params = {
     // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
     // ImageId: 'ami-44b59d3e', // ledger2.0
-    ImageId: 'ami-07d1cc7d', // disabled mongo, dnsmasq
+    //ImageId: 'ami-07d1cc7d', // disabled mongo, dnsmasq
+    ImageId: 'ami-83de33fe',
     // InstanceType: 't2.medium',
     // InstanceType: 'm5.xlarge',
     InstanceType: 'c5.large',
     // InstanceType: 'r4.large',
-    KeyName: 'aws-personal',
+    //KeyName: 'aws-personal',
     IamInstanceProfile: {
-      Arn: 'arn:aws:iam::526237877329:instance-profile/bedrock-ledger-node'
+      Arn: 'arn:aws:iam::818836321125:instance-profile/bedrock-server'
     },
     MinCount: 1,
     MaxCount: 1,
-    SecurityGroupIds: ['sg-9e6359ed'],
-    SubnetId: 'subnet-2091d97d',
+    SecurityGroupIds: ['sg-2a131b5d'],
+    SubnetId: 'subnet-ac9f94e7',
     // SubnetId: 'subnet-60c3b105',
     UserData: Buffer.from(userData).toString('base64')
   };
@@ -73,7 +74,7 @@ if(execute) {
     // Add tags to the instance
     params = {Resources: [InstanceId], Tags: [{
       Key: 'Name',
-      Value: 'Primary'
+      Value: 'ledger-test-primary'
     }, {
       Key: 'network-id',
       Value: program.network
