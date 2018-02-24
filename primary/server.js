@@ -35,8 +35,8 @@ bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
     options: {unique: true, background: false}
   }, {
     collection: 'peer-public-addresses',
-    fields: {'peer.timeStamp': 1},
-    options: {unique: false, background: false}
+    fields: {'peer.timeStamp': 1, id: 1},
+    options: {unique: true, background: false}
   }], callback)]
 }, callback));
 
