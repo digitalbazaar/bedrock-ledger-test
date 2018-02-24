@@ -5,7 +5,6 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
-const brLedgerNode = require('bedrock-ledger-node');
 const brRest = require('bedrock-rest');
 const config = bedrock.config;
 const fs = require('fs');
