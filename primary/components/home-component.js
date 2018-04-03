@@ -138,6 +138,8 @@ function Ctrl($interval, $route, brPeerService) {
     }
   };
 
+  self.$onInit = () => _getChartData();
+
   self.blocksPerMinute = (blocks, startTime) => {
     const seconds = (Date.now() - startTime) / 1000;
     const minutes = seconds / 60;
@@ -148,29 +150,7 @@ function Ctrl($interval, $route, brPeerService) {
     $route.reload();
   };
 
-  $interval(() => {
-    if(self.collection.peers.length !== 0) {
-      const primaryIndex = self.collection.peers
-        .findIndex(p => p.label.startsWith('Primary-'));
-      const primaryId = self.collection.peers[primaryIndex]._id;
-      brPeerService.get(primaryId).then(result => {
-        console.log('RESULT', result);
-        self.labels = result.map(r => r.timeStamp);
-        self.data = [
-          result.map(r => r.status.events.mergeEventsOutstanding),
-          result.map(r => r.status.events.outstanding),
-          result.map(r => r.status.events.total),
-        ],
-        self.data2 = [
-          result.map(r => r.status.duration.aggregate),
-          result.map(r => r.status.duration.findConsensus),
-          result.map(r => r.status.duration.recentHistoryMergeOnly),
-          result.map(r => Math.round(r.status.events.avgConsensusTime / 1000)),
-        ];
-        console.log('PRIMARY', result);
-      });
-    }
-  }, 30000);
+  $interval(() => _getChartData(), 30000);
 
   self.averageDups = () => {
     const dups = self.collection.peers.map(p => p.status.events.dups);
@@ -212,4 +192,27 @@ function Ctrl($interval, $route, brPeerService) {
     const epm = eps * 60;
     return `${Math.round(self.averageDups() / epm * 100)}%`;
   };
+
+  function _getChartData() {
+    if(self.collection.peers.length !== 0) {
+      const primaryIndex = self.collection.peers
+        .findIndex(p => p.label.startsWith('Primary-'));
+      const primaryId = self.collection.peers[primaryIndex]._id;
+      brPeerService.get(primaryId).then(result => {
+        self.labels = result.map(r => r.timeStamp);
+        self.data = [
+          result.map(r => r.status.events.mergeEventsOutstanding),
+          result.map(r => r.status.events.outstanding),
+          result.map(r => r.status.events.total),
+        ],
+        self.data2 = [
+          result.map(r => r.status.duration.aggregate),
+          result.map(r => r.status.duration.findConsensus),
+          result.map(r => r.status.duration.recentHistoryMergeOnly),
+          result.map(r => Math.round(r.status.events.avgConsensusTime / 1000)),
+        ];
+        console.log('PRIMARY', result);
+      });
+    }
+  }
 }
