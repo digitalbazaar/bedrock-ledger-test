@@ -154,6 +154,7 @@ function Ctrl($interval, $route, brPeerService) {
         .findIndex(p => p.label.startsWith('Primary-'));
       const primaryId = self.collection.peers[primaryIndex]._id;
       brPeerService.get(primaryId).then(result => {
+        console.log('RESULT', result);
         self.labels = result.map(r => r.timeStamp);
         self.data = [
           result.map(r => r.status.events.mergeEventsOutstanding),
