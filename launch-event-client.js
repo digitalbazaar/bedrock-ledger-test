@@ -25,8 +25,6 @@ if(execute) {
   const userData = `
   #cloud-config
   runcmd:
-   - systemctl enable mongod
-   - systemctl start mongod
    - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
    - cd bedrock-ledger-test
    - git checkout draco
@@ -43,7 +41,7 @@ if(execute) {
     // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
     // ImageId: 'ami-44b59d3e', // ledger2.0
     //ImageId: 'ami-07d1cc7d', // disabled mongo, dnsmasq
-    ImageId: 'ami-cc6a87b1',
+    ImageId: 'ami-2d923050',
     // InstanceType: 't2.medium',
     InstanceType: 'c5.large',
     // InstanceType: 'm5.xlarge',
