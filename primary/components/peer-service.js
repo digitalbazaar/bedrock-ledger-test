@@ -20,7 +20,7 @@ export default function factory($http, $interval) {
       return last;
     }));
 
-  service.get = id => $http.get(`${baseUrl}/${id}`)
+  service.get = id => $http.get(`${baseUrl}/${encodeURIComponent(id)}`)
     .then(response => response.data);
 
   return service;
