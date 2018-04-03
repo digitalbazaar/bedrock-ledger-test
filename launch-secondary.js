@@ -34,7 +34,7 @@ if(execute) {
    - systemctl start mongod
    - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
    - cd bedrock-ledger-test
-   - git checkout orion
+   - git checkout draco
    - [ sh, -xc, "echo primary-hostname: ${program.primary} >> ./instance-config.yml" ]
    - [ sh, -xc, "echo mongo-hostname: ${program.mongo} >> ./instance-config.yml" ]
    - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
