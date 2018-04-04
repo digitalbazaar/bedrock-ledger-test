@@ -18,7 +18,7 @@
     "bedrock-docs": "^2.1.1",
     "bedrock-express": "^2.0.6",
     "bedrock-jobs": "^2.0.3",
-    "bedrock-ledger-context": "digitalbazaar/bedrock-ledger-context#da23d549f500ad6617e6e43cc87b0a234aced771",
+    "bedrock-ledger-context": "digitalbazaar/bedrock-ledger-context#master",
     "bedrock-mongodb": "^4.0.0",
     "bedrock-rest": "^2.1.0",
     "bedrock-server": "^2.3.1",
