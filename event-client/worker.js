@@ -57,9 +57,9 @@ function sendEvent({ledgerOperationService, eventNum, actor}) {
         console.error(err);
         return callback(err);
       }
-      if(res.statusCode !== 201) {
+      if(res.statusCode !== 204) {
         err = new Error(
-          'Error sending event: server did not respond with 201.');
+          'Error sending event: server did not respond with 204.');
         console.error('ERROR', err);
         console.error('statusCode', res.statusCode);
         console.error('body', res.body);
