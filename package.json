@@ -38,7 +38,7 @@
     "bedrock-docs": "^2.1.1",
     "bedrock-express": "^2.0.8",
     "bedrock-identity": "^4.6.0",
-    "bedrock-jobs": "digitalbazaar/bedrock-jobs#modernize",
+    "bedrock-jobs": "^2.0.4",
     "bedrock-key": "^4.1.0",
     "bedrock-ledger-agent": "digitalbazaar/bedrock-ledger-agent#master",
     "bedrock-ledger-consensus-continuity": "digitalbazaar/bedrock-ledger-consensus-continuity#opRefactor",
