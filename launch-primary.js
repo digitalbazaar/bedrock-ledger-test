@@ -43,7 +43,7 @@ if(execute) {
     // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
     // ImageId: 'ami-44b59d3e', // ledger2.0
     //ImageId: 'ami-07d1cc7d', // disabled mongo, dnsmasq
-    ImageId: 'ami-2d923050',
+    ImageId: 'ami-6a6cbe15',
     // InstanceType: 't2.medium',
     // InstanceType: 'm5.xlarge',
     InstanceType: 'c5.large',
