@@ -32,7 +32,7 @@ if(execute) {
   runcmd:
    - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
    - cd bedrock-ledger-test
-   - git checkout draco
+   - git checkout draco-redis3
    - [ sh, -xc, "echo primary-hostname: ${program.primary} >> ./instance-config.yml" ]
    - [ sh, -xc, "echo mongo-hostname: ${program.mongo} >> ./instance-config.yml" ]
    - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
