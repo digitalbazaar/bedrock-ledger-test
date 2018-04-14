@@ -163,3 +163,5 @@ roles['bedrock-ledger-test.test'] = {
     permissions.LEDGER_AGENT_REMOVE.id
   ]
 };
+
+config['ledger-consensus-continuity'].consensus.workerpool.enabled = false;
