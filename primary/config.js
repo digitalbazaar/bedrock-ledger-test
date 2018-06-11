@@ -93,11 +93,11 @@ config.views.system.packages.push({
 });
 config.views.vars.minify = false;
 
-const cloudwatch = config.loggers.cloudwatch;
-cloudwatch.logGroupName = `primary-local`;
-cloudwatch.logStreamName = 'app';
-cloudwatch.json = true;
-cloudwatch.uploadRate = 20000;
+// const cloudwatch = config.loggers.cloudwatch;
+// cloudwatch.logGroupName = `primary-local`;
+// cloudwatch.logStreamName = 'app';
+// cloudwatch.json = true;
+// cloudwatch.uploadRate = 20000;
 
 const identities = config['ledger-test'].identities = {};
 

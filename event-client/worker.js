@@ -24,7 +24,7 @@ function sendEvent({ledgerOperationService, eventNum, actor}) {
       type: 'CreateWebLedgerRecord',
       record: {
         '@context': {'@vocab': 'https://w3id.org/payments#'},
-        '@id': `https://example.com/transaction/${uuid()}`,
+        'id': `https://example.com/transaction/${uuid()}`,
         sourceAccount: Math.floor(Math.random() * 100000000000),
         destinationAccount: Math.floor(Math.random() * 1000000000000),
         memo: `Transaction ${Math.floor(Math.random() * 1000000000000)}`,

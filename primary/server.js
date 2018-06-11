@@ -6,7 +6,7 @@
 const _ = require('lodash');
 const async = require('async');
 const bedrock = require('bedrock');
-const brAws = require('bedrock-aws');
+// const brAws = require('bedrock-aws');
 const brRest = require('bedrock-rest');
 const config = bedrock.config;
 const database = require('bedrock-mongodb');
@@ -21,10 +21,10 @@ const path = require('path');
 let cloudWatch;
 let cloudWatchLogs;
 
-bedrock.events.on('bedrock.start', () => {
-  cloudWatchLogs = new brAws.CloudWatchLogs();
-  cloudWatch = new brAws.CloudWatch();
-});
+// bedrock.events.on('bedrock.start', () => {
+//   cloudWatchLogs = new brAws.CloudWatchLogs();
+//   cloudWatch = new brAws.CloudWatch();
+// });
 
 bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
   open: callback => database.openCollections(
@@ -107,7 +107,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 
   app.post(routes.newNode, brRest.when.prefers.ld, (req, res, next) => {
     const {
-      baseUri, label, ledgerNodeId, logGroupName, logUrl, mongoUrl,
+      baseUri, label, ledgerNodeId, /*logGroupName,*/ logUrl, mongoUrl,
       privateHostname, publicHostname, status
     } = req.body;
     // using the ledgerNodeId as key
@@ -119,7 +119,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
         mongoUrl,
         label,
         ledgerNodeId,
-        logGroupName,
+        // logGroupName,
         logUrl,
         privateHostname,
         publicHostname,

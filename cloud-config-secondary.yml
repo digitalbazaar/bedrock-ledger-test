@@ -1,0 +1,23 @@
+#cloud-config
+runcmd:
+ - sysctl vm.swappiness=10
+ - [ sh, -xc, "echo vm.swappiness=10 >> /etc/sysctl.conf" ]
+ - umount /dev/vdb
+ - mkfs.xfs -f /dev/vdb
+ - sed -i '/^[/]dev[/]vdb/d' /etc/fstab
+ - [ sh, -xc, "echo /dev/vdb /mnt/db xfs rw,nobarrier,auto 0 0 >> /etc/fstab" ]
+ - mkdir /mnt/db
+ - mount /dev/vdb /mnt/db
+ - mkdir /mnt/db/mongodb
+ - chown mongodb:mongodb /mnt/db/mongodb
+ - curl -o /etc/mongod.conf https://gist.githubusercontent.com/mattcollier/da84584c9ca1f3a2023ad3cefb23d41d/raw/mongod.conf
+ - systemctl enable mongod
+ - systemctl start mongod
+ - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
+ - cd bedrock-ledger-test
+ - git checkout draco-openstack
+ - [ sh, -xc, "echo primary-hostname: _PRIMARYSERVER_ >> ./instance-config.yml" ]
+ - [ sh, -xc, "echo mongo-hostname: _MONGOSERVER_ >> ./instance-config.yml" ]
+ - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
+ - npm install
+ - npm run secondary-aws >/dev/null 2>&1

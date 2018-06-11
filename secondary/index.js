@@ -19,7 +19,7 @@ require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
-require('bedrock-logger-cloudwatch');
+// require('bedrock-logger-cloudwatch');
 require('bedrock-mongodb');
 require('bedrock-permission');
 require('./identities');
@@ -42,17 +42,25 @@ bedrock.events.on('bedrock-cli.ready', callback => {
     const metaBase = 'http://169.254.169.254/latest/meta-data';
     const lhn = `${metaBase}/local-hostname/`;
     const phn = `${metaBase}/public-hostname/`;
+    const localIp = `${metaBase}/local-ipv4/`;
+    const publicIp = `${metaBase}/public-ipv4/`;
     return async.auto({
       lhn: callback => request.get(lhn, (err, res) => callback(err, res.body)),
       phn: callback => request.get(phn, (err, res) => callback(err, res.body)),
+      localIp: callback => request.get(
+        localIp, (err, res) => callback(err, res.body)),
+      publicIp: callback => request.get(
+        publicIp, (err, res) => callback(err, res.body)),
     }, (err, results) => {
       if(err) {
         return callback(err);
       }
-      config.loggers.cloudwatch.logGroupName =
-        results.lhn.substring(0, results.lhn.indexOf('.'));
-      config.server.domain = results.lhn;
-      publicHostname = results.phn;
+      // config.loggers.cloudwatch.logGroupName =
+      //   results.lhn.substring(0, results.lhn.indexOf('.'));
+      config.server.bindAddr = [results.localIp];
+      config.server.domain = results.publicIp;
+      publicHostname = results.publicIp;
+      // publicHostname = results.phn;
       callback();
     });
   }
