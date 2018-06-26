@@ -7,7 +7,9 @@
     "primary-aws": "node ./primary/index.js --aws --log-level verbose",
     "secondary-aws": "node ./secondary/index.js --aws",
     "secondary-local": "node ./secondary/index.js",
-    "start": "node ./primary/index.js"
+    "start": "node ./primary/index.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -57,7 +59,8 @@
     "random-port": "^0.1.0",
     "random-words": "0.0.1",
     "request": "^2.83.0",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "snyk": "^1.85.0"
   },
   "bedrock": {
     "browserDependencies": [
@@ -73,5 +76,6 @@
         "css": "dist/md-data-table.css"
       }
     }
-  }
+  },
+  "snyk": true
 }
