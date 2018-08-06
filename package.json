@@ -26,13 +26,10 @@
   },
   "homepage": "https://github.com/digitalbazaar/bedrock-ledger-test",
   "dependencies": {
-    "angular-chart.js": "^1.1.1",
-    "angular-material-data-table": "^0.10.10",
     "async": "^2.5.0",
     "aws-sdk": "^2.126.0",
     "bedrock": "digitalbazaar/bedrock#cliParsed",
     "bedrock-angular": "^4.0.0",
-    "bedrock-angular-material": "^1.0.2",
     "bedrock-aws": "digitalbazaar/bedrock-aws#implementation",
     "bedrock-did-client": "digitalbazaar/bedrock-did-client#jsonld-1.1",
     "bedrock-docs": "^2.1.1",
@@ -46,6 +43,7 @@
     "bedrock-ledger-context": "^1.0.0",
     "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#master",
     "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#master",
+    "bedrock-ledger-test-dashboard": "digitalbazaar/bedrock-ledger-test-dashboard#implementation",
     "bedrock-logger-cloudwatch": "^1.0.0",
     "bedrock-mongodb": "^5.1.2",
     "bedrock-passport": "^3.4.1",
@@ -67,31 +65,8 @@
   },
   "bedrock": {
     "browserDependencies": [
-      "angular-material-data-table",
       "bedrock-angular",
-      "bedrock-angular-material",
-      "angular-chart.js",
-      "chart.js",
-      "chartjs-color",
-      "chartjs-color-string",
-      "color-convert",
-      "color-name",
-      "moment"
-    ],
-    "manifest": {
-      "angular-material-data-table": {
-        "dependencies": {
-          "angular": "~1.6.5"
-        },
-        "css": "dist/md-data-table.css"
-      }
-    },
-    "systemjs": {
-      "packages": {
-        "angular-chart.js": {
-          "format": "cjs"
-        }
-      }
-    }
+      "bedrock-ledger-test-dashboard"
+    ]
   }
 }

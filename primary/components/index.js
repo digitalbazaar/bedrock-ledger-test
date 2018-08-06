@@ -3,26 +3,23 @@
  */
 import angular from 'angular';
 import * as bedrock from 'bedrock-angular';
-import HomeComponent from './home-component.js';
-import PeerService from './peer-service.js';
 
 const module = angular.module('bedrock.ledger-test', [
-  'chart.js', 'ngMaterial', 'md.data.table'
+  'bedrock.ledger-test-dashboard'
 ]);
 
 bedrock.setRootModule(module);
-
-module.component('exHome', HomeComponent);
-module.service('brPeerService', PeerService);
 
 /* @ngInject */
 module.config($routeProvider => {
   $routeProvider
     .when('/', {
-      title: 'Angular Basic Home',
-      template: '<ex-home br-collection="$resolve.collection"></ex-home>',
+      title: 'Bedrock Ledger Test Dashboard',
+      template:
+        '<brlt-dashboard brlt-collection="$resolve.collection">' +
+        '</brlt-dashboard>',
       resolve: {
-        collection: (brPeerService) => brPeerService.collection
+        collection: (brltPeerService) => brltPeerService.collection
       }
     });
 });
