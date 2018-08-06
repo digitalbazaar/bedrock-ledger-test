@@ -12,3 +12,4 @@ reports
 config.json
 config.yml
 instance-config.yml
+cloud-auth.yml
