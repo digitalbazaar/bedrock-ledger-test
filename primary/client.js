@@ -11,6 +11,7 @@ const config = bedrock.config;
 const database = require('bedrock-mongodb');
 const ledger = require('./ledger');
 const logger = require('./logger');
+const os = require('os');
 let request = require('request');
 request = request.defaults({json: true, strictSSL: false});
 
@@ -215,6 +216,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
                 outstanding: eventsOutstanding,
                 total: eventsTotal,
               },
+              loadAverage: os.loadavg(),
               opsPerSecond,
             }
           },

@@ -10,6 +10,7 @@ const cache = require('bedrock-redis');
 const database = require('bedrock-mongodb');
 const config = bedrock.config;
 const logger = require('./logger');
+const os = require('os');
 const request = require('request');
 
 const api = {};
@@ -217,6 +218,7 @@ api.sendStatus = ({label, ledgerNodeId, publicHostname}, callback) => {
                 outstanding: eventsOutstanding,
                 total: eventsTotal,
               },
+              loadAverage: os.loadavg(),
               opsPerSecond,
             }
           },
