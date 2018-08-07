@@ -1,90 +1,93 @@
 #!/usr/bin/env node
 
-// const program = require('commander');
+const _ = require('lodash');
+const fs = require('fs');
+const path = require('path');
+const pkgcloud = require('pkgcloud');
+const {promisify} = require('util');
+const uuid = require('uuid/v4');
+const yaml = require('js-yaml');
 
-// Load the AWS SDK for Node.js
-const AWS = require('aws-sdk');
-// Load credentials and set region from JSON file
-AWS.config.loadFromPath('./config.json');
+let auth;
+try {
+  auth = yaml.safeLoad(fs.readFileSync(
+    path.join(__dirname, 'cloud-auth.yml'), 'utf8'));
+} catch(e) {
+  console.error(e);
+  process.exit(1);
+}
 
-let execute = true;
+const mongoConfig = fs.readFileSync(
+  path.join(__dirname, 'cloud-config-mongo.yml'), 'utf8');
 
-// program
-//   .option('-p, --primary [value]', 'primary node hostname')
-//   .parse(process.argv);
-//
-// if(execute && !program.primary) {
-//   execute = false;
-//   console.log(
-//     'Hostname for the primary must be specified with --primary option.');
-//   process.exitCode = 1;
-// }
+const clientOptions = {
+  keystoneAuthVersion: 'v3',
+  provider: 'openstack', // required
+  username: auth.username, // required
+  password: auth.password, // required
+  authUrl: 'http://controller:5000', // required
+  // strictSSL: false,
+  domainId: 'default',
+  region: 'Blacksburg',
+  tenantName: 'veres-delta-stress',
+  projectDomainId: 'default',
+};
 
-if(execute) {
-  // Create EC2 service object
-  const ec2 = new AWS.EC2({apiVersion: '2016-11-15'});
+const openstack = pkgcloud.compute.createClient(clientOptions);
+const network = pkgcloud.network.createClient(clientOptions);
 
-  const userData = `
-  #cloud-config
-  runcmd:
-   - mkfs.xfs /dev/nvme0n1
-   - [ sh, -xc, "echo /dev/nvme0n1 /mnt/db xfs rw,nobarrier,auto 0 0 >> /etc/fstab" ]
-   - mkdir /mnt/db
-   - mount /dev/nvme0n1 /mnt/db
-   - mkdir /mnt/db/mongodb
-   - chown mongodb:mongodb /mnt/db/mongodb
-   - systemctl enable mongod
-   - systemctl start mongod
-   `;
+const createServer = promisify(openstack.createServer.bind(openstack));
+const getServer = promisify(openstack.getServer.bind(openstack));
+const getPorts = promisify(network.getPorts.bind(network));
+const getFloatingIps = promisify(network.getFloatingIps.bind(network));
+const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
 
-  let params = {
-    // ImageId: 'ami-cd0f5cb6', // amazon default ubuntu 16.04
-    // ImageId: 'ami-a09a99d', // mongo 3.4.11
-    // InstanceType: 'm5.xlarge',
-    // ImageId: 'ami-1d6d7067', // i3 mongo 3.4.11
-    // ImageId: 'ami-8842a1f5', // i3 mongo 3.6
-    ImageId: 'ami-b61ff2cb', // i3 mongo 3.6 + dnsmasq (aws-sandbox)
-    InstanceType: 'i3.xlarge',
-    //KeyName: '',
-    IamInstanceProfile: {
-      Arn: 'arn:aws:iam::818836321125:instance-profile/bedrock-server'
-    },
-    MinCount: 1,
-    MaxCount: 1,
-    SecurityGroupIds: ['sg-f5c5cc82'],
-    SubnetId: 'subnet-ac9f94e7',
-    UserData: Buffer.from(userData).toString('base64')
-  };
-
-  // Create the instance
-  ec2.runInstances(params, function(err, data) {
-    if(err) {
-      console.log("Could not create instance", err);
-      process.exitCode = 1;
-      return;
-    }
-    const {InstanceId, PrivateDnsName} = data.Instances[0];
-    // Add tags to the instance
-    params = {Resources: [InstanceId], Tags: [{
-      Key: 'Name',
-      Value: 'ledger-test-mongo'
-    }]};
-    ec2.createTags(params, function() {
-      // console.log("Tagging instance", err ? "failure" : "success");
-    });
-    ec2.waitFor(
-      'instanceRunning', {Filters: [
-        {Name: 'instance-id', Values: [InstanceId]}
-      ]},
-      (err, data) => {
-        if(err) {
-          console.log('Error', err);
-          process.exitCode = 1;
-          return;
-        }
-        // add leading space
-        const {PublicDnsName} = data.Reservations[0].Instances[0];
-        process.stdout.write(`${PrivateDnsName} ${PublicDnsName}\n`);
-      });
+async function run() {
+  const server = await createServer({
+    cloudConfig: Buffer.from(mongoConfig).toString('base64'),
+    image: '080dcf87-57af-4beb-8efa-08a786bcbbad', // ledger-server-v2.0
+    name: `mongo-${uuid()}`,
+    flavor: 'a024a971-8173-450d-8c4d-a25ddaf19882', // mongo.small-swap
+    keyname: 'matt-rsa',
+    networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
+    securityGroups: [{name: 'default'}, {name: 'mongo-server'}],
   });
+  const floatingIps = await getFloatingIps();
+
+  // wait for the server to be in a `RUNNING` state
+  for(let i = 0; i < 30; ++i) {
+    const serverDetails = await getServer(server.id);
+    if(serverDetails.status === 'RUNNING') {
+      break;
+    }
+    await _sleep(1000);
+  }
+
+  const ports = await getPorts();
+  const serverPort = _.find(ports, {
+    deviceId: server.id, deviceOwner: 'compute:nova'
+  });
+  const {id: portId} = serverPort;
+  const availableFloatingIp = _.find(floatingIps, ['port_id', null]);
+  if(!availableFloatingIp) {
+    // TODO: allocate a floating IP
+    throw new Error('No available floating IPs.');
+  }
+
+  // assign an available floating IP to the port on the new VM
+  const {id: floatingIpId} = availableFloatingIp;
+  await updateFloatingIp({floatingIpId, portId});
+
+  // success, output IP information
+  process.stdout.write(availableFloatingIp.floating_ip_address + ' ' +
+    availableFloatingIp.floating_ip_address + '\n');
+} // end run
+
+run().catch(e => {
+  console.error(e);
+  process.exit(1);
+});
+
+function _sleep(ms) {
+  return new Promise(resolve => setTimeout(() => resolve(), ms));
 }
