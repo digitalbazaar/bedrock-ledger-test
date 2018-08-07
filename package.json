@@ -43,6 +43,7 @@
     "bedrock-ledger-context": "^1.0.0",
     "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#master",
     "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#master",
+    "bedrock-ledger-test-client-http": "digitalbazaar/bedrock-ledger-test-client-http#implementation",
     "bedrock-ledger-test-dashboard": "digitalbazaar/bedrock-ledger-test-dashboard#implementation",
     "bedrock-logger-cloudwatch": "^1.0.0",
     "bedrock-mongodb": "^5.1.2",

@@ -5,7 +5,7 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
-const client = require('./client');
+const client = require('bedrock-ledger-test-client-http');
 const config = bedrock.config;
 const request = require('request');
 const randomWords = require('random-words');
