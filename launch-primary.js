@@ -62,7 +62,8 @@ async function run() {
     cloudConfig: Buffer.from(primaryConfig).toString('base64'),
     image: '080dcf87-57af-4beb-8efa-08a786bcbbad', // ledger-server-v2.0
     name: `primary-${uuid()}`,
-    flavor: '2841e3d0-ace6-43de-ae20-3cd529710f97', // ledger.large-swap
+    // flavor: '2841e3d0-ace6-43de-ae20-3cd529710f97', // ledger.large-swap
+    flavor: 'f804b933-af5a-4aa1-8bcf-6643601cf3de', // ledger-only.large-swap
     keyname: 'matt-rsa',
     networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
     securityGroups: [{name: 'bedrock-ledger-test'}, {name: 'inspector'}],

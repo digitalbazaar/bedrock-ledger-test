@@ -1,3 +1,3 @@
 #!/bin/bash
 node index.js optimize
-node index.js --aws
+NODE_ENV=production node index.js --aws
