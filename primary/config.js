@@ -164,4 +164,4 @@ roles['bedrock-ledger-test.test'] = {
   ]
 };
 
-config['ledger-consensus-continuity'].consensus.workerpool.enabled = false;
+config['ledger-consensus-continuity'].consensus.workerpool.enabled = true;
