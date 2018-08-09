@@ -165,3 +165,4 @@ roles['bedrock-ledger-test.test'] = {
 };
 
 config['ledger-consensus-continuity'].consensus.workerpool.enabled = true;
+config['ledger-consensus-continuity'].write.debounce = 5000;
