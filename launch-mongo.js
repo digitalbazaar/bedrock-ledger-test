@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 const _ = require('lodash');
 const fs = require('fs');
@@ -47,7 +48,7 @@ async function run() {
     cloudConfig: Buffer.from(mongoConfig).toString('base64'),
     image: '080dcf87-57af-4beb-8efa-08a786bcbbad', // ledger-server-v2.0
     name: `mongo-${uuid()}`,
-    flavor: 'a024a971-8173-450d-8c4d-a25ddaf19882', // mongo.small-swap
+    flavor: '4c1ca742-3b9f-4e7c-833a-094bd87147e6', // mongo.medium-swap
     keyname: 'matt-rsa',
     networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
     securityGroups: [{name: 'default'}, {name: 'mongo-server'}],
