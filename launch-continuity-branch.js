@@ -10,6 +10,7 @@ const uuid = require('uuid/v4');
 const yaml = require('js-yaml');
 
 program
+  .option('-b, --branch [value]', 'branch name')
   .option('-c, --count <n>', 'instance count')
   .parse(process.argv);
 
@@ -22,8 +23,11 @@ try {
   process.exit(1);
 }
 
-const xblockConfig = fs.readFileSync(
-  path.join(__dirname, 'cloud-config-xblocktest.yml'), 'utf8');
+let continuityBranchConfig = fs.readFileSync(
+  path.join(__dirname, 'cloud-config-continuity-branch.yml'), 'utf8');
+
+continuityBranchConfig = continuityBranchConfig.replace(
+  '_CONTINUITYBRANCH_', program.branch);
 
 const clientOptions = {
   keystoneAuthVersion: 'v3',
@@ -52,9 +56,9 @@ const instanceCount = program.count ? parseInt(program.count, 10) : 1;
 async function run() {
   for(let i = 0; i < instanceCount; ++i) {
     const server = await createServer({
-      cloudConfig: Buffer.from(xblockConfig).toString('base64'),
+      cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
       image: '38b48578-165a-4ff3-ae1b-f908fe9020a4', // ledger-server-v1.1
-      name: `xblock-${uuid()}`,
+      name: `continuity-${uuid()}`,
       flavor: 'd943944c-03cc-46eb-80de-015a101e9bea', // m2.medium
       keyname: 'matt-rsa',
       networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],

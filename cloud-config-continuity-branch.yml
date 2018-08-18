@@ -1,10 +1,10 @@
 #cloud-config
 runcmd:
- - echo 127.0.0.1 bedrock.local >> /etc/hosts
+ - echo 127.0.0.1 bedrock.localhost >> /etc/hosts
  - git clone https://github.com/digitalbazaar/bedrock-ledger-consensus-continuity.git
  - cd /bedrock-ledger-consensus-continuity
- - git checkout xBranchTest
+ - git checkout _CONTINUITYBRANCH_
  - npm install
  - cd /bedrock-ledger-consensus-continuity/test
  - npm install
- - ./loop.sh
+ - curl https://gist.githubusercontent.com/mattcollier/1b24f809d293d94f6da53aa51002b28e/raw/loop.sh | bash -s
