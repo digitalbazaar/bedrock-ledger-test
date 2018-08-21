@@ -10,7 +10,7 @@ export default {
 };
 
 /* @ngInject */
-function Ctrl($route) {
+function Ctrl($route, brClientService) {
   const self = this;
 
   self.refresh = () => {
@@ -21,4 +21,6 @@ function Ctrl($route) {
     const sum = self.collection.clients.reduce((a, v) => a + Number(v.pass), 0);
     return sum;
   };
+
+  self.removeAll = () => brClientService.removeAll();
 }

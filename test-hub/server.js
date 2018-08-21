@@ -6,7 +6,7 @@
 const async = require('async');
 const bedrock = require('bedrock');
 const brRest = require('bedrock-rest');
-const config = bedrock.config;
+const {config} = bedrock;
 const database = require('bedrock-mongodb');
 
 bedrock.events.on('bedrock-express.configure.routes', app => {
@@ -17,15 +17,26 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       .toArray(callback)
   }));
 
+  // delete all statuses, test that are still running will repopulate
+  app.delete(routes.testHub, (req, res, next) => {
+    database.collections.testHub.remove({}, err => {
+      if(err) {
+        return next(err);
+      }
+      res.status(204).end();
+    });
+  });
+
   app.post(routes.testHub, (req, res, next) => {
-    console.log(req.connection.remoteAddress, req.body);
+    console.verbose(req.connection.remoteAddress, req.body);
+    const now = Date.now();
     const record = {
       client: req.connection.remoteAddress,
       commit: req.body.commit,
       pass: req.body.pass,
       status: req.body.status,
-      updated: Math.round(Date.now() / 1000), // seconds
-      start: Date.now(),
+      updated: Math.round(now / 1000), // seconds
+      start: now,
     };
     async.auto({
       get: callback => database.collections.testHub.findOne(
@@ -33,7 +44,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       update: ['get', (results, callback) => {
         if(results.get) {
           record.lastStart = results.get.start;
-          record.lastEnd = Date.now();
+          record.lastEnd = now;
         }
         database.collections.testHub.update(
           {client: record.client}, record, {upsert: true}, callback);

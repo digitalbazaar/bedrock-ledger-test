@@ -16,5 +16,7 @@ export default function factory($http, $interval) {
   service.getAll = () => $http.get(baseUrl).then(response =>
     service.collection.clients = response.data);
 
+  service.removeAll = () => $http.delete(baseUrl);
+
   return service;
 }
