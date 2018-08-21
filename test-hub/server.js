@@ -28,7 +28,6 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
   });
 
   app.post(routes.testHub, (req, res, next) => {
-    console.verbose(req.connection.remoteAddress, req.body);
     const now = Date.now();
     const record = {
       client: req.connection.remoteAddress,
