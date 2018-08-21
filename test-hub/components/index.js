@@ -19,7 +19,7 @@ module.service('brClientService', ClientService);
 module.config($routeProvider => {
   $routeProvider
     .when('/', {
-      title: 'Angular Basic Home',
+      title: 'Test Hub',
       template: '<ex-home br-collection="$resolve.collection">' +
         '</ex-home>',
       resolve: {
