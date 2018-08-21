@@ -62,7 +62,7 @@ async function run() {
       cloudConfig: Buffer.from(bedrockModuleConfig).toString('base64'),
       image: '38b48578-165a-4ff3-ae1b-f908fe9020a4', // ledger-server-v1.1
       name: `${program.module}|${uuid()}`,
-      flavor: 'd943944c-03cc-46eb-80de-015a101e9bea', // m2.medium
+      flavor: 'b3966f39-ef2a-4367-ad66-9627454ff43f', // m2.medium
       keyname: 'matt-rsa',
       networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
       securityGroups: [{name: 'default'}],
