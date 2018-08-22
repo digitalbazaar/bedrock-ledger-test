@@ -60,7 +60,7 @@ async function run() {
   for(let i = 0; i < instanceCount; ++i) {
     const server = await createServer({
       cloudConfig: Buffer.from(bedrockModuleConfig).toString('base64'),
-      image: '38b48578-165a-4ff3-ae1b-f908fe9020a4', // ledger-server-v1.1
+      image: '297e1278-bc05-4720-91bc-4d2eda368b80', // ledger-server-v1.3
       name: `${program.module}|${uuid()}`,
       flavor: 'b3966f39-ef2a-4367-ad66-9627454ff43f', // m2.medium
       keyname: 'matt-rsa',
