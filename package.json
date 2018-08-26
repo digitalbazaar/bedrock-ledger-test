@@ -6,7 +6,7 @@
   "scripts": {
     "primary-aws": "NODE_ENV=production node ./primary/index.js --aws",
     "secondary-aws": "NODE_ENV=production node ./secondary/index.js --aws",
-    "secondary-nsolid": "NODE_ENV=production node ./secondary/index.js --localpeer",
+    "secondary-nsolid": "NODE_ENV=production NSOLID_APPNAME=ledger NSOLID_COMMAND=localhost:9001 node ./secondary/index.js --localpeer",
     "secondary-local": "node ./secondary/index.js",
     "start": "node ./primary/index.js"
   },

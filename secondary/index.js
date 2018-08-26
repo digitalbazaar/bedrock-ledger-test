@@ -38,7 +38,7 @@ bedrock.events.on('bedrock-cli.init', () => bedrock.program
 
 bedrock.events.on('bedrock-cli.ready', callback => {
   if(bedrock.program.localpeer) {
-    require('./config-localpeer.js');
+    require('./config-localpeer');
     publicHostname = config.server.domain;
     return callback();
   }

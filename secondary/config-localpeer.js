@@ -24,7 +24,7 @@ config.server.port = 18443;
 config.server.httpPort = 18080;
 
 // core configuration
-config.core.workers = 0;
+config.core.workers = 1;
 
 config['ledger-test'].primaryHost = instanceConfig['primary-hostname'];
 
