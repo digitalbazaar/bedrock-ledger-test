@@ -63,9 +63,9 @@ async function run() {
   for(let i = 0; i < instanceCount; ++i) {
     const server = await createServer({
       cloudConfig: Buffer.from(eventClientConfig).toString('base64'),
-      image: '38b48578-165a-4ff3-ae1b-f908fe9020a4', // ledger-server-v1.1
+      image: 'd74bb6d1-78c0-4309-87a5-e33183f53b77', // ledger-minimal-v1.1
       name: `event-client-${uuid()}`,
-      flavor: 'd943944c-03cc-46eb-80de-015a101e9bea',
+      flavor: 'b3966f39-ef2a-4367-ad66-9627454ff43f', // m2.medium
       keyname: 'matt-rsa',
       networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
       securityGroups: [{name: 'bedrock-ledger-test'}],

@@ -1,5 +1,6 @@
 #cloud-config
 runcmd:
+ - systemctl stop mongod
  - sysctl vm.swappiness=10
  - [ sh, -xc, "echo vm.swappiness=10 >> /etc/sysctl.conf" ]
  - umount /dev/vdb
@@ -11,7 +12,6 @@ runcmd:
  - mkdir /mnt/db/mongodb
  - chown mongodb:mongodb /mnt/db/mongodb
  - curl -o /etc/mongod.conf https://gist.githubusercontent.com/mattcollier/da84584c9ca1f3a2023ad3cefb23d41d/raw/mongod.conf
- - systemctl enable mongod
  - systemctl start mongod
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test

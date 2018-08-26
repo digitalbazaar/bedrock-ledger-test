@@ -60,10 +60,9 @@ const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
 async function run() {
   const server = await createServer({
     cloudConfig: Buffer.from(primaryConfig).toString('base64'),
-    image: '080dcf87-57af-4beb-8efa-08a786bcbbad', // ledger-server-v2.0
+    image: 'd74bb6d1-78c0-4309-87a5-e33183f53b77', // ledger-minimal-v1.1
     name: `primary-${uuid()}`,
-    // flavor: '2841e3d0-ace6-43de-ae20-3cd529710f97', // ledger.large-swap
-    flavor: 'f804b933-af5a-4aa1-8bcf-6643601cf3de', // ledger-only.large-swap
+    flavor: '2c79b084-b48c-45c2-bfae-d4bda5956aee', // ledger.medium
     keyname: 'matt-rsa',
     networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
     securityGroups: [{name: 'bedrock-ledger-test'}, {name: 'inspector'}],
