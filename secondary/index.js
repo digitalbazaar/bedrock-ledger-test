@@ -31,12 +31,17 @@ const cfg = config['ledger-test'];
 
 let publicHostname;
 
-bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
-  '--aws',
-  'Configure for AWS.'
-));
+bedrock.events.on('bedrock-cli.init', () => bedrock.program
+  .option('--aws', 'Configure for AWS.')
+  .option('--localpeer', 'Configure for local peer to OpenStack Primary.')
+);
 
 bedrock.events.on('bedrock-cli.ready', callback => {
+  if(bedrock.program.localpeer) {
+    require('./config-localpeer.js');
+    publicHostname = config.server.domain;
+    return callback();
+  }
   if(bedrock.program.aws) {
     require('./config-aws');
     const metaBase = 'http://169.254.169.254/latest/meta-data';
@@ -59,7 +64,7 @@ bedrock.events.on('bedrock-cli.ready', callback => {
       //   results.lhn.substring(0, results.lhn.indexOf('.'));
       config.server.bindAddr = [results.localIp];
       config.server.domain = results.publicIp;
-      publicHostname = results.publicIp;
+      publicHostname = config.server.domain;
       // publicHostname = results.phn;
       callback();
     });
@@ -74,7 +79,7 @@ bedrock.events.on('bedrock-cli.ready', callback => {
 
 bedrock.events.on('bedrock.started', callback =>
   bedrock.runOnce('bedrock-ledger-test.phoneHome', callback => {
-    if(bedrock.program.aws) {
+    if(bedrock.program.aws || bedrock.program.localpeer) {
       logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
         genesis: callback => async.retry(
