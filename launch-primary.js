@@ -31,7 +31,7 @@ try {
 }
 
 let primaryConfig = fs.readFileSync(
-  path.join(__dirname, 'cloud-config-primary.yml'), 'utf8');
+  path.join(__dirname, 'cloud-config-primary-local-mongo.yml'), 'utf8');
 
 primaryConfig = primaryConfig.replace('_MONGOSERVER_', program.mongo);
 
