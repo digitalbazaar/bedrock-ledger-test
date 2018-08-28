@@ -8,6 +8,7 @@
     "secondary-aws": "NODE_ENV=production node ./secondary/index.js --aws",
     "secondary-nsolid": "NODE_ENV=production NSOLID_APPNAME=ledger NSOLID_COMMAND=localhost:9001 node ./secondary/index.js --localpeer",
     "secondary-local": "node ./secondary/index.js",
+    "secondardy-localpeer": "redis-cli flushall & NODE_ENV=production node ./secondary/index.js --localpeer",
     "start": "node ./primary/index.js"
   },
   "repository": {
