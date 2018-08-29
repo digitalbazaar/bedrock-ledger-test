@@ -14,7 +14,7 @@ fi
 
 # make array from output of launch-primary.js
 networkid=$(uuidgen)
-dashboardpublic = $(./launch-dashboard.js -n "${networkid}")
+dashboardpublic=$(./launch-dashboard.js -n "${networkid}")
 launchoutput=($(./launch-primary.js -m ${2} -n "${networkid}" -d "${dashboardpublic}"))
 primaryprivate="${launchoutput[0]}"
 primarypublic="${launchoutput[1]}"
