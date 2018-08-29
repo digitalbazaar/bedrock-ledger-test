@@ -23,7 +23,7 @@ try {
   process.exit(1);
 }
 
-let consoleConfig = fs.readFileSync(
+const consoleConfig = fs.readFileSync(
   path.join(__dirname, 'cloud-config-console.yml'), 'utf8');
 
 const clientOptions = {
