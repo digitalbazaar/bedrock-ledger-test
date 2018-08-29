@@ -19,7 +19,6 @@ require('bedrock-ledger-storage-mongodb');
 require('bedrock-mongodb');
 require('bedrock-permission');
 require('bedrock-views');
-require('bedrock-webpack');
 require('./identities');
 require('./server');
 require('./stats');
