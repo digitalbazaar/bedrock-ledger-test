@@ -20,6 +20,11 @@ if(!program.primary) {
     'Hostname for the primary must be specified with --primary option.');
   process.exitCode = 1;
 }
+if(!program.dashboard) {
+  console.log(
+    'Hostname for the dashboard must be specified with --dashboard option.');
+  process.exitCode = 1;
+}
 
 let auth;
 try {
