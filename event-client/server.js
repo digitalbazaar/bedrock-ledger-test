@@ -51,7 +51,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 });
 
 function _scanAgents(callback) {
-  const peersUrl = config['ledger-test'].primaryBaseUrl + '/peers';
+  const peersUrl = config['ledger-test'].dasboard.baseUrl + '/peers';
   async.auto({
     peers: callback => request.get(peersUrl, (err, res) => callback(err, res)),
     ledgerAgent: ['peers', (results, callback) => {

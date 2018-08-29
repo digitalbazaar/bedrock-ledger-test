@@ -4,6 +4,7 @@
    - cd bedrock-ledger-test
    - git checkout draco-openstack
    - cd event-client
+   - [ sh, -xc, "echo dashboard-hostname: _DASHBOARD_ >> ./instance-config.yml" ]
    - [ sh, -xc, "echo primary-hostname: _PRIMARYSERVER_ > ./instance-config.yml" ]
    - npm install
    - ./build-event-client-aws.sh >/dev/null 2>&1

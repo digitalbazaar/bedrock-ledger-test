@@ -24,4 +24,5 @@ config.server.httpPort = 18080;
 // core configuration
 config.core.workers = 0;
 
+config['ledger-test'].dashboard.host = instanceConfig['dashboard-hostname'];
 config['ledger-test'].primaryHost = instanceConfig['primary-hostname'];

@@ -10,6 +10,7 @@ const uuid = require('uuid/v4');
 const yaml = require('js-yaml');
 
 program
+  .option('-d, --dashboard [value]', 'dashboard hostname')
   .option('-n, --network [value]', 'network id')
   .option('-p, --primary [value]', 'primary node hostname')
   .parse(process.argv);
@@ -32,6 +33,7 @@ try {
 let eventClientConfig = fs.readFileSync(
   path.join(__dirname, 'cloud-config-event-client.yml'), 'utf8');
 
+eventClientConfig = eventClientConfig.replace('_DASHBOARD_', program.dashboard);
 eventClientConfig = eventClientConfig.replace(
   '_PRIMARYSERVER_', program.primary);
 

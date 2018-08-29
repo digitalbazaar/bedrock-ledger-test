@@ -47,11 +47,13 @@ config.mongodb.name = 'ledger_test_event_client';
 
 config['ledger-test'] = {};
 
+config['ledger-test'].dashboard = {
+  host: config.server.domain
+};
+
 config['ledger-test'].primaryHost = 'bedrock.local';
-cc('ledger-test.primaryBaseUrl', () =>
-  `https://${config['ledger-test'].primaryHost}:18443/ledger-test`);
-cc('ledger-test.primaryAgentUrl', () =>
-  `https://${config['ledger-test'].primaryHost}:18443/ledger-agents`);
+cc('ledger-test.dashboard.baseUrl', () =>
+  `https://${config['ledger-test'].dashboard.host}:18443/ledger-test`);
 
 config['ledger-test'].routes = {
   base: '/ledger-test',
