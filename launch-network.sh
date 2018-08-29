@@ -11,9 +11,11 @@ if [ -z "$2" ]
     exit 1
 fi
 
+
 # make array from output of launch-primary.js
 networkid=$(uuidgen)
-launchoutput=($(./launch-primary.js -m ${2} -n "${networkid}"))
+dashboardpublic = $(./launch-dashboard.js -n "${networkid}")
+launchoutput=($(./launch-primary.js -m ${2} -n "${networkid}" -d "${dashboardpublic}"))
 primaryprivate="${launchoutput[0]}"
 primarypublic="${launchoutput[1]}"
 
@@ -23,9 +25,11 @@ if [ $? -ne 0 ]
     exit 1
 fi
 echo "NETWORK ID ${networkid}"
+echo DASHBOARD
+echo "https://${dashboardpublic}:18443"
 echo PRIMARY
 echo "https://${primarypublic}:18443"
-./launch-secondary.js -p "${primaryprivate}" -c $1 -m "${2}" -n "${networkid}"
+./launch-secondary.js -p "${primaryprivate}" -c $1 -m "${2}" -n "${networkid}" -d "${dashboardpublic}"
 if [ $? -ne 0 ]
   then
     echo "error provisioning secondaries"

@@ -16,6 +16,7 @@ runcmd:
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test
  - git checkout draco-openstack
+ - [ sh, -xc, "echo dashboard-hostname: _DASHBOARD_ >> ./instance-config.yml" ]
  - [ sh, -xc, "echo mongo-hostname: _MONGOSERVER_ >> ./instance-config.yml" ]
  - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
  - npm install

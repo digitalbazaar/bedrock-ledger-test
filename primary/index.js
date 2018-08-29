@@ -26,8 +26,6 @@ require('./stats');
 
 require('./config');
 
-let publicHostname;
-
 bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
   '--aws',
   'Configure for AWS.'
@@ -59,8 +57,6 @@ bedrock.events.on('bedrock-cli.parsed', callback => {
       config.server.domain = results.publicIp;
       config['ledger-test'].primaryBaseUrl =
         `${config.server.baseUri}/ledger-test`;
-      publicHostname = results.publicIp;
-      // publicHostname = results.phn;
       callback();
     });
   }
@@ -74,6 +70,7 @@ bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
     scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
     callback();
     function _sendStatus(job, callback) {
+      const {host: publicHostname} = config['ledger-test'].dashboard;
       client.sendStatus(
         {label, ledgerNodeId: ledgerNode.id, publicHostname}, callback);
     }

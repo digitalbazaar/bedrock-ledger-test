@@ -1,0 +1,7 @@
+  #cloud-config
+  runcmd:
+   - git clone https://github.com/digitalbazaar/bedrock-ledger-test-console.git
+   - cd bedrock-ledger-test-console
+   - npm install
+   - node ./lib/index.js compile-less
+   - npm run cloud >/dev/null 2>&1

@@ -26,6 +26,10 @@ config['ledger-test'].routes = {
   peerHistory: '/ledger-test/peers/:peerId',
 };
 
+config['ledger-test'].dashboard = {
+  host: config.server.domain
+};
+
 // c.pushComputed('scheduler.jobs', () => ({
 //   id: `bedrock-ledger-test.stats.logStats`,
 //   type: `bedrock-ledger-test.stats.logStats`,
@@ -42,7 +46,7 @@ c.pushComputed('scheduler.jobs', () => ({
   id: `bedrock-ledger-test.sendStatus`,
   type: `bedrock-ledger-test.sendStatus`,
   // repeat forever, run every second
-  schedule: 'R/PT10M',
+  schedule: 'R/PT1M',
   // no special priority
   priority: 0,
   concurrency: 1,
@@ -84,14 +88,6 @@ config.mongodb.connectOptions.poolSize = 12;
 
 // enable consensus workers
 config.ledger.jobs.scheduleConsensusWork.enabled = true;
-
-// add pseudo packages
-const rootPath = path.join(__dirname, '..');
-config.views.system.packages.push({
-  path: path.join(rootPath, 'primary', 'components'),
-  manifest: path.join(rootPath, 'package.json')
-});
-config.views.vars.minify = false;
 
 // const cloudwatch = config.loggers.cloudwatch;
 // cloudwatch.logGroupName = `primary-local`;

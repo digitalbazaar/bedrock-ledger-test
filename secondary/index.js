@@ -29,8 +29,6 @@ require('./stats');
 require('./config');
 const cfg = config['ledger-test'];
 
-let publicHostname;
-
 bedrock.events.on('bedrock-cli.init', () => bedrock.program
   .option('--aws', 'Configure for AWS.')
   .option('--localpeer', 'Configure for local peer to OpenStack Primary.')
@@ -39,7 +37,6 @@ bedrock.events.on('bedrock-cli.init', () => bedrock.program
 bedrock.events.on('bedrock-cli.ready', callback => {
   if(bedrock.program.localpeer) {
     require('./config-localpeer');
-    publicHostname = config.server.domain;
     return callback();
   }
   if(bedrock.program.aws) {
@@ -64,8 +61,6 @@ bedrock.events.on('bedrock-cli.ready', callback => {
       //   results.lhn.substring(0, results.lhn.indexOf('.'));
       config.server.bindAddr = [results.localIp];
       config.server.domain = results.publicIp;
-      publicHostname = config.server.domain;
-      // publicHostname = results.phn;
       callback();
     });
   }
@@ -79,6 +74,7 @@ bedrock.events.on('bedrock-cli.ready', callback => {
 
 bedrock.events.on('bedrock.started', callback =>
   bedrock.runOnce('bedrock-ledger-test.phoneHome', callback => {
+
     if(bedrock.program.aws || bedrock.program.localpeer) {
       logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
@@ -93,6 +89,7 @@ bedrock.events.on('bedrock.started', callback =>
           scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
           callback();
           function _sendStatus(job, callback) {
+            const {host: publicHostname} = config['ledger-test'].dashboard;
             client.sendStatus(
               {label, ledgerNodeId: results.create.id, publicHostname},
               callback);
@@ -108,7 +105,8 @@ bedrock.events.on('bedrock.started', callback =>
         logger.debug('Communication with primary successul.');
         callback();
       });
-    }
+    } // end aws
+
     logger.debug('Contacting Primary', {
       url: 'https://bedrock.local:18443/ledger-test'
     });

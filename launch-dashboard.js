@@ -11,16 +11,8 @@ const yaml = require('js-yaml');
 const program = require('commander');
 
 program
-  .option('-d, --dashboard [value]', 'dashboard hostname')
-  .option('-m, --mongo [value]', 'mongo server hostname')
   .option('-n, --network [value]', 'network id')
   .parse(process.argv);
-
-if(!program.mongo) {
-  console.log(
-    'Hostname for the mongo server must be specified.');
-  process.exitCode = 1;
-}
 
 let auth;
 try {
@@ -31,11 +23,8 @@ try {
   process.exit(1);
 }
 
-let primaryConfig = fs.readFileSync(
-  path.join(__dirname, 'cloud-config-primary-local-mongo.yml'), 'utf8');
-
-primaryConfig = primaryConfig.replace('_DASHBOARD_', program.dashboard);
-primaryConfig = primaryConfig.replace('_MONGOSERVER_', program.mongo);
+let consoleConfig = fs.readFileSync(
+  path.join(__dirname, 'cloud-config-console.yml'), 'utf8');
 
 const clientOptions = {
   keystoneAuthVersion: 'v3',
@@ -61,10 +50,10 @@ const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
 
 async function run() {
   const server = await createServer({
-    cloudConfig: Buffer.from(primaryConfig).toString('base64'),
+    cloudConfig: Buffer.from(consoleConfig).toString('base64'),
     image: 'd74bb6d1-78c0-4309-87a5-e33183f53b77', // ledger-minimal-v1.1
-    name: `primary-${uuid()}`,
-    flavor: '2c79b084-b48c-45c2-bfae-d4bda5956aee', // ledger.medium
+    name: `console-${uuid()}`,
+    flavor: 'b3966f39-ef2a-4367-ad66-9627454ff43f', // m2.medium
     keyname: 'matt-rsa',
     networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
     securityGroups: [{name: 'bedrock-ledger-test'}, {name: 'inspector'}],
@@ -96,8 +85,7 @@ async function run() {
   await updateFloatingIp({floatingIpId, portId});
 
   // success, output IP information
-  process.stdout.write(availableFloatingIp.floating_ip_address + ' ' +
-    availableFloatingIp.floating_ip_address + '\n');
+  process.stdout.write(availableFloatingIp.floating_ip_address + '\n');
 } // end run
 
 run().catch(e => {

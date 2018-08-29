@@ -11,6 +11,7 @@ const yaml = require('js-yaml');
 
 program
   .option('-c, --count <n>', 'instance count')
+  .option('-d, --dashboard [value]', 'dashboard hostname')
   .option('-m, --mongo [value]', 'mongo server hostname')
   .option('-n, --network [value]', 'network id')
   .option('-p, --primary [value]', 'primary node hostname')
@@ -34,6 +35,7 @@ try {
 let secondaryConfig = fs.readFileSync(
   path.join(__dirname, 'cloud-config-secondary-local-mongo.yml'), 'utf8');
 
+secondaryConfig = secondaryConfig.replace('_DASHBOARD_', program.dashboard);
 secondaryConfig = secondaryConfig.replace('_MONGOSERVER_', program.mongo);
 secondaryConfig = secondaryConfig.replace('_PRIMARYSERVER_', program.primary);
 

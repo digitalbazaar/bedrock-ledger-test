@@ -26,6 +26,10 @@ config['ledger-test'].routes = {
   blocks: '/ledger-test/nodes/:ledgerNodeId/blocks'
 };
 
+config['ledger-test'].dashboard = {
+  host: config.server.domain
+};
+
 // c.pushComputed('scheduler.jobs', () => ({
 //   id: `bedrock-ledger-test.stats.logStats`,
 //   type: `bedrock-ledger-test.stats.logStats`,
@@ -42,7 +46,7 @@ c.pushComputed('scheduler.jobs', () => ({
   id: `bedrock-ledger-test.sendStatus`,
   type: `bedrock-ledger-test.sendStatus`,
   // repeat forever, run every second
-  schedule: 'R/PT10M',
+  schedule: 'R/PT1M',
   // no special priority
   priority: 0,
   concurrency: 1,
