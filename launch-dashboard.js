@@ -52,7 +52,7 @@ async function run() {
   const server = await createServer({
     cloudConfig: Buffer.from(consoleConfig).toString('base64'),
     image: 'd74bb6d1-78c0-4309-87a5-e33183f53b77', // ledger-minimal-v1.1
-    name: `console-${uuid()}`,
+    name: `dashboard-${uuid()}`,
     flavor: 'b3966f39-ef2a-4367-ad66-9627454ff43f', // m2.medium
     keyname: 'matt-rsa',
     networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
