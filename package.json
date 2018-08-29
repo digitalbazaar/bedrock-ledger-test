@@ -46,7 +46,7 @@
     "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#deleteExists",
     "bedrock-ledger-test-client-http": "digitalbazaar/bedrock-ledger-test-client-http#implementation",
     "bedrock-logger-cloudwatch": "^1.0.0",
-    "bedrock-mongodb": "~5.2.0",
+    "bedrock-mongodb": "^5.4.0",
     "bedrock-passport": "^3.4.1",
     "bedrock-permission": "^2.4.3",
     "bedrock-redis": "^3.2.0",
