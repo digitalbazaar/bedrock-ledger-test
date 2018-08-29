@@ -28,7 +28,7 @@ bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
   'Configure for AWS.'
 ));
 
-bedrock.events.on('bedrock-cli.parsed', async () => {
+bedrock.events.on('bedrock-cli.ready', async () => {
   if(bedrock.program.aws) {
     require('./config-aws');
     const awsInstanceMetadata = require('aws-instance-metadata');
