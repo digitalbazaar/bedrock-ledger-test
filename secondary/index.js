@@ -5,10 +5,11 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
-const config = bedrock.config;
+const {config} = bedrock;
 const client = require('bedrock-ledger-test-client-http');
 const ledger = require('./ledger');
 const logger = require('./logger');
+const {promisify} = require('util');
 const randomPort = require('random-port');
 const randomWords = require('random-words');
 const request = require('request');
@@ -34,41 +35,26 @@ bedrock.events.on('bedrock-cli.init', () => bedrock.program
   .option('--localpeer', 'Configure for local peer to OpenStack Primary.')
 );
 
-bedrock.events.on('bedrock-cli.ready', callback => {
+bedrock.events.on('bedrock-cli.ready', async () => {
   if(bedrock.program.localpeer) {
     require('./config-localpeer');
-    return callback();
+    return;
   }
   if(bedrock.program.aws) {
     require('./config-aws');
-    const metaBase = 'http://169.254.169.254/latest/meta-data';
-    const lhn = `${metaBase}/local-hostname/`;
-    const phn = `${metaBase}/public-hostname/`;
-    const localIp = `${metaBase}/local-ipv4/`;
-    const publicIp = `${metaBase}/public-ipv4/`;
-    return async.auto({
-      lhn: callback => request.get(lhn, (err, res) => callback(err, res.body)),
-      phn: callback => request.get(phn, (err, res) => callback(err, res.body)),
-      localIp: callback => request.get(
-        localIp, (err, res) => callback(err, res.body)),
-      publicIp: callback => request.get(
-        publicIp, (err, res) => callback(err, res.body)),
-    }, (err, results) => {
-      if(err) {
-        return callback(err);
-      }
-      // config.loggers.cloudwatch.logGroupName =
-      //   results.lhn.substring(0, results.lhn.indexOf('.'));
-      config.server.bindAddr = [results.localIp];
-      config.server.domain = results.publicIp;
-      callback();
-    });
+    const awsInstanceMetadata = require('aws-instance-metadata');
+    const localIp = await awsInstanceMetadata.fetch('local-ipv4');
+    const publicIp = await awsInstanceMetadata.fetch('public-ipv4');
+    // config.loggers.cloudwatch.logGroupName =
+    //   results.lhn.substring(0, results.lhn.indexOf('.'));
+    config.server.bindAddr = [localIp];
+    config.server.domain = publicIp;
+    return;
   }
   // if running locally, just use a random port
-  randomPort(port => {
+  await promisify(randomPort)(port => {
     config.server.port = port;
     config.server.httpPort = port - 1;
-    callback();
   });
 });
 
@@ -86,13 +72,15 @@ bedrock.events.on('bedrock.started', callback =>
         }],
         sendStatus: ['create', (results, callback) => {
           const label = `Secondary-${randomWords()}`;
+          const {host: dashboardHostname} = config['ledger-test'].dashboard;
+          const publicHostname = config.server.domain;
           scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
           callback();
           function _sendStatus(job, callback) {
-            const {host: publicHostname} = config['ledger-test'].dashboard;
-            client.sendStatus(
-              {label, ledgerNodeId: results.create.id, publicHostname},
-              callback);
+            client.sendStatus({
+              dashboardHostname, label, ledgerNodeId: results.create.id,
+              publicHostname
+            }, callback);
           }
         }]
       }, err => {

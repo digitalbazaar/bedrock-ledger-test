@@ -29,6 +29,7 @@
   "homepage": "https://github.com/digitalbazaar/bedrock-ledger-test",
   "dependencies": {
     "async": "^2.5.0",
+    "aws-instance-metadata": "^2.0.1",
     "aws-sdk": "^2.126.0",
     "bedrock": "digitalbazaar/bedrock#cliParsed",
     "bedrock-aws": "digitalbazaar/bedrock-aws#implementation",
