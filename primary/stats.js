@@ -9,6 +9,8 @@ const logger = require('./logger');
 const scheduler = require('bedrock-jobs');
 require('./ledger');
 
+// this can be used to log stats to the logs which can be analyzed with
+// CloudWatch
 bedrock.events.on('bedrock-ledger-test.ready', ledgerNode => {
   scheduler.define(
     'bedrock-ledger-test.stats.logStats', _logStats);

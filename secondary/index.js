@@ -25,7 +25,6 @@ require('bedrock-mongodb');
 require('bedrock-permission');
 require('./identities');
 require('./server');
-require('./stats');
 
 require('./config');
 const cfg = config['ledger-test'];

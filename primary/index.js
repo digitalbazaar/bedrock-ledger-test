@@ -19,7 +19,9 @@ require('bedrock-permission');
 require('bedrock-views');
 require('./identities');
 require('./server');
-require('./stats');
+
+// stats logger is only useful when using CloudWatch which is currently disabled
+// require('./stats');
 
 require('./config');
 
