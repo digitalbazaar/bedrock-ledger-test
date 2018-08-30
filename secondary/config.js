@@ -46,7 +46,7 @@ c.pushComputed('scheduler.jobs', () => ({
   id: `bedrock-ledger-test.sendStatus`,
   type: `bedrock-ledger-test.sendStatus`,
   // repeat forever, run every second
-  schedule: 'R/PT15M',
+  schedule: 'R/PT3M',
   // no special priority
   priority: 0,
   concurrency: 1,
