@@ -37,12 +37,12 @@ if [ $? -ne 0 ]
 fi
 echo "secondaries launched successfully"
 
-eventclientpublic="$(./launch-event-client.js --primary ${primaryprivate} -n "${networkid}" -d "${dashboardpublic}")"
+operationgeneratorpublic="$(./launch-operation-generator.js --primary ${primaryprivate} -n "${networkid}" -d "${dashboardpublic}")"
 if [ $? -ne 0 ]
   then
-    echo "error provisioning event client"
+    echo "error provisioning operation generator"
     exit 1
 fi
-echo CLIENT
-echo "https://${eventclientpublic}:18443"
+echo OPERATION GENERATOR
+echo "https://${operationgeneratorpublic}:18443"
 echo

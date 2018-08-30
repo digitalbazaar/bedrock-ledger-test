@@ -1,0 +1,10 @@
+  #cloud-config
+  runcmd:
+   - git clone https://github.com/digitalbazaar/bedrock-ledger-test-operation-generator.git
+   - cd bedrock-ledger-test-operation-generator
+   - git checkout implementation
+   - [ sh, -xc, "echo dashboard-hostname: _DASHBOARD_ >> ./instance-config.yml" ]
+   - [ sh, -xc, "echo primary-hostname: _PRIMARYSERVER_ >> ./instance-config.yml" ]
+   - npm install
+   - npm run optimize
+   - npm run aws >/dev/null 2>&1

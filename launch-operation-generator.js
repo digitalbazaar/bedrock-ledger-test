@@ -36,7 +36,7 @@ try {
 }
 
 let eventClientConfig = fs.readFileSync(
-  path.join(__dirname, 'cloud-config-event-client.yml'), 'utf8');
+  path.join(__dirname, 'cloud-config-operation-generator.yml'), 'utf8');
 
 eventClientConfig = eventClientConfig.replace('_DASHBOARD_', program.dashboard);
 eventClientConfig = eventClientConfig.replace(
