@@ -2,7 +2,7 @@
 runcmd:
  - echo 104.16.109.30 www.npmjs.com >> /etc/hosts
  - echo 104.16.109.30 npmjs.com >> /etc/hosts
- - echo 104.16.109.30 registry.npmjs.com >> /etc/hosts
+ - echo 151.101.32.162 registry.npmjs.com >> /etc/hosts
  - systemctl stop mongod
  - sysctl vm.swappiness=10
  - [ sh, -xc, "echo vm.swappiness=10 >> /etc/sysctl.conf" ]
