@@ -129,8 +129,8 @@ bedrock.events.on('bedrock.started', callback =>
       }]
     }, err => {
       if(err) {
-        logger.debug('Error communicating with primary.', {
-          error: err.toString()
+        logger.error('Error communicating with primary.', {
+          error: err
         });
         return callback(err);
       }
