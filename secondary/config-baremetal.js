@@ -32,8 +32,6 @@ config['ledger-test'].primaryHost = instanceConfig['primary-hostname'];
 config.mongodb.host = instanceConfig['mongo-hostname'];
 config.mongodb.name = instanceConfig['mongo-dbname'];
 
-
-
 Object.keys(ifaces).forEach(ifname => {
   let alias = 0;
 
