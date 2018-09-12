@@ -1,11 +1,7 @@
 #cloud-config
 runcmd:
- - echo 104.16.109.30 www.npmjs.com >> /etc/hosts
- - echo 34.208.205.7 npmjs.com >> /etc/hosts
- - echo 151.101.32.162 registry.npmjs.com >> /etc/hosts
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test-operation-generator.git
  - cd bedrock-ledger-test-operation-generator
- - git checkout implementation
  - [ sh, -xc, "echo dashboard-hostname: _DASHBOARD_ >> ./instance-config.yml" ]
  - [ sh, -xc, "echo primary-hostname: _PRIMARYSERVER_ >> ./instance-config.yml" ]
  - npm install
