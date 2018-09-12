@@ -25,14 +25,15 @@ require('./server');
 
 require('./config');
 
-bedrock.events.on('bedrock-cli.init', () => bedrock.program.option(
-  '--aws',
-  'Configure for AWS.'
-));
+bedrock.events.on('bedrock-cli.init', () => bedrock.program
+  .option('--aws', 'Configure for AWS.')
+  .option('--baremetal', 'Configure for Bare Metal.')
+);
 
 bedrock.events.on('bedrock-cli.ready', async () => {
   if(bedrock.program.aws) {
     require('./config-aws');
+    // this lives here instead of the config due to async functions
     const awsInstanceMetadata = require('aws-instance-metadata');
     const localIp = await awsInstanceMetadata.fetch('local-ipv4');
     const publicIp = await awsInstanceMetadata.fetch('public-ipv4');
@@ -41,9 +42,9 @@ bedrock.events.on('bedrock-cli.ready', async () => {
     // config.server.domain = results.lhn;
     config.server.bindAddr = [localIp];
     config.server.domain = publicIp;
-    config['ledger-test'].primaryBaseUrl =
-      `${config.server.baseUri}/ledger-test`;
-    return;
+  }
+  if(bedrock.program.baremetal) {
+    require('./config-baremetal');
   }
   config['ledger-test'].primaryBaseUrl = `${config.server.baseUri}/ledger-test`;
 });

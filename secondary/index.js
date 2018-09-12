@@ -31,16 +31,22 @@ const cfg = config['ledger-test'];
 
 bedrock.events.on('bedrock-cli.init', () => bedrock.program
   .option('--aws', 'Configure for AWS.')
+  .option('--baremetal', 'Configure for Bare Metal.')
   .option('--localpeer', 'Configure for local peer to OpenStack Primary.')
 );
 
 bedrock.events.on('bedrock-cli.ready', async () => {
+  if(bedrock.program.baremetal) {
+    require('./config-baremetal');
+    return;
+  }
   if(bedrock.program.localpeer) {
     require('./config-localpeer');
     return;
   }
   if(bedrock.program.aws) {
     require('./config-aws');
+    // NOTE: this is not in the config due to async functions
     const awsInstanceMetadata = require('aws-instance-metadata');
     const localIp = await awsInstanceMetadata.fetch('local-ipv4');
     const publicIp = await awsInstanceMetadata.fetch('public-ipv4');
