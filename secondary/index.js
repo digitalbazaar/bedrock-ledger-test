@@ -65,8 +65,8 @@ bedrock.events.on('bedrock-cli.ready', async () => {
 
 bedrock.events.on('bedrock.started', callback =>
   bedrock.runOnce('bedrock-ledger-test.phoneHome', callback => {
-
-    if(bedrock.program.aws || bedrock.program.localpeer) {
+    if(bedrock.program.aws || bedrock.program.localpeer ||
+      bedrock.program.baremetal) {
       logger.debug('Contacting Primary', {url: cfg.primaryBaseUrl});
       return async.auto({
         genesis: callback => async.retry(
