@@ -29,6 +29,8 @@ config['ledger-test'].dashboard.host = instanceConfig['dashboard-hostname'];
 
 config['ledger-test'].primaryHost = instanceConfig['primary-hostname'];
 
+console.log('XXXXXXXXXXXXXXXXXXXXXXXX', config['ledger-test'].primaryHost);
+
 config.mongodb.host = instanceConfig['mongo-hostname'];
 config.mongodb.name = instanceConfig['mongo-dbname'];
 
