@@ -75,12 +75,12 @@ const investigate = (results, callback) => {
     }, (err, result) => {
       console.log('Checking block', i);
       console.log('RRRRR', JSON.stringify(result, null, 2));
-      if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
-        // console.log(`----- ${c} ------`);
-        // console.log(JSON.stringify(result, null, 2));
-        console.log('COLLECTION MAP', JSON.stringify(collectionMap, null, 2));
-        return callback(new Error('stop'));
-      }
+      // if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
+      //   // console.log(`----- ${c} ------`);
+      //   // console.log(JSON.stringify(result, null, 2));
+      //   console.log('COLLECTION MAP', JSON.stringify(collectionMap, null, 2));
+      //   return callback(new Error('stop'));
+      // }
       callback();
     }), callback);
 };
