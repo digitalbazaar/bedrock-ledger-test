@@ -86,7 +86,7 @@ const _investigateBlocks = (results, callback) => {
       callback(null, {c, result});
     });
   }, (err, result) => {
-    console.log('RRRRR', result);
+    console.log('BLOCKCOUNT', result);
     // if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
     //   // console.log(`----- ${c} ------`);
     //   // console.log(JSON.stringify(result, null, 2));
@@ -104,7 +104,8 @@ const _investigateBlocks2 = (results, callback) => {
   };
   const projection = {
     _id: 0,
-    'meta.blockHash': 1
+    'meta.blockHash': 1,
+    'block.blockHeight': 1,
   };
   const sort = {
     'block.blockHeight': -1
@@ -119,7 +120,7 @@ const _investigateBlocks2 = (results, callback) => {
         callback(null, {c, result});
       });
   }, (err, result) => {
-    console.log('RRRRR', JSON.stringify(result, null, 2));
+    console.log('LATESTBLOCK', JSON.stringify(result, null, 2));
     // if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
     //   // console.log(`----- ${c} ------`);
     //   // console.log(JSON.stringify(result, null, 2));
@@ -144,7 +145,7 @@ const _investigateEvents = (results, callback) => {
       callback(null, {c, result});
     });
   }, (err, result) => {
-    console.log('RRRRR', result);
+    console.log('EVENTCOUNT', result);
     // if(!result.every(r => r.meta.blockHash === result[0].meta.blockHash)) {
     //   // console.log(`----- ${c} ------`);
     //   // console.log(JSON.stringify(result, null, 2));
