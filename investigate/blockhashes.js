@@ -59,7 +59,7 @@ const ledgerInfo = (result, callback) => {
 
 const investigate = (results, callback) => {
   console.log('START INVESTIGATE');
-  async.timesSeries(82, (i, callback) =>
+  async.timesSeries(100, (i, callback) =>
     async.map(blockCollections, (c, callback) => {
       database.collections[c].findOne({'block.blockHeight': i}, {
         _id: 0,
