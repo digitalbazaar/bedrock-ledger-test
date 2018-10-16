@@ -70,6 +70,7 @@ const investigate = (results, callback) => {
         if(err) {
           return callback(err);
         }
+        result.collection = c;
         collectionMap[c].block = result;
         callback(null, result);
       });
