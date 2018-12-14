@@ -76,7 +76,7 @@ async function run() {
       }
       await _sleep(1000);
     }
-    console.log('SSSSSSS', serverDetails);
+    console.log(serverDetails.addresses.private[0]);
 
     // const ports = await getPorts();
     // const serverPort = _.find(ports, {

@@ -14,6 +14,8 @@ runcmd:
  - curl -o /etc/mongod.conf https://gist.githubusercontent.com/mattcollier/da84584c9ca1f3a2023ad3cefb23d41d/raw/mongod.conf
  - systemctl start mongod
  - echo 127.0.0.1 bedrock.localhost >> /etc/hosts
+ - mkdir /mnt/db/test
+ - cd /mnt/db/test 
  - git clone https://github.com/digitalbazaar/bedrock-ledger-consensus-continuity.git
  - cd /bedrock-ledger-consensus-continuity
  - git checkout _CONTINUITYBRANCH_
