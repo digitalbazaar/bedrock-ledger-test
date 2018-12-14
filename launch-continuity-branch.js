@@ -61,37 +61,40 @@ async function run() {
       name: `continuity-${uuid()}`,
       flavor: 'ce092c0e-7c5b-4eea-8195-089458cdbe55', // branch-test
       keyname: 'matt-rsa',
-      networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
+      networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
+      // networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
       securityGroups: [{name: 'default'}],
     });
-    const floatingIps = await getFloatingIps();
+    // const floatingIps = await getFloatingIps();
 
     // wait for the server to be in a `RUNNING` state
+    let serverDetails;
     for(let i = 0; i < 30; ++i) {
-      const serverDetails = await getServer(server.id);
+      serverDetails = await getServer(server.id);
       if(serverDetails.status === 'RUNNING') {
         break;
       }
       await _sleep(1000);
     }
+    console.log('SSSSSSS', serverDetails);
 
-    const ports = await getPorts();
-    const serverPort = _.find(ports, {
-      deviceId: server.id, deviceOwner: 'compute:nova'
-    });
-    const {id: portId} = serverPort;
-    const availableFloatingIp = _.find(floatingIps, ['port_id', null]);
-    if(!availableFloatingIp) {
-      // TODO: allocate a floating IP
-      throw new Error('No available floating IPs.');
-    }
-
-    // assign an available floating IP to the port on the new VM
-    const {id: floatingIpId} = availableFloatingIp;
-    await updateFloatingIp({floatingIpId, portId});
-
-    // success, output IP information
-    process.stdout.write(`${availableFloatingIp.floating_ip_address}\n`);
+    // const ports = await getPorts();
+    // const serverPort = _.find(ports, {
+    //   deviceId: server.id, deviceOwner: 'compute:nova'
+    // });
+    // const {id: portId} = serverPort;
+    // const availableFloatingIp = _.find(floatingIps, ['port_id', null]);
+    // if(!availableFloatingIp) {
+    //   // TODO: allocate a floating IP
+    //   throw new Error('No available floating IPs.');
+    // }
+    //
+    // // assign an available floating IP to the port on the new VM
+    // const {id: floatingIpId} = availableFloatingIp;
+    // await updateFloatingIp({floatingIpId, portId});
+    //
+    // // success, output IP information
+    // process.stdout.write(`${availableFloatingIp.floating_ip_address}\n`);
   }
 } // end run
 
