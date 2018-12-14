@@ -1,5 +1,18 @@
 #cloud-config
 runcmd:
+ - systemctl stop mongod
+ - sysctl vm.swappiness=10
+ - [ sh, -xc, "echo vm.swappiness=10 >> /etc/sysctl.conf" ]
+ - umount /dev/vdb
+ - mkfs.xfs -f /dev/vdb
+ - sed -i '/^[/]dev[/]vdb/d' /etc/fstab
+ - [ sh, -xc, "echo /dev/vdb /mnt/db xfs rw,nobarrier,auto 0 0 >> /etc/fstab" ]
+ - mkdir /mnt/db
+ - mount /dev/vdb /mnt/db
+ - mkdir /mnt/db/mongodb
+ - chown mongodb:mongodb /mnt/db/mongodb
+ - curl -o /etc/mongod.conf https://gist.githubusercontent.com/mattcollier/da84584c9ca1f3a2023ad3cefb23d41d/raw/mongod.conf
+ - systemctl start mongod  
  - echo 127.0.0.1 bedrock.localhost >> /etc/hosts
  - git clone https://github.com/digitalbazaar/bedrock-ledger-consensus-continuity.git
  - cd /bedrock-ledger-consensus-continuity

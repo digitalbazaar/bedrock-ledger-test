@@ -59,7 +59,7 @@ async function run() {
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
       image: '55cb7ffe-3fe7-406a-8f08-6a40b81c101a', // node10base
       name: `continuity-${uuid()}`,
-      flavor: 'b3966f39-ef2a-4367-ad66-9627454ff43f', // m2.medium
+      flavor: 'ce092c0e-7c5b-4eea-8195-089458cdbe55', // branch-test
       keyname: 'matt-rsa',
       networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
       securityGroups: [{name: 'default'}],
