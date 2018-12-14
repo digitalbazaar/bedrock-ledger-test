@@ -57,7 +57,7 @@ async function run() {
   for(let i = 0; i < instanceCount; ++i) {
     const server = await createServer({
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
-      image: 'd74bb6d1-78c0-4309-87a5-e33183f53b77', // ledger-minimal-v1.1
+      image: '55cb7ffe-3fe7-406a-8f08-6a40b81c101a', // node10base
       name: `continuity-${uuid()}`,
       flavor: 'b3966f39-ef2a-4367-ad66-9627454ff43f', // m2.medium
       keyname: 'matt-rsa',
