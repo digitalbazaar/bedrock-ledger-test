@@ -17,9 +17,9 @@ runcmd:
  - mkdir /mnt/db/test
  - cd /mnt/db/test
  - git clone https://github.com/digitalbazaar/bedrock-ledger-consensus-continuity.git
- - cd /bedrock-ledger-consensus-continuity
+ - cd /mnt/db/test/bedrock-ledger-consensus-continuity
  - git checkout _CONTINUITYBRANCH_
  - npm install --registry http://10.60.80.55:4873
- - cd /bedrock-ledger-consensus-continuity/test
+ - cd /mnt/db/test/bedrock-ledger-consensus-continuity/test
  - npm install --registry http://10.60.80.55:4873
  - curl https://gist.githubusercontent.com/mattcollier/1b24f809d293d94f6da53aa51002b28e/raw/loop.sh | bash -s
