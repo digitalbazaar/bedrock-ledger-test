@@ -75,6 +75,8 @@ config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 config.core.workers = 0;
 config.core.worker.restart = true;
 
+config.jsonld.strictSSL = false;
+
 // enable cache for public keys
 config.key.cache.enable = true;
 
@@ -108,7 +110,7 @@ identities[userName].identity.sysResourceRole.push({
   generateResource: 'id'
 });
 identities[userName].keys = helpers.createKeyPair({
-  userName: userName,
+  userName,
   userId: identities[userName].identity.id,
   publicKey: '-----BEGIN PUBLIC KEY-----\n' +
     'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqv8gApfU3FhZx1gyKmBU\n' +
