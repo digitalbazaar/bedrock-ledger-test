@@ -18,6 +18,9 @@ require('./ledger');
 require('bedrock-express');
 require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
+require('bedrock-ledger-consensus-continuity-es-most-recent-participants');
+require('bedrock-ledger-consensus-continuity-es-most-recent-participants-' +
+  'with-recovery');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
 // require('bedrock-logger-cloudwatch');

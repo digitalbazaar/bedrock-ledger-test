@@ -65,8 +65,12 @@ cc('ledger-test.config', () => ({
   type: 'WebLedgerConfiguration',
   ledger: config['ledger-test'].did,
   consensusMethod: 'Continuity2017',
-  ledgerConfigurationValidator: [],
-  operationValidator: [],
+  electorSelectionMethod: {
+    type: 'MostRecentParticipants',
+  },
+  // ledgerConfigurationValidator: [],
+  // operationValidator: [],
+  sequence: 0
 }));
 
 config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
