@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const pkgcloud = require('pkgcloud');
@@ -53,13 +52,13 @@ const clientOptions = {
 };
 
 const openstack = pkgcloud.compute.createClient(clientOptions);
-const network = pkgcloud.network.createClient(clientOptions);
+// const network = pkgcloud.network.createClient(clientOptions);
 
 const createServer = promisify(openstack.createServer.bind(openstack));
 const getServer = promisify(openstack.getServer.bind(openstack));
-const getPorts = promisify(network.getPorts.bind(network));
-const getFloatingIps = promisify(network.getFloatingIps.bind(network));
-const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
+// const getPorts = promisify(network.getPorts.bind(network));
+// const getFloatingIps = promisify(network.getFloatingIps.bind(network));
+// const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
 
 const instanceCount = program.count ? parseInt(program.count, 10) : 1;
 
@@ -74,7 +73,6 @@ async function run() {
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
       securityGroups: [{name: 'bedrock-ledger-test'}],
     });
-    const floatingIps = await getFloatingIps();
 
     // wait for the server to be in a `RUNNING` state
     let serverDetails;
