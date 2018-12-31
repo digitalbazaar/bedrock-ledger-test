@@ -66,7 +66,7 @@ async function run() {
     image: '2a0201f4-be99-4a99-8913-379baea704e8', // node10base2
     keyname: 'matt-rsa',
     name: `primary-${uuid()}`,
-    networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
+    networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
     securityGroups: [{name: 'bedrock-ledger-test'}, {name: 'inspector'}],
   });
   const floatingIps = await getFloatingIps();
