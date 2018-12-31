@@ -2,6 +2,7 @@
 runcmd:
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test-console.git
  - cd bedrock-ledger-test-console
- - npm install --registry http://10.60.80.55:4873
+ #- npm install --registry http://10.60.80.55:4873
+ - npm install
  - node ./lib/index.js compile-less
  - npm run cloud >/dev/null 2>&1

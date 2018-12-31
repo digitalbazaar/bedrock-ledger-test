@@ -19,5 +19,6 @@ runcmd:
  - [ sh, -xc, "echo primary-hostname: _PRIMARYSERVER_ >> ./instance-config.yml" ]
  - [ sh, -xc, "echo mongo-hostname: _MONGOSERVER_ >> ./instance-config.yml" ]
  - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
- - npm install --registry http://10.60.80.55:4873
+ # - npm install --registry http://10.60.80.55:4873
+ - npm install
  - npm run secondary-aws >/dev/null 2>&1
