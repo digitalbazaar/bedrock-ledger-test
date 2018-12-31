@@ -4,9 +4,8 @@ runcmd:
  - [ sh, -xc, "echo vm.swappiness=10 >> /etc/sysctl.conf" ]
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test.git
  - cd bedrock-ledger-test
- - git checkout draco-openstack
  - [ sh, -xc, "echo mongo-hostname: _MONGOSERVER_ >> ./instance-config.yml" ]
  - [ sh, -xc, "echo mongo-dbname: $(uuidgen) >> ./instance-config.yml" ]
- - npm install
+ - npm install --registry http://10.60.80.55:4873
  - node ./primary/index.js compile-less
  - npm run primary-aws >/dev/null 2>&1

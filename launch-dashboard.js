@@ -24,7 +24,7 @@ try {
 }
 
 const consoleConfig = fs.readFileSync(
-  path.join(__dirname, 'cloud-config-console.yml'), 'utf8');
+  path.join(__dirname, 'cloud-config-dashboard.yml'), 'utf8');
 
 const clientOptions = {
   keystoneAuthVersion: 'v3',
@@ -51,10 +51,10 @@ const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
 async function run() {
   const server = await createServer({
     cloudConfig: Buffer.from(consoleConfig).toString('base64'),
-    image: 'd74bb6d1-78c0-4309-87a5-e33183f53b77', // ledger-minimal-v1.1
-    name: `dashboard-${uuid()}`,
-    flavor: 'b3966f39-ef2a-4367-ad66-9627454ff43f', // m2.medium
+    flavor: 'ce092c0e-7c5b-4eea-8195-089458cdbe55', // branch-test
+    image: '2a0201f4-be99-4a99-8913-379baea704e8', // node10base2
     keyname: 'matt-rsa',
+    name: `dashboard-${uuid()}`,
     networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
     securityGroups: [{name: 'bedrock-ledger-test'}, {name: 'inspector'}],
   });

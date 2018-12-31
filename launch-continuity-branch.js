@@ -57,10 +57,10 @@ async function run() {
   for(let i = 0; i < instanceCount; ++i) {
     const server = await createServer({
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
-      image: '2a0201f4-be99-4a99-8913-379baea704e8', // node10base2
-      name: `continuity-${uuid()}`,
       flavor: 'ce092c0e-7c5b-4eea-8195-089458cdbe55', // branch-test
+      image: '2a0201f4-be99-4a99-8913-379baea704e8', // node10base2
       keyname: 'matt-rsa',
+      name: `continuity-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
       // networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
       securityGroups: [{name: 'default'}],

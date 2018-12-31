@@ -1,10 +1,7 @@
 #cloud-config
 runcmd:
- - echo 104.16.109.30 www.npmjs.com >> /etc/hosts
- - echo 34.208.205.7 npmjs.com >> /etc/hosts
- - echo 151.101.32.162 registry.npmjs.com >> /etc/hosts
  - git clone https://github.com/digitalbazaar/bedrock-ledger-test-console.git
  - cd bedrock-ledger-test-console
- - npm install
+ - npm install --registry http://10.60.80.55:4873
  - node ./lib/index.js compile-less
  - npm run cloud >/dev/null 2>&1
