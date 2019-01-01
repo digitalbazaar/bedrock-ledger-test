@@ -51,7 +51,7 @@ function setupLedger(callback) {
             setupLedger(callback);
           });
       }
-      bedrock.events.emit('bedrock-ledger-test.ready', api.agent.node);
+      bedrock.events.emit('bedrock-ledger-test.ready', api.agent.ledgerNode);
       callback();
     });
   });

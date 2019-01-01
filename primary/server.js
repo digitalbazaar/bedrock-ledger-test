@@ -57,7 +57,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
 
   // genesis block
   app.get(routes.genesis, brRest.when.prefers.ld, brRest.linkedDataHandler({
-    get: (req, res, callback) => ledger.agent.node.blocks.getGenesis(
+    get: (req, res, callback) => ledger.agent.ledgerNode.blocks.getGenesis(
       (err, result) => callback(err, result.genesisBlock.block))
   }));
 
