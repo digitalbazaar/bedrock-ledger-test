@@ -30,7 +30,7 @@ function setupLedger(callback) {
     let found = false;
     async.eachSeries(iterator, (promise, callback) => {
       promise.then(ledgerAgent => {
-        if(ledgerAgent.node.id) {
+        if(ledgerAgent.ledgerNode.id) {
           found = true;
           api.agent = ledgerAgent;
           callback();
