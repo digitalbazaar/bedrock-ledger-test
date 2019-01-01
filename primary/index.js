@@ -39,14 +39,12 @@ bedrock.events.on('bedrock-cli.ready', async () => {
     // this lives here instead of the config due to async functions
     const awsInstanceMetadata = require('aws-instance-metadata');
     const localIp = await awsInstanceMetadata.fetch('local-ipv4');
-    const publicIp = await awsInstanceMetadata.fetch('public-ipv4');
+    // const publicIp = await awsInstanceMetadata.fetch('public-ipv4');
     // config.loggers.cloudwatch.logGroupName =
     //   results.lhn.substring(0, results.lhn.indexOf('.'));
     // config.server.domain = results.lhn;
-    console.log('AAAAAAAAAAA', localIp);
-    console.log('BBBBBBBBBBB', localIp);
     config.server.bindAddr = [localIp];
-    config.server.domain = publicIp;
+    config.server.domain = localIp;
   }
   if(bedrock.program.baremetal) {
     require('./config-baremetal');

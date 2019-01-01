@@ -52,11 +52,11 @@ bedrock.events.on('bedrock-cli.ready', async () => {
     // NOTE: this is not in the config due to async functions
     const awsInstanceMetadata = require('aws-instance-metadata');
     const localIp = await awsInstanceMetadata.fetch('local-ipv4');
-    const publicIp = await awsInstanceMetadata.fetch('public-ipv4');
+    // const publicIp = await awsInstanceMetadata.fetch('public-ipv4');
     // config.loggers.cloudwatch.logGroupName =
     //   results.lhn.substring(0, results.lhn.indexOf('.'));
     config.server.bindAddr = [localIp];
-    config.server.domain = publicIp;
+    config.server.domain = localIp;
     return;
   }
   // if running locally, just use a random port
