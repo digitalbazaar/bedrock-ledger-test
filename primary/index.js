@@ -43,6 +43,7 @@ bedrock.events.on('bedrock-cli.ready', async () => {
     // config.loggers.cloudwatch.logGroupName =
     //   results.lhn.substring(0, results.lhn.indexOf('.'));
     // config.server.domain = results.lhn;
+    console.log('ZZZZZZZ', localIp, publicIp);
     config.server.bindAddr = [localIp];
     config.server.domain = publicIp;
   }
