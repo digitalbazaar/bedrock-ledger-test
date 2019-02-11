@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const _ = require('lodash');
+// const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const pkgcloud = require('pkgcloud');
@@ -43,13 +43,13 @@ const clientOptions = {
 };
 
 const openstack = pkgcloud.compute.createClient(clientOptions);
-const network = pkgcloud.network.createClient(clientOptions);
+// const network = pkgcloud.network.createClient(clientOptions);
 
 const createServer = promisify(openstack.createServer.bind(openstack));
 const getServer = promisify(openstack.getServer.bind(openstack));
-const getPorts = promisify(network.getPorts.bind(network));
-const getFloatingIps = promisify(network.getFloatingIps.bind(network));
-const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
+// const getPorts = promisify(network.getPorts.bind(network));
+// const getFloatingIps = promisify(network.getFloatingIps.bind(network));
+// const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
 
 const instanceCount = program.count ? parseInt(program.count, 10) : 1;
 
@@ -58,7 +58,7 @@ async function run() {
     const server = await createServer({
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
       flavor: 'ce092c0e-7c5b-4eea-8195-089458cdbe55', // branch-test
-      image: '2a0201f4-be99-4a99-8913-379baea704e8', // node10base2
+      image: '6fe021b1-7b2b-429f-9add-08913ca33ac4', // node10base
       keyname: 'matt-rsa',
       name: `continuity-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
