@@ -58,7 +58,7 @@ async function run() {
     const server = await createServer({
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
       flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06', // branch-test
-      image: 'b21d9123-a240-40b4-a342-2e7b6ff9bc4f', // node10base
+      image: 'fee15bca-2898-4ce2-bd0e-f085a2a29621', // node10base
       keyname: 'matt-rsa',
       name: `continuity-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
