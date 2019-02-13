@@ -32,7 +32,7 @@ try {
 }
 
 let secondaryConfig = fs.readFileSync(
-  path.join(__dirname, 'cloud-config-secondary-local-mongo.yml'), 'utf8');
+  path.join(__dirname, 'cloud-config-secondary-root-mongo.yml'), 'utf8');
 
 secondaryConfig = secondaryConfig.replace('_DASHBOARD_', program.dashboard);
 secondaryConfig = secondaryConfig.replace('_MONGOSERVER_', program.mongo);
