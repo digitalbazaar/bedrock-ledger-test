@@ -61,8 +61,8 @@ const getServer = promisify(openstack.getServer.bind(openstack));
 async function run() {
   const server = await createServer({
     cloudConfig: Buffer.from(primaryConfig).toString('base64'),
-    flavor: '2c79b084-b48c-45c2-bfae-d4bda5956aee', // ledger-medium
-    image: '2a0201f4-be99-4a99-8913-379baea704e8', // node10base2
+    flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06', // branch-test
+    image: 'fee15bca-2898-4ce2-bd0e-f085a2a29621', // node10base
     keyname: 'matt-rsa',
     name: `primary-${uuid()}`,
     networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],

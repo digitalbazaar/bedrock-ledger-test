@@ -69,8 +69,8 @@ async function run() {
   for(let i = 0; i < instanceCount; ++i) {
     const server = await createServer({
       cloudConfig: Buffer.from(eventClientConfig).toString('base64'),
-      flavor: 'ce092c0e-7c5b-4eea-8195-089458cdbe55', // branch-test
-      image: '2a0201f4-be99-4a99-8913-379baea704e8', // node10base2
+      flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06', // branch-test
+      image: 'fee15bca-2898-4ce2-bd0e-f085a2a29621', // node10base
       keyname: 'matt-rsa',
       name: `event-client-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
