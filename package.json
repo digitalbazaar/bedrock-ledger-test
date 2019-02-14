@@ -47,7 +47,7 @@
     "bedrock-ledger-consensus-continuity-storage": "^2.2.0",
     "bedrock-ledger-context": "^11.0.0",
     "bedrock-ledger-node": "^7.0.0",
-    "bedrock-ledger-storage-mongodb": "^2.0.0",
+    "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#operationHashIndex",
     "bedrock-ledger-test-client-http": "^1.0.0",
     "bedrock-logger-cloudwatch": "^1.0.0",
     "bedrock-mongodb": "^5.4.0",
