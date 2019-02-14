@@ -66,7 +66,8 @@ async function run() {
   for(let i = 0; i < instanceCount; ++i) {
     const server = await createServer({
       cloudConfig: Buffer.from(secondaryConfig).toString('base64'),
-      flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06', // branch-test
+      // flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06', // branch-test
+      flavor: 'cb0f3b9d-14db-4d6e-8981-a9e8931ab492', // ledger.medium
       image: 'fee15bca-2898-4ce2-bd0e-f085a2a29621', // node10base
       keyname: 'matt-rsa',
       name: `secondary-${uuid()}`,
