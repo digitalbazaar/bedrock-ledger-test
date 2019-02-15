@@ -79,6 +79,9 @@ config.paths.log = path.join(os.tmpdir(), 'bedrock-ledger-test');
 config.core.workers = 0;
 config.core.worker.restart = true;
 
+// disable sessions server wide
+config.express.useSession = false;
+
 config.jsonld.strictSSL = false;
 
 // enable cache for public keys
