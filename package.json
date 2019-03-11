@@ -59,6 +59,8 @@
     "bedrock-validation": "^4.0.0",
     "bedrock-views": "^5.3.0",
     "cors": "^2.8.4",
+    "eslint": "^5.15.1",
+    "eslint-config-digitalbazaar": "^1.7.0",
     "js-yaml": "^3.10.0",
     "lodash": "^4.17.10",
     "mongo-express": "^0.42.3",
