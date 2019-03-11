@@ -31,7 +31,7 @@
     "async": "^2.5.0",
     "aws-instance-metadata": "digitalbazaar/aws-instance-metadata#got9",
     "aws-sdk": "^2.126.0",
-    "bedrock": "^1.12.1",
+    "bedrock": "digitalbazaar/bedrock#utilDelay",
     "bedrock-aws": "digitalbazaar/bedrock-aws#implementation",
     "bedrock-did-client": "digitalbazaar/bedrock-did-client#testnet_v2",
     "bedrock-docs": "^2.1.1",
