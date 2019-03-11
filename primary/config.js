@@ -14,9 +14,11 @@ const os = require('os');
 const permissions = config.permission.permissions;
 const roles = config.permission.roles;
 
-config['ledger-test'] = {};
+const cfg = config['ledger-test'] = {};
 
-config['ledger-test'].routes = {
+cfg.peers = [];
+
+cfg.routes = {
   logFile: '/log/:logFile',
   mongoExpress: '/mongo',
   genesis: '/ledger-test/genesis',
@@ -26,39 +28,13 @@ config['ledger-test'].routes = {
   peerHistory: '/ledger-test/peers/:peerId',
 };
 
-config['ledger-test'].dashboard = {
+cfg.dashboard = {
   host: config.server.domain
 };
 
-// c.pushComputed('scheduler.jobs', () => ({
-//   id: `bedrock-ledger-test.stats.logStats`,
-//   type: `bedrock-ledger-test.stats.logStats`,
-//   // repeat forever, run every second
-//   schedule: 'R/PT1M',
-//   // no special priority
-//   priority: 0,
-//   concurrency: 1,
-//   // use a 10000ms grace period between TTL for workers to finish up
-//   // before forcibly running another worker
-//   // lockDuration: config.ledger.jobs.scheduleConsensusWork.ttl + 10000
-// }));
-c.pushComputed('scheduler.jobs', () => ({
-  id: `bedrock-ledger-test.sendStatus`,
-  type: `bedrock-ledger-test.sendStatus`,
-  // repeat forever, run every second
-  schedule: 'R/PT3M',
-  // no special priority
-  priority: 0,
-  concurrency: 1,
-  // use a 10000ms grace period between TTL for workers to finish up
-  // before forcibly running another worker
-  // lockDuration: config.ledger.jobs.scheduleConsensusWork.ttl + 10000
-}));
+cfg.did = 'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
 
-config['ledger-test'].did =
-  'did:ledgertest:eb8c22dc-bde6-4315-92e2-59bd3f3c7d59';
-
-config['ledger-test'].primaryBaseUrl = null;
+cfg.primaryBaseUrl = null;
 
 cc('ledger-test.config', () => ({
   '@context': constants.WEB_LEDGER_CONTEXT_V1_URL,
