@@ -4,7 +4,7 @@
 'use strict';
 
 const bedrock = require('bedrock');
-const config = bedrock.config;
+const {config} = bedrock;
 require('bedrock-express');
 require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
