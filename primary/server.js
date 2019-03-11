@@ -3,15 +3,11 @@
  */
 'use strict';
 
-const _ = require('lodash');
 const async = require('async');
 const bedrock = require('bedrock');
 // const brAws = require('bedrock-aws');
-const brRest = require('bedrock-rest');
 const config = bedrock.config;
-const database = require('bedrock-mongodb');
 const fs = require('fs');
-const ledger = require('./ledger');
 const logger = require('./logger');
 const mongoExpress = require('mongo-express/lib/middleware');
 const mongoExpressConfig = require('./mongo-express-config');
@@ -25,20 +21,6 @@ let cloudWatchLogs;
 //   cloudWatchLogs = new brAws.CloudWatchLogs();
 //   cloudWatch = new brAws.CloudWatch();
 // });
-
-bedrock.events.on('bedrock-mongodb.ready', callback => async.auto({
-  open: callback => database.openCollections(
-    ['peer-public-addresses'], callback),
-  index: ['open', (results, callback) => database.createIndexes([{
-    collection: 'peer-public-addresses',
-    fields: {id: 1, 'peer.timeStamp': 1},
-    options: {unique: true, background: false}
-  }, {
-    collection: 'peer-public-addresses',
-    fields: {'peer.timeStamp': 1, id: 1},
-    options: {unique: true, background: false}
-  }], callback)]
-}, callback));
 
 bedrock.events.on('bedrock-express.configure.routes', app => {
   const routes = config['ledger-test'].routes;
@@ -54,98 +36,6 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
       res.setHeader('content-type', 'text/plain');
       res.send(data);
     }));
-
-  // genesis block
-  app.get(routes.genesis, brRest.when.prefers.ld, brRest.linkedDataHandler({
-    get: (req, res, callback) => ledger.agent.ledgerNode.blocks.getGenesis(
-      (err, result) => callback(err, result.genesisBlock.block))
-  }));
-
-  // peers
-  app.get(routes.peers, brRest.when.prefers.ld, brRest.linkedDataHandler({
-    get: (req, res, callback) => async.auto({
-      peers: callback => database.collections['peer-public-addresses']
-        .aggregate([
-          {$sort: {'peer.timeStamp': 1}},
-          {$group: {_id: "$id", last: {$last: "$peer"}}}
-        ], callback)
-        // .find().toArray((err, result) => {
-        //   if(err) {
-        //     return callback(err);
-        //   }
-        //   return callback(null, result.map(p => p.peer));
-        // })
-    }, (err, results) => {
-      if(err) {
-        return callback(err);
-      }
-      callback(null, results.peers);
-    })
-  }));
-
-  // peer history
-  app.get(routes.peerHistory, brRest.when.prefers.ld, brRest.linkedDataHandler({
-    get: (req, res, callback) => async.auto({
-      peers: callback => database.collections['peer-public-addresses']
-        .find({id: req.params.peerId}, {
-          _id: 0, 'peer.label': 1, 'peer.status': 1, 'peer.timeStamp': 1
-        }).sort({'peer.timeStamp': -1})
-        // .limit(60)
-        .toArray((err, result) => {
-          if(err) {
-            return callback(err);
-          }
-          return callback(null, result.map(p => p.peer).reverse());
-        })
-    }, (err, results) => {
-      if(err) {
-        return callback(err);
-      }
-      callback(null, results.peers);
-    })
-  }));
-
-  app.post(routes.newNode, brRest.when.prefers.ld, (req, res, next) => {
-    const {
-      baseUri, label, ledgerNodeId, /*logGroupName,*/ logUrl, mongoUrl,
-      privateHostname, publicHostname, status
-    } = req.body;
-    // using the ledgerNodeId as key
-    const peerId = database.hash(ledgerNodeId);
-    const record = {
-      id: peerId,
-      peer: {
-        baseUri,
-        mongoUrl,
-        label,
-        ledgerNodeId,
-        // logGroupName,
-        logUrl,
-        privateHostname,
-        publicHostname,
-        status,
-        timeStamp: Date.now(),
-      }
-    };
-    async.auto({
-      store: callback => database.collections['peer-public-addresses']
-        .insert(record, database.writeOptions, callback),
-      // cloudWatch: ['store', (results, callback) => {
-      //   if(results.store.matchedCount === 1) {
-      //     // we only want to create log group once
-      //     return callback();
-      //   }
-      //   _setupCloudWatch(logGroupName, callback);
-      // }]
-    }, err => {
-      // pass success if duplicate
-      if(err && !database.isDuplicateError(err)) {
-        logger.error('Error storing node information.', err);
-        return next(err);
-      }
-      res.status(200).end();
-    });
-  });
 });
 
 function _setupCloudWatch(logGroupName, callback) {

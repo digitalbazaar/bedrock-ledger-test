@@ -21,11 +21,6 @@ cfg.peers = [];
 cfg.routes = {
   logFile: '/log/:logFile',
   mongoExpress: '/mongo',
-  genesis: '/ledger-test/genesis',
-  blocks: '/ledger-test/nodes/:ledgerNodeId/blocks',
-  newNode: '/ledger-test/nodes',
-  peers: '/ledger-test/peers',
-  peerHistory: '/ledger-test/peers/:peerId',
 };
 
 cfg.dashboard = {
