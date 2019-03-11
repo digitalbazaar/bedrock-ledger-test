@@ -4,10 +4,7 @@
 'use strict';
 
 const bedrock = require('bedrock');
-const client = require('bedrock-ledger-test-client-http');
 const config = bedrock.config;
-const randomWords = require('random-words');
-const scheduler = require('bedrock-jobs');
 require('bedrock-express');
 require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
@@ -50,21 +47,6 @@ bedrock.events.on('bedrock-cli.ready', async () => {
     require('./config-baremetal');
   }
   config['ledger-test'].primaryBaseUrl = `${config.server.baseUri}/ledger-test`;
-});
-
-bedrock.events.on('bedrock-ledger-test.ready', (ledgerNode, callback) => {
-  bedrock.runOnce('ledger-test.sendStatus', callback => {
-    const label = `Primary-${randomWords()}`;
-    const {host: dashboardHostname} = config['ledger-test'].dashboard;
-    const publicHostname = config.server.domain;
-    scheduler.define('bedrock-ledger-test.sendStatus', _sendStatus);
-    callback();
-    function _sendStatus(job, callback) {
-      client.sendStatus({
-        dashboardHostname, label, ledgerNodeId: ledgerNode.id, publicHostname
-      }, callback);
-    }
-  }, callback);
 });
 
 bedrock.start();
