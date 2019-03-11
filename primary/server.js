@@ -38,6 +38,7 @@ bedrock.events.on('bedrock-express.configure.routes', app => {
     }));
 });
 
+/* eslint-disable no-unused-vars */
 function _setupCloudWatch(logGroupName, callback) {
   const metricName = `oe-${logGroupName}`;
   async.auto({
@@ -102,3 +103,4 @@ function _setupCloudWatch(logGroupName, callback) {
     }]
   }, callback);
 }
+/* eslint-enable */
