@@ -18,6 +18,7 @@ require('bedrock-mongodb');
 require('bedrock-permission');
 require('bedrock-views');
 require('./identities');
+require('./ledger');
 require('./server');
 
 require('./config');

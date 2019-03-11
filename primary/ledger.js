@@ -60,7 +60,7 @@ async function _setupLedger() {
 
 async function _findAgent() {
   const options = {
-    owner: config.server.baseUri + config['identity-http'].basePath + '/admin'
+    owner: config['ledger-test'].identities.regularUser.identity.id
   };
   let iterator;
   try {
@@ -93,9 +93,9 @@ function _setupGenesisNode(callback) {
         ledgerConfiguration: results.buildConfig,
         genesis: true,
         public: true,
-        owner: results.ledgerOwner.identity.id,
+        owner: results.ledgerOwner.id,
       };
-      brLedgerAgent.add(results.ledgerOwner.identity, null, options, callback);
+      brLedgerAgent.add(results.ledgerOwner, null, options, callback);
     }]
   }, err => {
     if(err) {
@@ -151,7 +151,7 @@ function _setupPeerNode(callback) {
     ledgerAgent: ['ledgerNode', (results, callback) => {
       const options = {
         public: true,
-        owner: results.ledgerOwner.identity.id,
+        owner: results.ledgerOwner.id,
       };
       brLedgerAgent.add(null, results.ledgerNode.id, options, callback);
     }],
@@ -167,5 +167,6 @@ function _setupPeerNode(callback) {
 
 function _getLedgerOwner(options, callback) {
   const actor = config['ledger-test'].identities.regularUser.identity.id;
-  return brIdentity.get(null, actor, callback);
+  return brIdentity.get(
+    null, actor, (err, identity) => callback(err, identity));
 }
