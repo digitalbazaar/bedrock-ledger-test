@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2017-2019 Digital Bazaar, Inc. All rights reserved.
+ */
+'use strict';
+
 const async = require('async');
 const bedrock = require('bedrock');
 const brIdentity = require('bedrock-identity');
