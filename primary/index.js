@@ -20,9 +20,6 @@ require('bedrock-views');
 require('./identities');
 require('./server');
 
-// stats logger is only useful when using CloudWatch which is currently disabled
-// require('./stats');
-
 require('./config');
 
 bedrock.events.on('bedrock-cli.init', () => bedrock.program
