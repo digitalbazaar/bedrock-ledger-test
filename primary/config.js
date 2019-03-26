@@ -146,3 +146,7 @@ roles['bedrock-ledger-test.test'] = {
 
 config['ledger-consensus-continuity'].consensus.workerpool.enabled = true;
 config['ledger-consensus-continuity'].writer.debounce = 5000;
+
+config['stats'].storage.push({name: 'redis'});
+// generate stats reports at 1 minute intervals
+config['stats'].report.interval = 60 * 1000;
