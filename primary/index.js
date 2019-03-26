@@ -17,6 +17,16 @@ require('bedrock-ledger-storage-mongodb');
 require('bedrock-mongodb');
 require('bedrock-permission');
 require('bedrock-views');
+
+// stats modules
+require('bedrock-package-manager');
+require('bedrock-stats');
+require('bedrock-stats-http');
+require('bedrock-stats-monitor-os');
+require('bedrock-stats-storage-redis');
+require('bedrock-ledger-node-stats-monitor');
+require('bedrock-ledger-consensus-continuity-stats-monitor');
+
 require('./identities');
 require('./ledger');
 require('./server');
