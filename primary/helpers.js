@@ -23,16 +23,7 @@ api.createHttpSignatureRequest = options => {
 
 api.createIdentity = userName => ({
   id: 'did:7e4a0145-c821-4e56-b41e-2e73e1b0615f',
-  type: 'Identity',
-  sysSlug: userName,
   label: userName,
-  email: userName + '@bedrock.dev',
-  sysPassword: 'password',
-  sysPublic: ['label', 'url', 'description'],
-  sysResourceRole: [],
-  url: 'https://example.com',
-  description: userName,
-  sysStatus: 'active'
 });
 
 api.createKeyPair = function(options) {

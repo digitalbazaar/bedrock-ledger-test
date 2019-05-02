@@ -3,30 +3,28 @@
  */
 'use strict';
 
-const async = require('async');
 const bedrock = require('bedrock');
 const brIdentity = require('bedrock-identity');
 const brKey = require('bedrock-key');
-const database = require('bedrock-mongodb');
-const config = bedrock.config;
+const {config} = bedrock;
 
-bedrock.events.on('bedrock-mongodb.ready', function(callback) {
-  _insert(config['ledger-test'].identities, callback);
+bedrock.events.on('bedrock-mongodb.ready', async () => {
+  await _insert(config['ledger-test'].identities);
 });
 
-function _insert(identities, callback) {
-  async.forEachOf(
-    identities, (identity, key, callback) => async.parallel([
-      callback => brIdentity.insert(null, identity.identity, callback),
-      callback => brKey.addPublicKey(null, identity.keys.publicKey, callback)
-    ], callback),
-    err => {
-      if(err) {
-        if(!database.isDuplicateError(err)) {
-          // duplicate error means test data is already loaded
-          return callback(err);
-        }
-      }
-      callback();
-    }, callback);
+async function _insert(identities) {
+  try {
+    for(const i in identities) {
+      const identity = identities[i];
+      await brIdentity.insert(
+        {actor: null, identity: identity.identity, meta: identity.meta}),
+      await brKey.addPublicKey(
+        {actor: null, publicKey: identity.keys.publicKey});
+    }
+  } catch(e) {
+    if(e.name !== 'DuplicateError') {
+      // duplicate error means test data is already loaded
+      throw e;
+    }
+  }
 }

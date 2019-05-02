@@ -85,10 +85,12 @@ const identities = config['ledger-test'].identities = {};
 const userName = 'regularUser';
 identities[userName] = {};
 identities[userName].identity = helpers.createIdentity(userName);
-identities[userName].identity.sysResourceRole.push({
-  sysRole: 'bedrock-ledger-test.test',
-  generateResource: 'id'
-});
+identities[userName].meta = {
+  sysResourceRole: [{
+    sysRole: 'bedrock-ledger-test.test',
+    generateResource: 'id'
+  }]
+};
 identities[userName].keys = helpers.createKeyPair({
   userName,
   userId: identities[userName].identity.id,
