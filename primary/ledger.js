@@ -119,8 +119,10 @@ async function _setupPeerNode() {
     }
     const client = new WebLedgerClient(clientOptions);
     try {
+      logger.debug(`Attempting to contact peer ${hostname}`);
       genesisBlock = await client.getGenesisBlock();
     } catch(e) {
+      logger.debug('Peer could not be contacted. Retrying...');
       // wait before next attempt
       await delay(5000);
     }
