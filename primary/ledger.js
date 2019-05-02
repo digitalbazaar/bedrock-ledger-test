@@ -14,7 +14,7 @@ const request = require('request');
 const url = require('url');
 const {promisify} = require('util');
 const getAgentIterator = promisify(brLedgerAgent.getAgentIterator);
-const {config, util: {BedrockError}} = bedrock;
+const {config, util: {delay, BedrockError}} = bedrock;
 
 // module API
 const api = {};
@@ -26,7 +26,7 @@ bedrock.events.on('bedrock.started', async () => {
     ({ledgerAgent} = await _setupLedger());
     if(!ledgerAgent) {
       // wait a second before trying again
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await delay(1000);
     }
   }
   logger.debug(
