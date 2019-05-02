@@ -122,7 +122,7 @@ async function _setupPeerNode() {
       logger.debug(`Attempting to contact peer ${hostname}`);
       genesisBlock = await client.getGenesisBlock();
     } catch(e) {
-      logger.debug('Peer could not be contacted. Retrying...');
+      logger.error('Peer could not be contacted. Retrying...', {error: e});
       // wait before next attempt
       await delay(5000);
     }
