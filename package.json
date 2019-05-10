@@ -62,7 +62,7 @@
     "js-yaml": "^3.10.0",
     "lodash": "^4.17.10",
     "mongo-express": "^0.42.3",
-    "pkgcloud": "^1.6.0",
+    "pkgcloud": "^2.0.0",
     "random-port": "^0.1.0",
     "random-words": "0.0.1",
     "request": "^2.83.0",
