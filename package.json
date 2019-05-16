@@ -74,7 +74,7 @@
     "random-words": "0.0.1",
     "request": "^2.83.0",
     "uuid": "^3.1.0",
-    "web-ledger-client": "digitalbazaar/web-ledger-client#getGenesisBlock"
+    "web-ledger-client": "^3.1.0"
   },
   "devDependencies": {
     "eslint": "^5.15.1",
