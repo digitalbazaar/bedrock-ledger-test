@@ -26,6 +26,7 @@ require('bedrock-stats-monitor-os');
 require('bedrock-stats-storage-redis');
 require('bedrock-ledger-node-stats-monitor');
 require('bedrock-ledger-consensus-continuity-stats-monitor');
+require('./stats');
 
 require('./identities');
 require('./ledger');
