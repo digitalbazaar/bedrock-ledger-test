@@ -1,0 +1,27 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.3
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-AXIOS-174505:
+    - bedrock-ledger-consensus-continuity > axios:
+        patched: '2019-05-17T22:48:29.673Z'
+    - bedrock-did-client > did-io > did-veres-one > axios:
+        patched: '2019-05-17T22:48:29.673Z'
+    - bedrock-did-client > did-io > did-veres-one > web-ledger-client > axios:
+        patched: '2019-05-17T22:48:29.673Z'
+  'npm:debug:20170905':
+    - pkgcloud > liboneandone > mocha > debug:
+        patched: '2019-05-17T22:48:29.673Z'
+  'npm:marked:20170907':
+    - bedrock-docs > raml2html > raml2obj > raml-1-parser > marked:
+        patched: '2019-05-17T22:48:29.673Z'
+  'npm:minimatch:20160620':
+    - pkgcloud > liboneandone > mocha > glob > minimatch:
+        patched: '2019-05-17T22:48:29.673Z'
+  'npm:ms:20170412':
+    - pkgcloud > liboneandone > mocha > debug > ms:
+        patched: '2019-05-17T22:48:29.673Z'
+  'npm:uglify-js:20151024':
+    - bedrock-views > swig > uglify-js:
+        patched: '2019-05-17T22:48:29.673Z'
