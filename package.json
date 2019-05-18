@@ -50,7 +50,7 @@
     "bedrock-ledger-context": "^11.0.0",
     "bedrock-ledger-node": "^8.0.0",
     "bedrock-ledger-node-stats-monitor": "^1.0.0",
-    "bedrock-ledger-storage-mongodb": "^2.2.0",
+    "bedrock-ledger-storage-mongodb": "digitalbazaar/bedrock-ledger-storage-mongodb#chunk-operations",
     "bedrock-logger-cloudwatch": "^1.0.0",
     "bedrock-mongodb": "^5.4.0",
     "bedrock-package-manager": "^1.0.0",
