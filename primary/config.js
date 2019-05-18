@@ -61,6 +61,7 @@ config.key.cache.enable = true;
 // logger config
 config.loggers.app.tailable = true;
 config.loggers.app.level = 'debug';
+config.loggers.app.maxFiles = 1000;
 
 // mongodb config
 config.mongodb.name = 'ledger_test_primary';
