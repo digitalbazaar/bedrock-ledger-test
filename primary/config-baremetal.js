@@ -4,7 +4,7 @@
 'use strict';
 
 const bedrock = require('bedrock');
-const {config} = bedrock;
+const {config, util: {uuid}} = bedrock;
 const fs = require('fs');
 const ifaces = require('os').networkInterfaces();
 const path = require('path');
@@ -21,10 +21,14 @@ try {
 // core configuration
 config.core.workers = 0;
 
-config['ledger-test'].dashboard.host = instanceConfig['dashboard-hostname'];
+config.mongodb.host = instanceConfig['mongo-hostname'] || 'localhost';
+config.mongodb.name = instanceConfig['mongo-dbname'] || uuid();
 
-config.mongodb.host = instanceConfig['mongo-hostname'];
-config.mongodb.name = instanceConfig['mongo-dbname'];
+// if primary is defined in the instance config, this is a secondary that
+// should contact the primary for the genesis block
+if(instanceConfig['primary-hostname']) {
+  config['ledger-test'].peers.push(instanceConfig['primary-hostname']);
+}
 
 Object.keys(ifaces).forEach(ifname => {
   let alias = 0;
