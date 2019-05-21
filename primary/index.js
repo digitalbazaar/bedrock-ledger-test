@@ -53,7 +53,8 @@ bedrock.events.on('bedrock-cli.ready', async () => {
     config.server.domain = localIp;
   }
   if(bedrock.program.baremetal) {
-    require('./config-baremetal');
+    const {configure} = require('./config-baremetal');
+    await configure();
   }
   config['ledger-test'].primaryBaseUrl = `${config.server.baseUri}/ledger-test`;
 });
