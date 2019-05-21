@@ -63,5 +63,5 @@ async function _getPublicIp() {
   const exec = util.promisify(require('child_process').exec);
   // scw-metadata is a command line util provided on scaleway instances
   const {stdout} = await exec('scw-metadata --cached PUBLIC_IP_ADDRESS');
-  return stdout;
+  return stdout.trim();
 }
