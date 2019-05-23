@@ -27,3 +27,6 @@ services:
       # - dbdata:/data/db
     networks:
       - app-network
+networks:
+  app-network:
+    driver: bridge      
