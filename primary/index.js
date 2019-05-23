@@ -37,6 +37,7 @@ require('./config');
 bedrock.events.on('bedrock-cli.init', () => bedrock.program
   .option('--aws', 'Configure for AWS.')
   .option('--baremetal', 'Configure for Bare Metal.')
+  .option('--docker', 'Configure for Docker.')
 );
 
 bedrock.events.on('bedrock-cli.ready', async () => {
@@ -54,6 +55,10 @@ bedrock.events.on('bedrock-cli.ready', async () => {
   }
   if(bedrock.program.baremetal) {
     const {configure} = require('./config-baremetal');
+    await configure();
+  }
+  if(bedrock.program.docker) {
+    const {configure} = require('./config-docker');
     await configure();
   }
   config['ledger-test'].primaryBaseUrl = `${config.server.baseUri}/ledger-test`;
