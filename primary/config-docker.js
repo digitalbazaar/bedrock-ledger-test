@@ -23,8 +23,9 @@ exports.configure = async () => {
   // }
 
   config.server.bindAddr = ['0.0.0.0'];
+
+  // this works on AWS and OpenStack
   const localIp = await awsInstanceMetadata.fetch('local-ipv4');
-  console.log('LLLLLLLLLL LOCAL IP', localIp);
   config.server.domain = localIp;
 
 };
