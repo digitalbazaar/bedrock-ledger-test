@@ -27,6 +27,12 @@ services:
       # - dbdata:/data/db
     networks:
       - app-network
+  redis-docker:
+    image: redis:latest
+    container_name: redis-docker
+    restart: unless-stopped
+    networks:
+      - app-network
 networks:
   app-network:
-    driver: bridge      
+    driver: bridge
