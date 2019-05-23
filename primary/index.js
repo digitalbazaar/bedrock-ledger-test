@@ -16,6 +16,7 @@ require('bedrock-ledger-storage-mongodb');
 // require('bedrock-logger-cloudwatch');
 require('bedrock-mongodb');
 require('bedrock-permission');
+require('bedrock-redis');
 require('bedrock-views');
 
 // stats modules
