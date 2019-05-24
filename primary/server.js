@@ -9,8 +9,8 @@ const bedrock = require('bedrock');
 const config = bedrock.config;
 const fs = require('fs');
 const logger = require('./logger');
-const mongoExpress = require('mongo-express/lib/middleware');
-const mongoExpressConfig = require('./mongo-express-config');
+// const mongoExpress = require('mongo-express/lib/middleware');
+// const mongoExpressConfig = require('./mongo-express-config');
 const os = require('os');
 const path = require('path');
 
@@ -25,7 +25,7 @@ let cloudWatchLogs;
 bedrock.events.on('bedrock-express.configure.routes', app => {
   const routes = config['ledger-test'].routes;
 
-  app.use(routes.mongoExpress, mongoExpress(mongoExpressConfig));
+  // app.use(routes.mongoExpress, mongoExpress(mongoExpressConfig));
 
   app.get(routes.logFile, (req, res, next) => fs.readFile(
     path.join(os.tmpdir(), 'bedrock-ledger-test', `${req.params.logFile}.log`),
