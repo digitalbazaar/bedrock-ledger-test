@@ -48,6 +48,20 @@ exports.configure = async () => {
     }
   }
   if(!localIp) {
+    // try Azure
+    const {create} = require('apisauce');
+    const baseURL = 'http://169.254.169.254/metadata/instance';
+    const azureApi = create({baseURL, timeout: 30000, headers: {
+      Metadata: true
+    }});
+    ({data: localIp} = await azureApi.get(
+      '/network/interface/0/ipv4/ipAddress/0/publicIpAddress', {
+        'api-version': '2017-08-01',
+        format: 'text',
+      }
+    ));
+  }
+  if(!localIp) {
     throw new Error('Could not acquire local IP information.');
   }
   config.server.domain = localIp;
