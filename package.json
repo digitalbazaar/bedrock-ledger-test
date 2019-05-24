@@ -4,7 +4,7 @@
   "description": "Bedrock mongodb module",
   "main": "./index",
   "scripts": {
-    "aws": "NODE_ENV=production node ./primary/index.js --aws",    
+    "aws": "NODE_ENV=production node ./primary/index.js --aws",
     "baremetal": "NODE_ENV=production node ./primary/index.js --baremetal",
     "primary-aws": "NODE_ENV=production node ./primary/index.js --aws",
     "secondary-aws": "NODE_ENV=production node ./secondary/index.js --aws",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/digitalbazaar/bedrock-ledger-test",
   "dependencies": {
+    "apisauce": "^1.0.2",
     "async": "^2.5.0",
     "aws-instance-metadata": "digitalbazaar/aws-instance-metadata#got9",
     "aws-sdk": "^2.126.0",

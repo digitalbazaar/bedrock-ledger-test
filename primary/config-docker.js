@@ -26,8 +26,26 @@ exports.configure = async () => {
 
   config.server.bindAddr = ['0.0.0.0'];
 
-  // this works on AWS and OpenStack
-  const localIp = await awsInstanceMetadata.fetch('local-ipv4');
+  let localIp;
+  try {
+    // this works on AWS and OpenStack
+    localIp = await awsInstanceMetadata.fetch('local-ipv4');
+  } catch(e) {
+    // ignore error
+  }
+  if(!localIp) {
+    try {
+      // try DigitalOcean api
+      const {create} = require('apisauce');
+      const baseURL = 'http://169.254.169.254/metadata/v1';
+      const doApi = create({baseURL, timeout: 30000});
+      ({data: localIp} = await doApi.get('/interfaces/public/0/ipv4/address'));
+    } catch(e) {
+      // ignore error
+    }
+  }
+  if(!localIp) {
+    throw new Error('Could not acquire local IP information.');
+  }
   config.server.domain = localIp;
-
 };
