@@ -28,8 +28,11 @@ exports.configure = async () => {
 
   let localIp;
   try {
-    // this works on AWS and OpenStack
-    localIp = await awsInstanceMetadata.fetch('local-ipv4');
+    // this works on TestCloud
+    // localIp = await awsInstanceMetadata.fetch('local-ipv4');
+
+    // this works on AWS
+    localIp = await awsInstanceMetadata.fetch('public-ipv4');
   } catch(e) {
     // ignore error
   }
