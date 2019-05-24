@@ -5,14 +5,14 @@
 
 const awsInstanceMetadata = require('aws-instance-metadata');
 const bedrock = require('bedrock');
-const {config, util: {uuid}} = bedrock;
+const {config} = bedrock;
 
 exports.configure = async () => {
   // core configuration
   config.core.workers = 0;
 
   config.mongodb.host = 'mongo-docker';
-  config.mongodb.name = uuid();
+  config.mongodb.name = 'bedrock-ledger-test';
 
   config.redis.host = 'redis-docker';
   config.jobs.queueOptions.redis.host = config.redis.host;
