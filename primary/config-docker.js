@@ -41,7 +41,9 @@ exports.configure = async () => {
       // try DigitalOcean api
       const {create} = require('apisauce');
       const baseURL = 'http://169.254.169.254/metadata/v1';
-      const doApi = create({baseURL, timeout: 30000});
+      const doApi = create({baseURL, timeout: 30000, headers: {
+        Accept: 'text/plain',
+      }});
       ({data: localIp} = await doApi.get('/interfaces/public/0/ipv4/address'));
     } catch(e) {
       // ignore error
@@ -52,6 +54,7 @@ exports.configure = async () => {
     const {create} = require('apisauce');
     const baseURL = 'http://169.254.169.254/metadata/instance';
     const azureApi = create({baseURL, timeout: 30000, headers: {
+      Accept: 'text/plain',
       Metadata: true
     }});
     ({data: localIp} = await azureApi.get(
