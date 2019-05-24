@@ -15,6 +15,7 @@ exports.configure = async () => {
   config.mongodb.name = uuid();
 
   config.redis.host = 'redis-docker';
+  config.jobs.queueOptions.redis.host = config.redis.host;
 
   // if primary is defined in the instance config, this is a secondary that
   // should contact the primary for the genesis block
