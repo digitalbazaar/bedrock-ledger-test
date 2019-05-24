@@ -36,7 +36,7 @@ exports.configure = async () => {
   } catch(e) {
     // ignore error
   }
-  if(!localIp) {
+  if(!localIp || typeof localIp !== 'string') {
     try {
       // try DigitalOcean api
       const {create} = require('apisauce');
@@ -49,7 +49,7 @@ exports.configure = async () => {
       // ignore error
     }
   }
-  if(!localIp) {
+  if(!localIp || typeof localIp !== 'string') {
     // try Azure
     const {create} = require('apisauce');
     const baseURL = 'http://169.254.169.254/metadata/instance';
