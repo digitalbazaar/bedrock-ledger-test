@@ -20,10 +20,9 @@ exports.configure = async () => {
   // if primary is defined in the instance config, this is a secondary that
   // should contact the primary for the genesis block
 
-  // FIXME: this should use process.env
-  // if(instanceConfig['primary-hostname']) {
-  //   config['ledger-test'].peers.push(instanceConfig['primary-hostname']);
-  // }
+  if(process.env.PRIMARY_HOSTNAME) {
+    config['ledger-test'].peers.push(process.env.PRIMARY_HOSTNAME);
+  }
 
   config.server.bindAddr = ['0.0.0.0'];
 
