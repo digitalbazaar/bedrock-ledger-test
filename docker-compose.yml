@@ -5,7 +5,7 @@ services:
     # build:
       # context: .
       # dockerfile: Dockerfile
-    image: mattcollier/bedrock-ledger-test:latest
+    image: digitalbazaar/bedrock-ledger-test:latest
     container_name: bedrock-ledger-test
     restart: unless-stopped
     env_file: docker-compose.env
