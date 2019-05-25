@@ -3,7 +3,6 @@
  */
 'use strict';
 
-const awsInstanceMetadata = require('aws-instance-metadata');
 const bedrock = require('bedrock');
 const {config} = bedrock;
 
@@ -26,36 +25,10 @@ exports.configure = async () => {
 
   config.server.bindAddr = ['0.0.0.0'];
 
-  // env currently set for scaleway and digitalocean
-  let localIp = process.env.PUBLIC_IP;
+  // env currently set for scaleway, digitalocean, aws, azure
+  const localIp = process.env.PUBLIC_IP;
 
   if(!localIp || typeof localIp !== 'string') {
-    try {
-      // this works on TestCloud
-      // localIp = await awsInstanceMetadata.fetch('local-ipv4');
-
-      // this works on AWS
-      localIp = await awsInstanceMetadata.fetch('public-ipv4');
-    } catch(e) {
-      // ignore error
-    }
-  }
-  if(!localIp || typeof localIp !== 'string') {
-    // try Azure
-    const {create} = require('apisauce');
-    const baseURL = 'http://169.254.169.254/metadata/instance';
-    const azureApi = create({baseURL, timeout: 30000, headers: {
-      Accept: 'text/plain',
-      Metadata: true
-    }});
-    ({data: localIp} = await azureApi.get(
-      '/network/interface/0/ipv4/ipAddress/0/publicIpAddress', {
-        'api-version': '2017-08-01',
-        format: 'text',
-      }
-    ));
-  }
-  if(!localIp) {
     throw new Error('Could not acquire local IP information.');
   }
   config.server.domain = localIp;
