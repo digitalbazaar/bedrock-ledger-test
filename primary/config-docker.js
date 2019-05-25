@@ -26,25 +26,16 @@ exports.configure = async () => {
 
   config.server.bindAddr = ['0.0.0.0'];
 
-  let localIp;
-  try {
-    // this works on TestCloud
-    // localIp = await awsInstanceMetadata.fetch('local-ipv4');
+  // env currently set for scaleway and digitalocean
+  let localIp = process.env.PUBLIC_IP;
 
-    // this works on AWS
-    localIp = await awsInstanceMetadata.fetch('public-ipv4');
-  } catch(e) {
-    // ignore error
-  }
   if(!localIp || typeof localIp !== 'string') {
     try {
-      // try DigitalOcean api
-      const {create} = require('apisauce');
-      const baseURL = 'http://169.254.169.254/metadata/v1';
-      const doApi = create({baseURL, timeout: 30000, headers: {
-        Accept: 'text/plain',
-      }});
-      ({data: localIp} = await doApi.get('/interfaces/public/0/ipv4/address'));
+      // this works on TestCloud
+      // localIp = await awsInstanceMetadata.fetch('local-ipv4');
+
+      // this works on AWS
+      localIp = await awsInstanceMetadata.fetch('public-ipv4');
     } catch(e) {
       // ignore error
     }
