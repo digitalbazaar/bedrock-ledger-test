@@ -8,6 +8,9 @@ services:
     image: digitalbazaar/bedrock-ledger-test:latest
     container_name: bedrock-ledger-test
     restart: unless-stopped
+    depends_on:
+      - mongo-docker
+      - redis-docker
     env_file: docker-compose.env
     # environment:
     ports:
