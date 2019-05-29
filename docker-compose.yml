@@ -34,6 +34,8 @@ services:
     image: redis:latest
     container_name: redis-docker
     restart: unless-stopped
+    volumes:
+      - /data/redis:/data/redis
     networks:
       - app-network
 networks:
