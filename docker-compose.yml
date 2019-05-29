@@ -33,6 +33,7 @@ services:
   redis-docker:
     image: redis:latest
     container_name: redis-docker
+    command: ["redis-server", "--appendonly", "yes"]    
     restart: unless-stopped
     volumes:
       - /data/redis:/data/redis
