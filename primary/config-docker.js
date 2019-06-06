@@ -26,7 +26,13 @@ exports.configure = async () => {
   config.server.bindAddr = ['0.0.0.0'];
 
   // env currently set for scaleway, digitalocean, aws, azure
-  const localIp = process.env.PUBLIC_IP;
+  let localIp = process.env.PUBLIC_IP;
+
+  if(!localIp) {
+    // this is for TestCloud
+    const cloudMeta = require('/run/cloud-init/instance-data.json');
+    localIp = cloudMeta.ds.ec2_metadata['local-ipv4'];
+  }
 
   if(!localIp || typeof localIp !== 'string') {
     throw new Error('Could not acquire local IP information.');
