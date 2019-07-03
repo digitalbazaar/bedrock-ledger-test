@@ -1,0 +1,80 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - bedrock-docs > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - mongo-express > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-views > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-permission > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-passport > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-mongodb > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-ledger-storage-mongodb > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-ledger-node > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-ledger-consensus-continuity-storage > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-ledger-consensus-continuity > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-ledger-agent > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-identity > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-docs > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - pkgcloud > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-server > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - pkgcloud > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-jobs > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-passport > credentials-io > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-passport > did-io > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-ledger-agent > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-views > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-key > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-mongodb > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-ledger-test-client-http > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-logger-cloudwatch > winston-cloudwatch > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-logger-cloudwatch > winston-cloudwatch > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-passport > credentials-io > did-io > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock > nyc > istanbul-lib-instrument > @babel/traverse > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-docs > raml2html > raml2obj > datatype-expansion > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock-docs > raml2html > minimize > async > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock > nyc > istanbul-lib-instrument > @babel/traverse > @babel/types > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock > nyc > istanbul-lib-instrument > @babel/traverse > @babel/helper-function-name > @babel/types > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
+    - bedrock > nyc > istanbul-lib-instrument > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2019-07-03T22:49:14.301Z'
