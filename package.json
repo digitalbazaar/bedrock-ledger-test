@@ -51,7 +51,7 @@
     "bedrock-ledger-consensus-continuity-stats-monitor": "^1.0.0",
     "bedrock-ledger-consensus-continuity-storage": "^2.3.0",
     "bedrock-ledger-context": "^11.0.0",
-    "bedrock-ledger-node": "^8.0.0",
+    "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#fix-event",
     "bedrock-ledger-node-stats-monitor": "^1.0.0",
     "bedrock-ledger-storage-mongodb": "^2.4.0",
     "bedrock-logger-cloudwatch": "^1.0.0",
