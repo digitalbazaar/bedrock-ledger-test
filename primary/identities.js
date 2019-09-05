@@ -5,7 +5,6 @@
 
 const bedrock = require('bedrock');
 const brIdentity = require('bedrock-identity');
-const brKey = require('bedrock-key');
 const {config} = bedrock;
 
 bedrock.events.on('bedrock-mongodb.ready', async () => {
@@ -17,9 +16,7 @@ async function _insert(identities) {
     for(const i in identities) {
       const identity = identities[i];
       await brIdentity.insert(
-        {actor: null, identity: identity.identity, meta: identity.meta}),
-      await brKey.addPublicKey(
-        {actor: null, publicKey: identity.keys.publicKey});
+        {actor: null, identity: identity.identity, meta: identity.meta});
     }
   } catch(e) {
     if(e.name !== 'DuplicateError') {
