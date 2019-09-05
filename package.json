@@ -37,7 +37,6 @@
     "bedrock": "^1.16.0",
     "bedrock-account": "^2.1.1",
     "bedrock-aws": "digitalbazaar/bedrock-aws#implementation",
-    "bedrock-did-client": "digitalbazaar/bedrock-did-client#testnet_v2",
     "bedrock-docs": "^3.0.0",
     "bedrock-express": "^2.0.8",
     "bedrock-identity": "^6.1.0",
