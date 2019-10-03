@@ -52,7 +52,6 @@
     "bedrock-ledger-node": "^8.0.0",
     "bedrock-ledger-node-stats-monitor": "^1.0.0",
     "bedrock-ledger-storage-mongodb": "^2.4.0",
-    "bedrock-logger-cloudwatch": "^1.0.0",
     "bedrock-mongodb": "^6.0.0",
     "bedrock-package-manager": "^1.0.0",
     "bedrock-passport": "^5.0.0",

@@ -13,7 +13,6 @@ require('bedrock-ledger-consensus-continuity-es-most-recent-participants-' +
   'with-recovery');
 require('bedrock-ledger-node');
 require('bedrock-ledger-storage-mongodb');
-// require('bedrock-logger-cloudwatch');
 require('bedrock-mongodb');
 require('bedrock-permission');
 require('bedrock-redis');
