@@ -71,6 +71,11 @@ config.mongodb.connectOptions.poolSize = 12;
 // enable consensus workers
 config.ledger.jobs.scheduleConsensusWork.enabled = true;
 
+// We know that with zero debounce settings we see an 8X increase in
+// merge events being created. It follows that a commensurate increase in the
+// maxDepth may be beneficial
+config['ledger-consensus-continuity'].gossip.maxDepth = 50;
+
 // const cloudwatch = config.loggers.cloudwatch;
 // cloudwatch.logGroupName = `primary-local`;
 // cloudwatch.logStreamName = 'app';
