@@ -6,6 +6,7 @@
 const bedrock = require('bedrock');
 const {config} = bedrock;
 require('bedrock-express');
+require('bedrock-https-agent');
 require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
 require('bedrock-ledger-consensus-continuity-es-most-recent-participants');

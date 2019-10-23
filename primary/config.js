@@ -53,7 +53,7 @@ config.core.worker.restart = true;
 // disable sessions server wide
 config.express.useSession = false;
 
-config.jsonld.strictSSL = false;
+config['https-agent'].rejectUnauthorized = false;
 
 // logger config
 config.loggers.app.tailable = true;

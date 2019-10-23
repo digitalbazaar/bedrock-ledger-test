@@ -4,15 +4,12 @@
 'use strict';
 
 const _ = require('lodash');
-const async = require('async');
 const bedrock = require('bedrock');
+const brHttpsAgent = require('bedrock-https-agent');
 const brIdentity = require('bedrock-identity');
 const brLedgerAgent = require('bedrock-ledger-agent');
 const brLedgerNode = require('bedrock-ledger-node');
-const https = require('https');
 const logger = require('./logger');
-const request = require('request');
-const url = require('url');
 const {promisify} = require('util');
 const getAgentIterator = promisify(brLedgerAgent.getAgentIterator);
 const {config, util: {delay, BedrockError}} = bedrock;
@@ -106,17 +103,16 @@ async function _setupGenesisNode() {
 async function _setupPeerNode() {
   logger.debug('Retrieving genesis block from peers',
     {peers: config['ledger-test'].peers});
-  const strictSSL = config.jsonld.strictSSL;
 
   const ledgerOwner = await _getLedgerOwner();
 
   let genesisBlock = null;
   do {
     const hostname = _.sample(config['ledger-test'].peers);
-    const clientOptions = {hostname};
-    if(!strictSSL) {
-      clientOptions.httpsAgent = new https.Agent({rejectUnauthorized: false});
-    }
+    const clientOptions = {
+      hostname,
+      httpsAgent: brHttpsAgent.httpsAgent,
+    };
     const client = new WebLedgerClient(clientOptions);
     try {
       logger.debug(`Attempting to contact peer ${hostname}`);
