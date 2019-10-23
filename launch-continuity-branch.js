@@ -68,7 +68,7 @@ async function run() {
 
     // wait for the server to be in a `RUNNING` state
     let serverDetails;
-    for(let i = 0; i < 30; ++i) {
+    for(let i = 0; i < 60; ++i) {
       serverDetails = await getServer(server.id);
       if(serverDetails.addresses.private) {
         break;
