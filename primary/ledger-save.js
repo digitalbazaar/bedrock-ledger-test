@@ -9,6 +9,7 @@ const brIdentity = require('bedrock-identity');
 const config = bedrock.config;
 const brLedgerAgent = require('bedrock-ledger-agent');
 const logger = require('./logger');
+const {callbackify, promisify} = require('util');
 
 // module API
 const api = {};
@@ -42,8 +43,8 @@ function setupLedger(callback) {
       }
       // if no ledger agents are found, create the ledger node and agent
       if(!found) {
-        return bedrock.runOnce(
-          'ledger-test.createLedger', _createLedger, err => {
+        return callbackify(bedrock.runOnce)(
+          'ledger-test.createLedger', promisify(_createLedger), err => {
             if(err) {
               return callback(err);
             }
