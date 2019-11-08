@@ -162,6 +162,19 @@ const _investigateEvents = (results, callback) => {
     console.log('NUMBER OF NODES', result.length);
     if(!result.every(r =>
       _.isEqual(_.sortBy(r.hashes), _.sortBy(result[0].hashes)))) {
+      // collect a list of ALL the eventHashes
+      const allHashes = [];
+      for(const n in result) {
+        allHashes.push(...result[n].hashes);
+      }
+      const allUniqueHashes = new Set(_.sortBy(allHashes));
+      console.log(
+        'ALL UNIQUE HASHES', JSON.stringify([...allUniqueHashes], null, 2));
+      for(const n in result) {
+        console.log('DIFFERENCE COLLECTION', result[n].c);
+        console.log(JSON.stringify(_.difference(
+          [...allUniqueHashes], _.sortBy(result[n].hashes)), null, 2));
+      }
       return callback(new Error('EVENTHASH MISMATCH!'));
     }
     console.log('ALL EVENTHASHES ON ALL THE NODES ARE IDENTICAL');

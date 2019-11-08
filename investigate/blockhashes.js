@@ -66,9 +66,13 @@ const investigate = (results, callback) => {
         'block.blockHeight': 1,
         'block.previousBlockHash': 1,
         'meta.blockHash': 1,
+        'meta.created': 1,
       }, (err, result) => {
         if(err) {
           return callback(err);
+        }
+        if(!result) {
+          return callback(null, {});
         }
         result.collection = c;
         collectionMap[c].block = result;
