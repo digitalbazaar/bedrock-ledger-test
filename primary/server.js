@@ -5,8 +5,7 @@
 
 const async = require('async');
 const bedrock = require('bedrock');
-// const brAws = require('bedrock-aws');
-const config = bedrock.config;
+const {config} = bedrock;
 const fs = require('fs');
 const logger = require('./logger');
 // const mongoExpress = require('mongo-express/lib/middleware');

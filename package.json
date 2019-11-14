@@ -2,7 +2,7 @@
   "name": "bedrock-ledger-test",
   "version": "0.0.1-0",
   "description": "Bedrock mongodb module",
-  "license": "SEE LICENSE IN LICENSE.md",  
+  "license": "SEE LICENSE IN LICENSE.md",
   "main": "./index",
   "scripts": {
     "aws": "NODE_ENV=production node ./primary/index.js --aws",
@@ -37,7 +37,6 @@
     "aws-sdk": "^2.126.0",
     "bedrock": "^3.0.0",
     "bedrock-account": "^2.1.1",
-    "bedrock-aws": "digitalbazaar/bedrock-aws#implementation",
     "bedrock-docs": "^3.0.0",
     "bedrock-express": "^3.0.0",
     "bedrock-https-agent": "^1.0.0",
