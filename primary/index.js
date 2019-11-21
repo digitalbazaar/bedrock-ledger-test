@@ -19,6 +19,9 @@ require('bedrock-mongodb');
 require('bedrock-permission');
 require('bedrock-redis');
 
+require('bedrock-ledger-context');
+require('bedrock-veres-one-context');
+
 // stats modules
 require('bedrock-package-manager');
 require('bedrock-stats');

@@ -69,6 +69,7 @@
     "bedrock-stats-monitor-os": "^1.0.1",
     "bedrock-stats-storage-redis": "^1.0.0",
     "bedrock-validation": "^4.0.0",
+    "bedrock-veres-one-context": "^10.0.0",
     "cors": "^2.8.4",
     "js-yaml": "^3.10.0",
     "lodash": "^4.17.10",
