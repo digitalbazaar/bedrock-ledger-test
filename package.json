@@ -46,7 +46,7 @@
     "bedrock-jsonld-document-loader": "^1.0.0",
     "bedrock-ledger-agent": "^2.1.0",
     "bedrock-ledger-consensus-continuity": "digitalbazaar/bedrock-ledger-consensus-continuity#d372e53fc4ca3776348eb851962f8adeea5db464",
-    "bedrock-ledger-consensus-continuity-es-elector-pool": "digitalbazaar/bedrock-ledger-consensus-continuity-es-elector-pool#ac031d1e1340c95ceecee724ecbb4ed34617be22",
+    "bedrock-ledger-consensus-continuity-es-elector-pool": "digitalbazaar/bedrock-ledger-consensus-continuity-es-elector-pool#ca77c860209fd767091e5fe8ede32882f43448e7",
     "bedrock-ledger-consensus-continuity-es-most-recent-participants": "^2.0.0",
     "bedrock-ledger-consensus-continuity-es-most-recent-participants-with-recovery": "^1.0.0",
     "bedrock-ledger-consensus-continuity-stats-monitor": "^1.0.0",
