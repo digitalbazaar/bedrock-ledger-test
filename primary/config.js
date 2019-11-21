@@ -37,7 +37,9 @@ cc('ledger-test.config', () => ({
   ledger: config['ledger-test'].did,
   consensusMethod: 'Continuity2017',
   electorSelectionMethod: {
-    type: 'MostRecentParticipants',
+    type: 'ElectorPoolElectorSelection',
+    // this corresponds to the ID for the electorPool doc in the orchestrator
+    electorPool: 'did:v1:uuid:b3275fed-daf4-4c07-b63a-747fa8857609',
   },
   // ledgerConfigurationValidator: [],
   // operationValidator: [],

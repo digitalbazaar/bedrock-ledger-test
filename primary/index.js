@@ -9,6 +9,7 @@ require('bedrock-express');
 require('bedrock-https-agent');
 require('bedrock-ledger-agent');
 require('bedrock-ledger-consensus-continuity');
+require('bedrock-ledger-consensus-continuity-es-elector-pool');
 require('bedrock-ledger-consensus-continuity-es-most-recent-participants');
 require('bedrock-ledger-consensus-continuity-es-most-recent-participants-' +
   'with-recovery');
