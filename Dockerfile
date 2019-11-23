@@ -23,4 +23,4 @@ COPY --from=dependencies /home/node/app/node_modules ./node_modules
 # copy app sources
 COPY --chown=node:node . .
 EXPOSE 18443
-CMD [ "node", "primary", "--docker" ]
+CMD [ "node", "primary", "--docker", "--log-level verbose" ]
