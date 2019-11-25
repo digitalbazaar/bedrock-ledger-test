@@ -45,7 +45,7 @@
     "bedrock-jobs": "^3.0.0",
     "bedrock-jsonld-document-loader": "^1.0.0",
     "bedrock-ledger-agent": "^2.1.0",
-    "bedrock-ledger-consensus-continuity": "digitalbazaar/bedrock-ledger-consensus-continuity#8db5bfa752bd08125f269a76b5c46cc0d9aea020",
+    "bedrock-ledger-consensus-continuity": "digitalbazaar/bedrock-ledger-consensus-continuity#80cfe13a4f621a9c9f7ae571a064224b160eb38b",
     "bedrock-ledger-consensus-continuity-es-elector-pool": "digitalbazaar/bedrock-ledger-consensus-continuity-es-elector-pool#9e11d45956a9dc76422acd8cbce1721bc1ec08c8",
     "bedrock-ledger-consensus-continuity-es-most-recent-participants": "^2.0.0",
     "bedrock-ledger-consensus-continuity-es-most-recent-participants-with-recovery": "^1.0.0",
