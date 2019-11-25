@@ -49,7 +49,7 @@
     "bedrock-ledger-consensus-continuity-es-elector-pool": "digitalbazaar/bedrock-ledger-consensus-continuity-es-elector-pool#9e11d45956a9dc76422acd8cbce1721bc1ec08c8",
     "bedrock-ledger-consensus-continuity-es-most-recent-participants": "^2.0.0",
     "bedrock-ledger-consensus-continuity-es-most-recent-participants-with-recovery": "^1.0.0",
-    "bedrock-ledger-consensus-continuity-stats-monitor": "^1.0.0",
+    "bedrock-ledger-consensus-continuity-stats-monitor": "digitalbazaar/bedrock-ledger-consensus-continuity-stats-monitor#ee14800d36dd7bb104139f2fbdddf4f4a8724c5e",
     "bedrock-ledger-consensus-continuity-storage": "^2.3.0",
     "bedrock-ledger-context": "^14.0.0",
     "bedrock-ledger-node": "^9.0.0",
