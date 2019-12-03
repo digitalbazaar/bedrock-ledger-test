@@ -13,7 +13,7 @@ RUN apk add --no-cache git bash
 USER node
 WORKDIR /home/node/app
 # RUN npm set progress=false && npm config set depth 0
-RUN npm install --no-optional --production
+RUN npm install --no-optional --production --verbose
 
 #
 # ---- Release ----
