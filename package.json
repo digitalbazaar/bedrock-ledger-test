@@ -52,7 +52,7 @@
     "bedrock-ledger-consensus-continuity-stats-monitor": "digitalbazaar/bedrock-ledger-consensus-continuity-stats-monitor#ee14800d36dd7bb104139f2fbdddf4f4a8724c5e",
     "bedrock-ledger-consensus-continuity-storage": "^2.3.0",
     "bedrock-ledger-context": "^15.0.0",
-    "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#basis-block-height",
+    "bedrock-ledger-node": "digitalbazaar/bedrock-ledger-node#49fb9cea308d7ad7c7ab05088b94b1907ac50db0",
     "bedrock-ledger-node-stats-monitor": "^1.0.0",
     "bedrock-ledger-storage-mongodb": "^3.0.0",
     "bedrock-ledger-utils": "digitalbazaar/bedrock-ledger-utils#1369128b093d3cb6de02a6a54528840a29f0bef1",
