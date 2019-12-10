@@ -1,0 +1,14 @@
+[Unit]
+Description=Test Hub Service
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/node --preserve-symlinks /home/ubuntu/bedrock-ledger-test/test-hub/index.js --minify true --aws 2>&1
+WorkingDirectory=/home/ubuntu/bedrock-ledger-test/test-hub/
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=test-hub
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
