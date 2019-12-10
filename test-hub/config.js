@@ -10,7 +10,7 @@ const path = require('path');
 
 config.server.port = 18443;
 config.server.httpPort = 18080;
-config.server.domain = '10.0.0.28';
+config.server.domain = '10.60.80.42';
 
 // mongodb config
 config.mongodb.name = 'bedrock_test_hub';
