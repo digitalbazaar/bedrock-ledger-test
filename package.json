@@ -55,7 +55,7 @@
     "bedrock-ledger-node": "^10.1.0",
     "bedrock-ledger-node-stats-monitor": "^1.0.0",
     "bedrock-ledger-storage-mongodb": "^3.0.0",
-    "bedrock-ledger-utils": "digitalbazaar/bedrock-ledger-utils#1369128b093d3cb6de02a6a54528840a29f0bef1",
+    "bedrock-ledger-utils": "digitalbazaar/bedrock-ledger-utils#bee98d9a1dfa017ebf1baebc4647cd135a32d157",
     "bedrock-mongodb": "^6.0.0",
     "bedrock-package-manager": "^1.0.0",
     "bedrock-passport": "^5.0.0",
