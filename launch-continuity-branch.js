@@ -58,7 +58,7 @@ async function run() {
     const server = await createServer({
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
       flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06', // branch-test
-      image: '27395632-3a9f-4a62-803a-c5cf0b702ba8', // test-base-mongo4
+      image: '1f99f14f-1d11-4390-a407-847ed049e78f', // test-base-mongo4-node12.13.1
       name: `continuity-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
       // networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
