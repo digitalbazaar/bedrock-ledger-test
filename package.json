@@ -12,7 +12,9 @@
     "secondary-nsolid": "NODE_ENV=production NSOLID_APPNAME=ledger NSOLID_COMMAND=localhost:9001 node ./secondary/index.js --localpeer",
     "secondary-local": "node ./secondary/index.js",
     "secondardy-localpeer": "redis-cli flushall & NODE_ENV=production node ./secondary/index.js --localpeer",
-    "start": "node ./primary/index.js"
+    "start": "node ./primary/index.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -73,7 +75,8 @@
     "mongo-express": "^0.51.2",
     "pkgcloud": "^1.6.0",
     "uuid": "^3.1.0",
-    "web-ledger-client": "^3.1.0"
+    "web-ledger-client": "^3.1.0",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "eslint": "^6.0.0",
@@ -84,5 +87,6 @@
     "command": "localhost:9001",
     "app": "messaging",
     "tags": "aws, mq"
-  }
+  },
+  "snyk": true
 }
