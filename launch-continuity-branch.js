@@ -1,27 +1,16 @@
 #!/usr/bin/env node
 
-// const _ = require('lodash');
+const delay = require('delay');
 const fs = require('fs');
 const path = require('path');
-const pkgcloud = require('pkgcloud');
-const {promisify} = require('util');
 const program = require('commander');
-const uuid = require('uuid/v4');
-const yaml = require('js-yaml');
+const uuid = require('uuid-random');
+const {createServer, getServer} = require('./compute-api');
 
 program
   .option('-b, --branch [value]', 'branch name')
   .option('-c, --count <n>', 'instance count')
   .parse(process.argv);
-
-let auth;
-try {
-  auth = yaml.safeLoad(fs.readFileSync(
-    path.join(__dirname, 'cloud-auth.yml'), 'utf8'));
-} catch(e) {
-  console.error(e);
-  process.exit(1);
-}
 
 let continuityBranchConfig = fs.readFileSync(
   path.join(__dirname, 'cloud-config-continuity-branch.yml'), 'utf8');
@@ -29,24 +18,6 @@ let continuityBranchConfig = fs.readFileSync(
 continuityBranchConfig = continuityBranchConfig.replace(
   '_CONTINUITYBRANCH_', program.branch);
 
-const clientOptions = {
-  keystoneAuthVersion: 'v3',
-  provider: 'openstack', // required
-  username: auth.username, // required
-  password: auth.password, // required
-  authUrl: 'http://controller:5000', // required
-  // strictSSL: false,
-  domainId: 'default',
-  region: 'Blacksburg',
-  tenantName: 'veres-delta-stress',
-  projectDomainId: 'default',
-};
-
-const openstack = pkgcloud.compute.createClient(clientOptions);
-// const network = pkgcloud.network.createClient(clientOptions);
-
-const createServer = promisify(openstack.createServer.bind(openstack));
-const getServer = promisify(openstack.getServer.bind(openstack));
 // const getPorts = promisify(network.getPorts.bind(network));
 // const getFloatingIps = promisify(network.getFloatingIps.bind(network));
 // const updateFloatingIp = promisify(network.updateFloatingIp.bind(network));
@@ -58,10 +29,9 @@ async function run() {
     const server = await createServer({
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
       flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06', // branch-test
-      image: '27395632-3a9f-4a62-803a-c5cf0b702ba8', // test-base-mongo4
+      image: 'a7f5f492-0cda-4769-bcea-2f0d26831111', // test-base-mongo4-node14
       name: `continuity-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
-      // networks: [{uuid: '00717900-8f91-45fa-88c8-26083ca3fec7'}],
       securityGroups: [{name: 'default'}],
     });
     // const floatingIps = await getFloatingIps();
@@ -73,7 +43,7 @@ async function run() {
       if(serverDetails.addresses.private) {
         break;
       }
-      await _sleep(1000);
+      await delay(1000);
     }
     console.log(serverDetails.addresses.private[0]);
 
@@ -101,7 +71,3 @@ run().catch(e => {
   console.error(e);
   process.exit(1);
 });
-
-function _sleep(ms) {
-  return new Promise(resolve => setTimeout(() => resolve(), ms));
-}
