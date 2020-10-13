@@ -28,8 +28,10 @@ async function run() {
   for(let i = 0; i < instanceCount; ++i) {
     const server = await createServer({
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
-      flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06', // branch-test
-      image: 'a7f5f492-0cda-4769-bcea-2f0d26831111', // test-base-mongo4-node14
+      // branch-test
+      flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06',
+      // test-base-mongo4.2-node14.13.1
+      image: '5fa3fed1-32ef-44d3-a73a-3ebf5e39f6af',
       name: `continuity-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
       securityGroups: [{name: 'default'}],
