@@ -30,8 +30,8 @@ async function run() {
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
       // branch-test
       flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06',
-      // test-base-mongo4.2-node14.13.1-redis5
-      image: '2a5faef8-a420-4a2e-b0fe-ef16c937e2b5',
+      // test-base-mongo4.2-node14.13.1-redis5_2
+      image: '68c3f852-1d7b-418d-bfb6-c0056247dbfc',
       name: `continuity-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
       securityGroups: [{name: 'default'}],
