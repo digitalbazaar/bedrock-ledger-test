@@ -30,8 +30,8 @@ async function run() {
       cloudConfig: Buffer.from(continuityBranchConfig).toString('base64'),
       // branch-test
       flavor: '14cb1106-0d17-48d4-9b85-90d743ccae06',
-      // ledger-test-node14.15-mongo4.2-redis5_2
-      image: '82b979b6-6071-4a62-b2c7-f5592e910237',
+      // ledger-test-node14.15
+      image: 'fb8742f8-19c1-41ef-93ab-096657ba3469',
       name: `continuity-${uuid()}`,
       networks: [{uuid: 'e78a0d0d-dab0-4e9d-b4f1-f451ff32c6a9'}],
       securityGroups: [{name: 'default'}],
